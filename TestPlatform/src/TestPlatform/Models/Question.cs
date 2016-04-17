@@ -9,10 +9,10 @@ namespace TestPlatform.Models
     public class Question
     {
         public int Id { get; set; }
-        public int? TestId { get; set; } //NOTE: allowed null
+        public int? TestId { get; set; }
         public string Name { get; set; }
         public string TextQuestion { get; set; }
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
         public QuestionType QuestionType { get; set; }
 
         public string Author { get; set; }

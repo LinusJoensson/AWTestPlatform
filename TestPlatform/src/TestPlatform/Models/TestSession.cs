@@ -12,6 +12,5 @@ namespace TestPlatform.Models
         public int TestId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? FinishTime { get; set; }
-
     }
 }

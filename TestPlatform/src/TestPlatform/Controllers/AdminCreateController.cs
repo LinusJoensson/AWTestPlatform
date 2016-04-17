@@ -11,7 +11,7 @@ namespace TestPlatform.Controllers
     {
         ITestPlatformRepository repository;
 
-        public AdminCreateController(ITestPlatformRepository repository)
+        public AdminCreateController(ITestPlatformRepository repository) 
         {
             this.repository = repository;
         }
@@ -23,6 +23,8 @@ namespace TestPlatform.Controllers
             //return View(viewModel);
             return null;
         }
+
+
 
     }
 }
