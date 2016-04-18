@@ -272,7 +272,7 @@ namespace TestPlatform.Repositories
         {
             var thisTestSession = _testSessions.Single(o => o.Id == testSessionId);
             var thisTest = _tests.Single(o => o.Id == thisTestSession.TestId);
-            var thisQuestion = thisTest.Questions.ElementAt(questionIndex - 1);
+            var thisQuestion = thisTest.Questions.OrderBy(o => o.SortOrder).ElementAt(questionIndex - 1);
             var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionID == thisQuestion.Id);
 
             var timeLeft = (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds;
