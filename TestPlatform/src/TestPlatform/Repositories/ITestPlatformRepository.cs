@@ -13,5 +13,6 @@ namespace TestPlatform.Repositories
         Test[] GetAllTests();
         Question[] GetAllQuestions();
         void AddQuestionToTest(int questionId, int testId);
+        ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex);
     }
 }

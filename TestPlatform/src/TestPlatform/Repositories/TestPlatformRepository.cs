@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestPlatform.Models;
 using TestPlatform.Models.Enums;
+using TestPlatform.ViewModels;
 
 namespace TestPlatform.Repositories
 {
@@ -15,6 +16,7 @@ namespace TestPlatform.Repositories
         public List<Answer> _answers { get; set; }
         public List<QuestionCategory> _questionCategories { get; set; }
         public List<TestCategory> _testCategories { get; set; }
+        public List<TestSession> _testSessions { get; set; }
 
         public TestPlatformRepository()
         {
@@ -24,6 +26,16 @@ namespace TestPlatform.Repositories
             _questionCategories = new List<QuestionCategory>();
             _testCategories = new List<TestCategory>();
             _answers = new List<Answer>();
+            _testSessions = new List<TestSession>();
+
+            _testSessions.Add(new TestSession()
+            {
+                Id = 1,
+                TestId = 1,
+                UserId = 1,
+                QuestionResults = new List<QuestionResult>(),
+                StartTime = DateTime.UtcNow,
+            });
 
             #region Add static users
             _users.Add(new User()
@@ -41,7 +53,7 @@ namespace TestPlatform.Repositories
             {
                 Id = 1,
                 Name = "My First Question Category",
-                Tags = new List<string>() { "first", "good questions" },
+                //Tags = new List<string>() { "first", "good questions" },
                 Author = "Linus Joensson",
                 Description = "Very good questions",
             });
@@ -50,7 +62,7 @@ namespace TestPlatform.Repositories
             {
                 Id = 1,
                 Name = "My First Test Category",
-                Tags = new List<string>() { "first", "good tests" },
+                //Tags = new List<string>() { "first", "good tests" },
                 Author = "Linus Joensson",
                 Description = "Very good tests",
             });
@@ -112,7 +124,7 @@ namespace TestPlatform.Repositories
             _tests.Add(new Test()
             {
                 Id = 1,
-                Tags = new List<string>() { "Eazy", "awesome", "heavy" },
+                //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
                 Author = "Linus Joensson",
                 Category = _testCategories.ElementAt(0),
                 Name = "My First Test",
@@ -150,7 +162,7 @@ namespace TestPlatform.Repositories
                 QuestionType = selectedQuestion.QuestionType,
                 TextQuestion = selectedQuestion.TextQuestion,
 
-                //Test specific attributes
+                //Test specific properties
                 Id = _questions.Count() + 1,
                 TestId = _tests.Last().Id,
                 SortOrder = 100
@@ -161,7 +173,6 @@ namespace TestPlatform.Repositories
 
             #endregion
         }
-
         public int CreateTest(Test test)
         {
             _tests.Add(new Test()
@@ -174,14 +185,13 @@ namespace TestPlatform.Repositories
 
                 //Static
                 IsPublished = true,
-                Tags = new List<string>() { "happy", "insane" },
+                //Tags = new List<string>() { "happy", "insane" },
                 Author = _users.ElementAt(0).FirstName,
                 Category = _testCategories.ElementAt(0),
             });
 
-            return _tests.Last().Id;
+            return _tests.Last().Id;  
         }
-
         public void AddQuestionToTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);
@@ -205,7 +215,7 @@ namespace TestPlatform.Repositories
 
                 //Add specific properties
                 SortOrder = defaultSortOrder,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 Author = _users.ElementAt(0).FirstName,
 
                 //Question belongs to this test
@@ -220,6 +230,34 @@ namespace TestPlatform.Repositories
         #region Get All Objects
         public Test[] GetAllTests() { return _tests.ToArray(); }
         public Question[] GetAllQuestions() { return _questions.ToArray(); }
+
+
         #endregion
+
+        public ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex)
+        {
+            var thisTestSession = _testSessions.Single(o => o.Id == testSessionId);
+            var thisTest = _tests.Single(o => o.Id == thisTestSession.TestId);
+            var question = thisTest.Questions.ElementAt(questionIndex - 1);
+            var questionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionID == question.Id);
+
+            var timeLeft = (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds;
+
+            return new ViewQuestionVM()
+            {
+                TestTitle = thisTest.Name,
+                NumOfQuestion = thisTest.Questions.Count(),
+                QuestionIndex = questionIndex,
+                TimeLeft = (int)timeLeft,
+                QuestionFormVM = new QuestionFormVM()
+                {
+                    QuestionType = question.QuestionType,
+                    TextQuestion = question.TextQuestion,
+                    HasComment = question.HasComment,
+                    Comment = questionResult?.Comment,
+                    SelectedAnswers = questionResult?.SelectedAnswers.Split(','),
+                }
+            };
+        }
     }
 }

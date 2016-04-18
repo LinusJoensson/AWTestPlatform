@@ -19,6 +19,8 @@ namespace TestPlatform.Models
         public List<string> Tags { get; set; }
         public DateTime CreatedDate { get; set; }
 
+        public bool HasComment { get; set; }
+
         public virtual List<Answer> Answers { get; set; }
     }
 }

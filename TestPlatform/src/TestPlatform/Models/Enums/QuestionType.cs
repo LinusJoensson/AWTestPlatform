@@ -9,6 +9,7 @@ namespace TestPlatform.Models.Enums
     {
         SingleChoice = 1,
         MultipleChoice,
-        Text
+        TextSingleLine,
+        TextMultiLine
     }
 }

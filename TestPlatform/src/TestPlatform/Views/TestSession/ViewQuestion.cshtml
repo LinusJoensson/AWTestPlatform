@@ -1,0 +1,8 @@
+﻿@model ViewQuestionVM
+
+<h1>@Model.TestTitle</h1>
+<h2>@Model.QuestionIndex / @Model.NumOfQuestion</h2>
+<h2>Time left: @Model.TimeLeft</h2>
+
+@Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+
