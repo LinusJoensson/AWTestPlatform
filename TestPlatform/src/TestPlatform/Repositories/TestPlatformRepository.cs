@@ -79,6 +79,7 @@ namespace TestPlatform.Repositories
                 Tags = new List<string>() { "for lolz", "eazy" },
                 Author = "Linus Joensson",
                 Category = _questionCategories.First(),
+                HasComment = true,
                 Answers = new List<Answer>()
                 {
                     new Answer() { Id = _answers.Count() + 1, QuestionId = 1,  IsCorrect = true, TextAnswer = "Yes" },
@@ -91,10 +92,11 @@ namespace TestPlatform.Repositories
                 Id = 2,
                 Name = "Second Question",
                 TextQuestion = "Is this the third question?",
-                QuestionType = QuestionType.SingleChoice,
+                QuestionType = QuestionType.MultipleChoice,
                 Tags = new List<string>() { "for lolz", "eazy" },
                 Author = "Linus Joensson",
                 Category = _questionCategories.First(),
+                HasComment = true,
                 Answers = new List<Answer>()
                 {
                     new Answer() { Id = _answers.Count() + 1, QuestionId = 2,  IsCorrect = false, TextAnswer = "Yes" },
@@ -161,11 +163,42 @@ namespace TestPlatform.Repositories
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
                 TextQuestion = selectedQuestion.TextQuestion,
+                HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
                 Id = _questions.Count() + 1,
                 TestId = _tests.Last().Id,
                 SortOrder = 100
+            });
+
+            //We use the same database table for questions owned by tests as for questions without owner
+            _questions.Add(selectedTest.Questions.Last());
+
+
+            selectedQuestionId = 2;
+            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
+            selectedTest = _tests.ElementAt(0);
+
+            if (selectedQuestion == null)
+                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
+
+            //Note that C# does not support object duplication so we need to do this manually
+            selectedTest.Questions.Add(new Question()
+            {
+                //Duplication
+                Answers = selectedQuestion.Answers,
+                Tags = selectedQuestion.Tags,
+                Author = selectedQuestion.Author,
+                Category = selectedQuestion.Category,
+                Name = selectedQuestion.Name,
+                QuestionType = selectedQuestion.QuestionType,
+                TextQuestion = selectedQuestion.TextQuestion,
+                HasComment = selectedQuestion.HasComment,
+
+                //Test specific properties
+                Id = _questions.Count() + 1,
+                TestId = _tests.Last().Id,
+                SortOrder = 200
             });
 
             //We use the same database table for questions owned by tests as for questions without owner
@@ -209,6 +242,7 @@ namespace TestPlatform.Repositories
                 QuestionType = thisQuestion.QuestionType,
                 Tags = thisQuestion.Tags,
                 TextQuestion = thisQuestion.TextQuestion,
+                HasComment = thisQuestion.HasComment,
 
                 //New question id
                 Id = _questions.Count() + 1,
@@ -234,14 +268,16 @@ namespace TestPlatform.Repositories
 
         #endregion
 
-        public ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex)
+        public ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession)
         {
             var thisTestSession = _testSessions.Single(o => o.Id == testSessionId);
             var thisTest = _tests.Single(o => o.Id == thisTestSession.TestId);
-            var question = thisTest.Questions.ElementAt(questionIndex - 1);
-            var questionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionID == question.Id);
+            var thisQuestion = thisTest.Questions.ElementAt(questionIndex - 1);
+            var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionID == thisQuestion.Id);
 
             var timeLeft = (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds;
+
+            var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
 
             return new ViewQuestionVM()
             {
@@ -249,13 +285,23 @@ namespace TestPlatform.Repositories
                 NumOfQuestion = thisTest.Questions.Count(),
                 QuestionIndex = questionIndex,
                 TimeLeft = (int)timeLeft,
+                
                 QuestionFormVM = new QuestionFormVM()
                 {
-                    QuestionType = question.QuestionType,
-                    TextQuestion = question.TextQuestion,
-                    HasComment = question.HasComment,
-                    Comment = questionResult?.Comment,
-                    SelectedAnswers = questionResult?.SelectedAnswers.Split(','),
+                    IsInTestSession = isInSession,
+                    QuestionType = thisQuestion.QuestionType,
+                    TextQuestion = thisQuestion.TextQuestion,
+                    HasComment = thisQuestion.HasComment,
+                    Comment = thisQuestionResult?.Comment,
+                    SelectedAnswers = selectedAnswers,
+                    Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                    {
+                         AnswerId = o.Id,
+                         AnswerText = o.TextAnswer,
+                         ShowAsCorrect = (!isInSession && o.IsCorrect),
+                         IsChecked = false
+                     
+                    }).ToList()
                 }
             };
         }

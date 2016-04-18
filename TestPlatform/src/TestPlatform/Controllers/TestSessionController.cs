@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestPlatform.Repositories;
+using TestPlatform.ViewModels;
 
 namespace TestPlatform.Controllers
 {
@@ -21,8 +22,15 @@ namespace TestPlatform.Controllers
         [Route("TestSession/{testSessionId}/{questionIndex}")]
         public IActionResult ViewQuestion(int testSessionId, int questionIndex)
         {
-            var viewModel = repository.GetViewQuestion(testSessionId, questionIndex);
-            viewModel.QuestionFormVM.IsInTestSession = true;
+            var viewModel = repository.GetViewQuestion(testSessionId, questionIndex, true);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Route("TestSession/{testSessionId}/{questionIndex}")]
+        public IActionResult ViewQuestion(int testSessionId, int questionIndex, QuestionFormVM viewModel, string submit)
+        {
 
             return View(viewModel);
         }
