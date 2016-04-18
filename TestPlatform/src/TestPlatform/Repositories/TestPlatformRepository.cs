@@ -83,7 +83,7 @@ namespace TestPlatform.Repositories
                 Answers = new List<Answer>()
                 {
                     new Answer() { Id = _answers.Count() + 1, QuestionId = 1,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = _answers.Count() + 1, QuestionId = 1,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = _answers.Count() + 2, QuestionId = 1,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
                 }
             });
 
@@ -100,7 +100,7 @@ namespace TestPlatform.Repositories
                 Answers = new List<Answer>()
                 {
                     new Answer() { Id = _answers.Count() + 1, QuestionId = 2,  IsCorrect = false, TextAnswer = "Yes" },
-                    new Answer() { Id = _answers.Count() + 1, QuestionId = 2,  IsCorrect = true, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = _answers.Count() + 2, QuestionId = 2,  IsCorrect = true, TextAnswer = "Yes! ... Uhm I mean no" }
                 }
             });
 

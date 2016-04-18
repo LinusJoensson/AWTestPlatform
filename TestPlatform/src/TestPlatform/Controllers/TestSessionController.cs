@@ -31,9 +31,20 @@ namespace TestPlatform.Controllers
         [Route("TestSession/{testSessionId}/{questionIndex}")]
         public IActionResult ViewQuestion(int testSessionId, int questionIndex, QuestionFormVM viewModel, string submit)
         {
+            //TODO: update comment and answer for testsession / answer
+            if (string.Equals("previous", submit, StringComparison.OrdinalIgnoreCase))
+                questionIndex--;
+            else if (string.Equals("next", submit, StringComparison.OrdinalIgnoreCase))
+                questionIndex++;
+            else if (string.Equals("submit", submit, StringComparison.OrdinalIgnoreCase))
+            {
+                //TODO: update testsession with test submited time (UTCnow)
+                //Redirect to new screen
+            }
+            else
+                throw new Exception("Uknown submit value");
 
-            return View(viewModel);
+            return RedirectToAction(nameof(ViewQuestion), new { TestSessionId = testSessionId, QuestionIndex = questionIndex });
         }
-
     }
 }
