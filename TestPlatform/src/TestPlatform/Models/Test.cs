@@ -11,7 +11,7 @@ namespace TestPlatform.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
-        public string Category { get; set; }
+        public TestCategory Category { get; set; }
         public List<string> Tags { get; set; }
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }

@@ -23,6 +23,18 @@ namespace TestPlatform.Repositories
             _questions = new List<Question>();
             _questionCategories = new List<QuestionCategory>();
             _testCategories = new List<TestCategory>();
+            _answers = new List<Answer>();
+
+            #region Add static user
+            _users.Add(new User()
+            {
+                Id = 1,
+                Email = "linus.joensson.ms@outlook.com",
+                FirstName = "Linus",
+                Lastname = "Joensson",
+                TestSessions = new List<TestSession>()
+            });
+            #endregion
 
             #region Add static categories 
             _questionCategories.Add(new QuestionCategory()
@@ -86,6 +98,7 @@ namespace TestPlatform.Repositories
 
             #endregion
 
+            #region Add static tests
             _tests.Add(new Test()
             {
                 Id = 1,
@@ -93,33 +106,66 @@ namespace TestPlatform.Repositories
                 Author = "Linus Joensson",
                 Category = "Random",
                 Name = "My First Test",
-                Description = "An eazy test"
+                Description = "An eazy test",
+                Questions = new List<Question>()
             });
+            #endregion
 
-            //  Select and add questions as would be done in action when a test is created from scratch:
+            //  Select and add questions just as would be done in action when a test is created from scratch:
             //
-            //1) User selects a question to add to the test
-            //2) The question is collected from the questions table in the database
-            //3) The collected question is added to the test as a duplicate object
-            //
-            //*  The new question belongs to the test and may now have test-specific attributes such as SortOrder
-            //*  The original question is still in the questions table 
-            var selectedId = 1;
-            var selectedQuestion = _questions.Find(o => o.Id == selectedId);
+            // 1) User selects a question to add to the test
+            // 2) The question is collected from the questions table in the database
+            // 3) The collected question is added to the test as a duplicate object
+            // *  The Duplicated question belongs to the test and may now have test-specific attributes such as SortOrder
+            // *  The Original question is left untouched in the questions table 
+
+            var selectedQuestionId = 1;
+            var selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
             var selectedTest = _tests.ElementAt(0);
+
+            if (selectedQuestion == null)
+                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
+
+            //Note that C# does not support object duplication so we need to do this manually
             selectedTest.Questions.Add(new Question()
             {
+                //Test specific attributes
                 Id = _questions.Count() + 1,
                 TestId = _tests.Last().Id,
+                SortOrder = 100,
+
+                //Duplication
                 Answers = selectedQuestion.Answers,
                 Tags = selectedQuestion.Tags,
                 Author = selectedQuestion.Author,
                 Category = selectedQuestion.Category,
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
-                SortOrder = 100,
                 TextQuestion = selectedQuestion.TextQuestion
             });
+
+            //We use the same database table for questions owned by tests as for questions without owner
+            _questions.Add(selectedTest.Questions.Last());
+        }
+
+        public int CreateTest(Test test)
+        {
+            _tests.Add(new Test()
+            {
+                //Dynamic
+                Id = _tests.Count + 1,
+                Description = test.Description,
+                Questions = new List<Question>(),
+                Name = test.Name,
+
+                //Static
+                IsPublished = true,
+                Tags = new List<string>() { "happy", "insane" },
+                Author = _users.ElementAt(0).FirstName,
+                Category = _testCategories.ElementAt(0),
+            });
+
+            return _tests.Last().Id;
         }
     }
 }

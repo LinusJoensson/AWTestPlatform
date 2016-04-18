@@ -11,6 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "/AdminCreate/CreateTest",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using TestPlatform.Repositories;
+using TestPlatform.Models;
 
 namespace TestPlatform.Controllers
 {
@@ -24,7 +25,16 @@ namespace TestPlatform.Controllers
             return null;
         }
 
+        public IActionResult CreateTest()
+        {
+            return View();
+        }
 
-
+        [HttpPost]
+        public IActionResult CreateTest(Test test)
+        {
+            repository.CreateTest(test);
+            return View();
+        }
     }
 }
