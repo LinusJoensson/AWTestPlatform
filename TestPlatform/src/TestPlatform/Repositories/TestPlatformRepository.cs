@@ -25,7 +25,7 @@ namespace TestPlatform.Repositories
             _testCategories = new List<TestCategory>();
             _answers = new List<Answer>();
 
-            #region Add static user
+            #region Add static users
             _users.Add(new User()
             {
                 Id = 1,
@@ -111,12 +111,14 @@ namespace TestPlatform.Repositories
             });
             #endregion
 
+            #region Add static questions to test
+
             //  Select and add questions just as would be done in action when a test is created from scratch:
             //
             // 1) User selects a question to add to the test
             // 2) The question is collected from the questions table in the database
             // 3) The collected question is added to the test as a duplicate object
-            // *  The Duplicated question belongs to the test and may now have test-specific attributes such as SortOrder
+            // *  The Duplicated question belongs to the test and may now have test-specific properties such as SortOrder
             // *  The Original question is left untouched in the questions table 
 
             var selectedQuestionId = 1;
@@ -129,11 +131,6 @@ namespace TestPlatform.Repositories
             //Note that C# does not support object duplication so we need to do this manually
             selectedTest.Questions.Add(new Question()
             {
-                //Test specific attributes
-                Id = _questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 100,
-
                 //Duplication
                 Answers = selectedQuestion.Answers,
                 Tags = selectedQuestion.Tags,
@@ -141,12 +138,22 @@ namespace TestPlatform.Repositories
                 Category = selectedQuestion.Category,
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
-                TextQuestion = selectedQuestion.TextQuestion
+                TextQuestion = selectedQuestion.TextQuestion,
+
+                //Test specific attributes
+                Id = _questions.Count() + 1,
+                TestId = _tests.Last().Id,
+                SortOrder = 100
             });
 
             //We use the same database table for questions owned by tests as for questions without owner
             _questions.Add(selectedTest.Questions.Last());
+
+            #endregion
         }
+
+        public Test[] GetAllTests() { return _tests.ToArray(); }
+        public Question[] GetAllQuestions() { return _questions.ToArray(); }
 
         public int CreateTest(Test test)
         {
@@ -166,6 +173,40 @@ namespace TestPlatform.Repositories
             });
 
             return _tests.Last().Id;
+        }
+
+        public void AddQuestionToTest(int questionId, int testId)
+        {
+            var thisTest = _tests.Single(o => o.Id == testId);
+            var thisQuestion = _questions.Single(o => o.Id == questionId);
+
+            var defaultSortOrder = thisTest.Questions.Count > 0 ?
+                thisTest.Questions.Max(o => o.SortOrder) + 100 : 100;
+
+            thisTest.Questions.Add(new Question()
+            {
+                //New question
+                Id = _questions.Count() + 1,
+
+                //Question belongs to this test
+                TestId = testId,
+
+                //Duplicate original question
+                Answers = thisQuestion.Answers,
+                Category = thisQuestion.Category,
+                Name = thisQuestion.Name,
+                QuestionType = thisQuestion.QuestionType,
+                Tags = thisQuestion.Tags,
+                TextQuestion = thisQuestion.TextQuestion,
+
+                //Add specific properties
+                SortOrder = defaultSortOrder,
+                CreatedDate = DateTime.Now,
+                Author = _users.ElementAt(0).FirstName,
+            });
+
+            //Add to static questions list
+
         }
     }
 }

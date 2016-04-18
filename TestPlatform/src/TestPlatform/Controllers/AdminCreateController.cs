@@ -19,10 +19,19 @@ namespace TestPlatform.Controllers
 
         public IActionResult Index()
         {
-            //var viewModel = repository.GetAllTests();
+            return View();
+        }
 
-            //return View(viewModel);
-            return null;
+        // An index from where you can choose to: 
+        // - Create an empty test
+        // - Create a test from a template
+        // - Edit tests
+        // - Create test module
+        // - Edit module
+        public IActionResult TestIndex()
+        {
+            var viewModel = repository.GetAllTests();
+            return View(viewModel);
         }
 
         public IActionResult CreateTest()
@@ -33,8 +42,24 @@ namespace TestPlatform.Controllers
         [HttpPost]
         public IActionResult CreateTest(Test test)
         {
-            repository.CreateTest(test);
+            if (!ModelState.IsValid)
+                return View(test);
+
+            int testId = repository.CreateTest(test);
+
+            return RedirectToAction(nameof(AdminCreateController.ManageTest), new { id = testId } );
+        }
+
+        public IActionResult ManageTest(int id)
+        {
             return View();
+        }
+
+        public IActionResult AddQuestionToTest(int questionId, int testId)
+        {
+            repository.AddQuestionToTest(questionId, testId);
+
+            return RedirectToAction(nameof(AdminCreateController.ManageTest), new { id = testId });
         }
     }
 }
