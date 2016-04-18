@@ -52,7 +52,7 @@ namespace TestPlatform.Controllers
 
         public IActionResult ManageTest(int id)
         {
-            return View();
+            return View(repository.GetAllQuestions());
         }
 
         public IActionResult AddQuestionToTest(int questionId, int testId)

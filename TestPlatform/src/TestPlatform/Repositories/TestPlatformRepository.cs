@@ -45,6 +45,16 @@ namespace TestPlatform.Repositories
                 Author = "Linus Joensson",
                 Description = "Very good questions",
             });
+
+            _testCategories.Add(new TestCategory()
+            {
+                Id = 1,
+                Name = "My First Test Category",
+                Tags = new List<string>() { "first", "good tests" },
+                Author = "Linus Joensson",
+                Description = "Very good tests",
+            });
+
             #endregion
 
             #region Add static questions 
@@ -104,7 +114,7 @@ namespace TestPlatform.Repositories
                 Id = 1,
                 Tags = new List<string>() { "Eazy", "awesome", "heavy" },
                 Author = "Linus Joensson",
-                Category = "Random",
+                Category = _testCategories.ElementAt(0),
                 Name = "My First Test",
                 Description = "An eazy test",
                 Questions = new List<Question>()
@@ -152,9 +162,6 @@ namespace TestPlatform.Repositories
             #endregion
         }
 
-        public Test[] GetAllTests() { return _tests.ToArray(); }
-        public Question[] GetAllQuestions() { return _questions.ToArray(); }
-
         public int CreateTest(Test test)
         {
             _tests.Add(new Test()
@@ -185,12 +192,6 @@ namespace TestPlatform.Repositories
 
             thisTest.Questions.Add(new Question()
             {
-                //New question
-                Id = _questions.Count() + 1,
-
-                //Question belongs to this test
-                TestId = testId,
-
                 //Duplicate original question
                 Answers = thisQuestion.Answers,
                 Category = thisQuestion.Category,
@@ -199,14 +200,26 @@ namespace TestPlatform.Repositories
                 Tags = thisQuestion.Tags,
                 TextQuestion = thisQuestion.TextQuestion,
 
+                //New question id
+                Id = _questions.Count() + 1,
+
                 //Add specific properties
                 SortOrder = defaultSortOrder,
                 CreatedDate = DateTime.Now,
                 Author = _users.ElementAt(0).FirstName,
+
+                //Question belongs to this test
+                TestId = testId
+
             });
 
-            //Add to static questions list
-
+            //Add to questions list
+            _questions.Add(thisTest.Questions.Last());
         }
+
+        #region Get All Objects
+        public Test[] GetAllTests() { return _tests.ToArray(); }
+        public Question[] GetAllQuestions() { return _questions.ToArray(); }
+        #endregion
     }
 }
