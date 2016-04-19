@@ -49,9 +49,8 @@ namespace TestPlatform.Repositories
                 Lastname = "Joensson",
                 TestSessions = new List<TestSession>()
             });
-            #endregion
-
             _users.Last().TestSessions.Add(_testSessions.Last());
+            #endregion
 
             #region Add static categories 
             _questionCategories.Add(new QuestionCategory()
@@ -75,6 +74,8 @@ namespace TestPlatform.Repositories
             #endregion
 
             #region Add static questions 
+
+            var answersCount = _answers.Count();
             _questions.Add(new Question()
             {
                 Id = 1,
@@ -87,11 +88,15 @@ namespace TestPlatform.Repositories
                 HasComment = true,
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = _answers.Count() + 1, QuestionId = 1,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = _answers.Count() + 2, QuestionId = 1,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, TextAnswer = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
                 }
             });
 
+            _answers.Add(_questions.Last().Answers.ElementAt(0));
+            _answers.Add(_questions.Last().Answers.ElementAt(1));
+
+            answersCount = _answers.Count();
             _questions.Add(new Question()
             {
                 Id = 2,
@@ -104,11 +109,14 @@ namespace TestPlatform.Repositories
                 HasComment = true,
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = _answers.Count() + 1, QuestionId = 2,  IsCorrect = false, TextAnswer = "Yes" },
-                    new Answer() { Id = _answers.Count() + 2, QuestionId = 2,  IsCorrect = true, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = false, TextAnswer = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = true, TextAnswer = "Yes! ... Uhm I mean no" }
                 }
             });
+            _answers.Add(_questions.Last().Answers.ElementAt(0));
+            _answers.Add(_questions.Last().Answers.ElementAt(1));
 
+            answersCount = _answers.Count();
             _questions.Add(new Question()
             {
                 Id = 3,
@@ -120,10 +128,12 @@ namespace TestPlatform.Repositories
                 Category = _questionCategories.First(),
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = _answers.Count() + 1, QuestionId = 3,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = _answers.Count() + 2, QuestionId = 3,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, TextAnswer = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
                 }
             });
+            _answers.Add(_questions.Last().Answers.ElementAt(0));
+            _answers.Add(_questions.Last().Answers.ElementAt(1));
 
             #endregion
 
@@ -136,7 +146,7 @@ namespace TestPlatform.Repositories
                 Category = _testCategories.ElementAt(0),
                 Name = "My First Test",
                 Description = "An eazy test",
-                Questions = new List<Question>()
+                Questions = new List<Question>(),
             });
             #endregion
 
@@ -284,7 +294,7 @@ namespace TestPlatform.Repositories
             var thisQuestion = thisTest.Questions.OrderBy(o => o.SortOrder).ElementAt(questionIndex - 1);
             var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionId == thisQuestion.Id);
 
-            var timeLeft = (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds;
+            var timeLeft = (2*60*1000 - (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds)/(60*100);
             var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
 
             return new ViewQuestionVM()
@@ -346,6 +356,16 @@ namespace TestPlatform.Repositories
                 UserId = userId
             });
 
+            // Allocate space for question results right away
+            // To be able to easily display information such as if every question have been answered etc
+            for (int i = 1; i <= thisTest.Questions.Count(); i++)
+                thisUser.TestSessions.Last().QuestionResults.Add(new QuestionResult()
+                {
+                    Id = _questionResults.Count() + i,
+                    QuestionId = thisTest.Questions.ElementAt(i - 1).Id,
+                    SelectedAnswers = "",
+                });
+
             _testSessions.Add(thisUser.TestSessions.Last());
 
             return _testSessions.Last().Id;
@@ -383,6 +403,11 @@ namespace TestPlatform.Repositories
         {
             var thisSession = _testSessions.Single(o => o.Id == testSessionId);
             thisSession.SubmitTime = DateTime.UtcNow;
+        }
+
+        public TestSession GetTestSessionById(int testSessionId)
+        {
+            return _testSessions.Single(o => o.Id == testSessionId); ;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TestPlatform.Repositories;
@@ -19,16 +20,21 @@ namespace TestPlatform.Controllers
         }
 
         //Comment: review routing design
-        [Route("TestSession/Index/{testId}/{userId}")]
-        public IActionResult Index(int userId, int testId)
+        [Route("TestSession/Index/{testId}")]
+        public IActionResult Index(int testId)
         {
             var viewModel = repository.GetSessionIndexVM(testId);
-            return null;
-            //return View(viewModel);
+            return View(viewModel);
+        }
 
-            //int sessionId = repository.StartNewSession(userId, testId);
+        //Comment: review routing design
+        [Route("TestSession/StartSession/{testId}")]
+        public IActionResult StartSession(int testId)
+        {
+            int userId = 1;
+            int testSessionId = repository.StartNewSession(userId, testId);
 
-            //return RedirectToAction(nameof(ViewQuestion), new { TestSessionId = sessionId, TestId = testId });
+            return RedirectToAction(nameof(ViewQuestion), new { testSessionId = testSessionId, questionIndex = 1 });
         }
 
         [Route("TestSession/{testSessionId}/{questionIndex}")]
@@ -50,17 +56,21 @@ namespace TestPlatform.Controllers
                 questionIndex++;
             else if (string.Equals("submit", submit, StringComparison.OrdinalIgnoreCase))
             {
-                //TODO: update testsession with test submited time (UTCnow)
-
                 repository.SubmitTestSession(testSessionId);
-
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(SubmittedSession), new { TestSessionId = testSessionId } );
             }
             else
                 throw new Exception("Uknown submit value");
 
             return RedirectToAction(nameof(ViewQuestion), 
                 new { TestSessionId = testSessionId, QuestionIndex = questionIndex });
+        }
+
+        [Route("TestSession/{testSessionId}")]
+        public IActionResult SubmittedSession(int testSessionId)
+        {
+            var viewModel = repository.GetTestSessionById(testSessionId);
+            return View(viewModel);
         }
     }
 }

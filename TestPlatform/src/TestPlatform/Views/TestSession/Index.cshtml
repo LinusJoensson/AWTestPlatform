@@ -1,6 +1,13 @@
 ﻿@model SessionIndexVM
 
-@Model.TestName
-@Model.TestDescription
-Questions: @Model.NumberOfQuestions
+<h1>
+    Test Name: @Model.TestName
+    <br />
+    Test Description: @Model.TestDescription
+    <br />
+    Questions: @Model.NumberOfQuestions
+    <br />
+    Time Limit: @Model.T
+</h1>
 
+    <a asp-action="StartSession" asp-controller="TestSession" asp-route-testId="@Model.TestId"><h1>START TEST</h1></a>

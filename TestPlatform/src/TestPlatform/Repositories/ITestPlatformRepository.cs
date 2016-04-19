@@ -18,5 +18,6 @@ namespace TestPlatform.Repositories
         SessionIndexVM GetSessionIndexVM(int testId);
         int StartNewSession(int userId, int testId);
         void SubmitTestSession(int testSessionId);
+        TestSession GetTestSessionById(int testSessionId);
     }
 }
