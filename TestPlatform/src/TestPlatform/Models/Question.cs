@@ -16,7 +16,7 @@ namespace TestPlatform.Models
         public QuestionType QuestionType { get; set; }
         public string Author { get; set; }
         public QuestionCategory Category { get; set; }
-        public List<string> Tags { get; set; }
+        public string Tags { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public bool HasComment { get; set; }

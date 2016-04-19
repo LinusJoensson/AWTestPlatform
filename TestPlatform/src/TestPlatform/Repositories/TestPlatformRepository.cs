@@ -76,7 +76,7 @@ namespace TestPlatform.Repositories
                 Name = "First Question",
                 TextQuestion = "Is this the first question?",
                 QuestionType = QuestionType.SingleChoice,
-                Tags = new List<string>() { "for lolz", "eazy" },
+                Tags = "for lolz" + "," + "eazy",
                 Author = "Linus Joensson",
                 Category = _questionCategories.First(),
                 HasComment = true,
@@ -93,7 +93,7 @@ namespace TestPlatform.Repositories
                 Name = "Second Question",
                 TextQuestion = "Is this the third question?",
                 QuestionType = QuestionType.MultipleChoice,
-                Tags = new List<string>() { "for lolz", "eazy" },
+                Tags = "for lolz" + "," + "eazy",
                 Author = "Linus Joensson",
                 Category = _questionCategories.First(),
                 HasComment = true,
@@ -110,13 +110,13 @@ namespace TestPlatform.Repositories
                 Name = "Second Question",
                 TextQuestion = "Is THIS the third question?",
                 QuestionType = QuestionType.SingleChoice,
-                Tags = new List<string>() { "for lolz", "hard" },
+                Tags = "for lolz" + "," + "hard",
                 Author = "Linus Joensson",
                 Category = _questionCategories.First(),
                 Answers = new List<Answer>()
                 {
                     new Answer() { Id = _answers.Count() + 1, QuestionId = 3,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = _answers.Count() + 1, QuestionId = 3,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = _answers.Count() + 2, QuestionId = 3,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
                 }
             });
 
@@ -150,7 +150,7 @@ namespace TestPlatform.Repositories
             var selectedTest = _tests.ElementAt(0);
 
             if (selectedQuestion == null)
-                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
+                throw new Exception("The question id " + selectedQuestionId + " does not exist in database");
 
             //Note that C# does not support object duplication so we need to do this manually
             selectedTest.Questions.Add(new Question()
@@ -276,7 +276,6 @@ namespace TestPlatform.Repositories
             var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionID == thisQuestion.Id);
 
             var timeLeft = (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds;
-
             var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
 
             return new ViewQuestionVM()
@@ -285,7 +284,7 @@ namespace TestPlatform.Repositories
                 NumOfQuestion = thisTest.Questions.Count(),
                 QuestionIndex = questionIndex,
                 TimeLeft = (int)timeLeft,
-                
+
                 QuestionFormVM = new QuestionFormVM()
                 {
                     IsInTestSession = isInSession,
@@ -296,11 +295,12 @@ namespace TestPlatform.Repositories
                     SelectedAnswers = selectedAnswers,
                     Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                     {
-                         AnswerId = o.Id,
-                         AnswerText = o.TextAnswer,
-                         ShowAsCorrect = (!isInSession && o.IsCorrect),
-                         IsChecked = false
-                     
+                        AnswerId = o.Id,
+                        AnswerText = o.TextAnswer,
+                        ShowAsCorrect = ((!isInSession) && (o.IsCorrect)),
+                        IsChecked = selectedAnswers == null ? false :
+                            ((isInSession) && (selectedAnswers.Contains(o.Id.ToString()))),
+
                     }).ToList()
                 }
             };
