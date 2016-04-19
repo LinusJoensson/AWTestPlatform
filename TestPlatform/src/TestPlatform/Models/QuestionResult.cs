@@ -8,7 +8,7 @@ namespace TestPlatform.Models
     public class QuestionResult
     {
         public int Id { get; set; }
-        public int QuestionID { get; set; }
+        public int QuestionId { get; set; }
         public string Comment { get; set; }
         public string SelectedAnswers { get; set; }
     }

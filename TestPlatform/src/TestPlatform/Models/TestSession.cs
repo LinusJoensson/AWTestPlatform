@@ -14,5 +14,10 @@ namespace TestPlatform.Models
         public DateTime? SubmitTime { get; set; }
         public List<QuestionResult> QuestionResults { get; set; }
 
+        public TestSession()
+        {
+            QuestionResults = new List<QuestionResult>();
+        }
+
     }
 }

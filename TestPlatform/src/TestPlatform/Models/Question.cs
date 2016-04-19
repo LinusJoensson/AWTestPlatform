@@ -18,9 +18,12 @@ namespace TestPlatform.Models
         public QuestionCategory Category { get; set; }
         public string Tags { get; set; }
         public DateTime CreatedDate { get; set; }
-
         public bool HasComment { get; set; }
-
         public virtual List<Answer> Answers { get; set; }
+
+        public Question()
+        {
+            Answers = new List<Answer>();
+        }
     }
 }

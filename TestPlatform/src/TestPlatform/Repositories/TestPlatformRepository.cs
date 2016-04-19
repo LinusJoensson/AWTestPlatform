@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TestPlatform.Models;
@@ -17,6 +18,7 @@ namespace TestPlatform.Repositories
         public List<QuestionCategory> _questionCategories { get; set; }
         public List<TestCategory> _testCategories { get; set; }
         public List<TestSession> _testSessions { get; set; }
+        public List<QuestionResult> _questionResults { get; set; }
 
         public TestPlatformRepository()
         {
@@ -27,6 +29,7 @@ namespace TestPlatform.Repositories
             _testCategories = new List<TestCategory>();
             _answers = new List<Answer>();
             _testSessions = new List<TestSession>();
+            _questionResults = new List<QuestionResult>();
 
             _testSessions.Add(new TestSession()
             {
@@ -47,6 +50,8 @@ namespace TestPlatform.Repositories
                 TestSessions = new List<TestSession>()
             });
             #endregion
+
+            _users.Last().TestSessions.Add(_testSessions.Last());
 
             #region Add static categories 
             _questionCategories.Add(new QuestionCategory()
@@ -204,8 +209,11 @@ namespace TestPlatform.Repositories
             //We use the same database table for questions owned by tests as for questions without owner
             _questions.Add(selectedTest.Questions.Last());
 
-            #endregion
+            
         }
+
+        #endregion
+
         public int CreateTest(Test test)
         {
             _tests.Add(new Test()
@@ -225,6 +233,7 @@ namespace TestPlatform.Repositories
 
             return _tests.Last().Id;  
         }
+
         public void AddQuestionToTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);
@@ -273,7 +282,7 @@ namespace TestPlatform.Repositories
             var thisTestSession = _testSessions.Single(o => o.Id == testSessionId);
             var thisTest = _tests.Single(o => o.Id == thisTestSession.TestId);
             var thisQuestion = thisTest.Questions.OrderBy(o => o.SortOrder).ElementAt(questionIndex - 1);
-            var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionID == thisQuestion.Id);
+            var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionId == thisQuestion.Id);
 
             var timeLeft = (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds;
             var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
@@ -304,6 +313,76 @@ namespace TestPlatform.Repositories
                     }).ToList()
                 }
             };
+        }
+
+        public SessionIndexVM GetSessionIndexVM(int testId)
+        {
+            var thisTest = _tests.Single(o => o.Id == testId);
+            var thisUserId = 1;
+
+            var viewModel = new SessionIndexVM()
+            {
+                UserId = thisUserId,
+                TestId = thisTest.Id,
+                NumberOfQuestions = thisTest.Questions.Count(),
+                TestDescription = thisTest.Description,
+                TestName = thisTest.Name
+            };
+
+            return viewModel;
+        }
+
+        public int StartNewSession(int userId, int testId)
+        {
+            var thisUser = _users.Single(o => o.Id == userId);
+            var thisTest = _tests.Single(o => o.Id == testId);
+
+            thisUser.TestSessions.Add(new TestSession()
+            {
+                Id = _testSessions.Count() + 1,
+                QuestionResults = new List<QuestionResult>(),
+                StartTime = DateTime.UtcNow,
+                TestId = testId,
+                UserId = userId
+            });
+
+            _testSessions.Add(thisUser.TestSessions.Last());
+
+            return _testSessions.Last().Id;
+        }
+
+        public void UpdateSessionAnswers(int testSessionId, int questionIndex, string[] selectedAnswers, string comment)
+        {
+            var thisTestSession = _testSessions.Single(o => o.Id == testSessionId);
+            var thisTest = _tests.Single(o => o.Id == thisTestSession.TestId);
+            var thisQuestion = thisTest.Questions.ElementAt(questionIndex - 1);
+            var thisQuestionResult = thisTestSession.QuestionResults.Find(o => o.QuestionId == thisQuestion.Id);
+
+            if(thisQuestionResult == null)
+            {
+                thisTestSession.QuestionResults.Add(new QuestionResult()
+                {
+                    Id = _questionResults.Count() + 1,
+                    QuestionId = thisQuestion.Id,
+                });
+                _questionResults.Add(thisTestSession.QuestionResults.Last());
+                thisQuestionResult = thisTestSession.QuestionResults.Last();
+            }
+
+            thisQuestionResult.SelectedAnswers = "";
+
+            if (selectedAnswers != null)
+                foreach (var answer in selectedAnswers)
+                    thisQuestionResult.SelectedAnswers = answer + ",";
+
+            if (!string.IsNullOrWhiteSpace(comment))
+                thisQuestionResult.Comment = comment;
+        }
+
+        public void SubmitTestSession(int testSessionId)
+        {
+            var thisSession = _testSessions.Single(o => o.Id == testSessionId);
+            thisSession.SubmitTime = DateTime.UtcNow;
         }
     }
 }

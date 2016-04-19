@@ -47,7 +47,7 @@ namespace TestPlatform.Controllers
 
             int testId = repository.CreateTest(test);
 
-            return RedirectToAction(nameof(AdminCreateController.ManageTest), new { id = testId } );
+            return RedirectToAction(nameof(ManageTest), new { id = testId } );
         }
 
         public IActionResult ManageTest(int id)
@@ -59,7 +59,7 @@ namespace TestPlatform.Controllers
         {
             repository.AddQuestionToTest(questionId, testId);
 
-            return RedirectToAction(nameof(AdminCreateController.ManageTest), new { id = testId });
+            return RedirectToAction(nameof(ManageTest), new { id = testId });
         }
     }
 }

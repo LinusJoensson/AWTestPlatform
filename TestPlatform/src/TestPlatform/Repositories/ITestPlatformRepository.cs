@@ -14,5 +14,9 @@ namespace TestPlatform.Repositories
         Question[] GetAllQuestions();
         void AddQuestionToTest(int questionId, int testId);
         ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession);
+        void UpdateSessionAnswers(int testSessionId, int questionIndex, string[] selectedAnswers, string comment);
+        SessionIndexVM GetSessionIndexVM(int testId);
+        int StartNewSession(int userId, int testId);
+        void SubmitTestSession(int testSessionId);
     }
 }

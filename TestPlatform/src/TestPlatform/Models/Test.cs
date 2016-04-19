@@ -15,5 +15,10 @@ namespace TestPlatform.Models
         public string Tags { get; set; }
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }
+
+        public Test()
+        {
+            Questions = new List<Question>();
+        }
     }
 }

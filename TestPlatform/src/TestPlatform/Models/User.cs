@@ -12,5 +12,10 @@ namespace TestPlatform.Models
         public string Lastname { get; set; }
         public string Email { get; set; }
         public List<TestSession> TestSessions { get; set; }
+
+        public User()
+        {
+            TestSessions = new List<TestSession>();
+        }
     }
 }

@@ -12,5 +12,10 @@ namespace TestPlatform.Models
         public string Name { get; set; }
         public string Author { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public TestModule()
+        {
+            Tests = new List<Test>();
+        }
     }
 }
