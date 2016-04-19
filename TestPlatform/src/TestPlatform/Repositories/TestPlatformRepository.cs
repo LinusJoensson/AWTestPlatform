@@ -392,9 +392,10 @@ namespace TestPlatform.Repositories
             thisQuestionResult.SelectedAnswers = "";
 
             if (selectedAnswers != null)
+            {
                 foreach (var answer in selectedAnswers)
-                    thisQuestionResult.SelectedAnswers = answer + ",";
-
+                    thisQuestionResult.SelectedAnswers += answer + ",";
+            }
             if (!string.IsNullOrWhiteSpace(comment))
                 thisQuestionResult.Comment = comment;
         }
