@@ -19,5 +19,6 @@ namespace TestPlatform.Repositories
         int StartNewSession(int userId, int testId);
         void SubmitTestSession(int testSessionId);
         TestSession GetTestSessionById(int testSessionId);
+        EditTestContentVM GetEditTestContentVM(int id);
     }
 }

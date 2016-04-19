@@ -1,0 +1,14 @@
+﻿@model EditTestContentVM
+
+<h1>Edit Test Content</h1>
+<form asp-controller="AdminCreate" asp-action="EditTestContent">
+    <input type="submit" value="Add Selected" name="submit" class="btn btn-primary" />
+</form>
+
+<table>
+    <tr>
+        <td><h3>Questions in database: </h3><br />@Html.Partial("_GridViewPartial", Model.GridAllQuestionsVM)</td>
+
+        <td><h3>Question in this test: </h3><br />@Html.Partial("_GridViewPartial", Model.GridTestQuestionsVM)</td>
+    </tr>
+</table>

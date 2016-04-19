@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using TestPlatform.Repositories;
 using TestPlatform.Models;
+using TestPlatform.ViewModels;
+using TestPlatform.ViewModels.GridViewModels;
 
 namespace TestPlatform.Controllers
 {
@@ -47,19 +49,40 @@ namespace TestPlatform.Controllers
 
             int testId = repository.CreateTest(test);
 
-            return RedirectToAction(nameof(ManageTest), new { id = testId } );
+            return RedirectToAction(nameof(EditTestContent), new { id = testId } );
         }
 
-        public IActionResult ManageTest(int id)
+        [HttpGet]
+        [Route("AdminCreate/EditTestContent/{testId}")]
+        public IActionResult EditTestContent(int testId)
         {
-            return View(repository.GetAllQuestions());
+            var viewModel = repository.GetEditTestContentVM(testId);
+
+            return View(viewModel);
         }
 
-        public IActionResult AddQuestionToTest(int questionId, int testId)
+        [HttpPost]
+        [Route("AdminCreate/EditTestContent/{testId}")]
+        public IActionResult EditTestContent(int testId, EditTestContentVM viewModel, string submit)
         {
-            repository.AddQuestionToTest(questionId, testId);
+            if (string.Equals("Add Selected", submit, StringComparison.OrdinalIgnoreCase))
+            {
+                var questionId = 1;
 
-            return RedirectToAction(nameof(ManageTest), new { id = testId });
+                repository.AddQuestionToTest(questionId, testId);
+            }
+            else if (string.Equals("Remove", submit, StringComparison.OrdinalIgnoreCase))
+            {
+
+            }
+            else if (string.Equals("Edit", submit, StringComparison.OrdinalIgnoreCase))
+            {
+                
+            }
+            else
+                throw new Exception("Uknown submit value: " + submit);
+
+            return RedirectToAction(nameof(EditTestContent), new { TestId = testId });
         }
     }
 }

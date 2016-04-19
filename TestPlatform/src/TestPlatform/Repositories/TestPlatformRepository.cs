@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TestPlatform.Models;
 using TestPlatform.Models.Enums;
 using TestPlatform.ViewModels;
+using TestPlatform.ViewModels.GridViewModels;
 
 namespace TestPlatform.Repositories
 {
@@ -355,9 +356,7 @@ namespace TestPlatform.Repositories
                 TestId = testId,
                 UserId = userId
             });
-
-            // Allocate space for question results right away
-            // To be able to easily display information such as if every question have been answered etc
+            
             for (int i = 1; i <= thisTest.Questions.Count(); i++)
                 thisUser.TestSessions.Last().QuestionResults.Add(new QuestionResult()
                 {
@@ -409,6 +408,36 @@ namespace TestPlatform.Repositories
         public TestSession GetTestSessionById(int testSessionId)
         {
             return _testSessions.Single(o => o.Id == testSessionId); ;
+        }
+
+        public EditTestContentVM GetEditTestContentVM(int id)
+        {
+            var thisTest = _tests.Find(o => o.Id == id);
+
+            if (thisTest == null)
+                throw new Exception((id == 0) ? "did not get a testId at method call" : $" did not find testId: {id}");
+
+            var viewModel = new EditTestContentVM()
+            {
+                GridAllQuestionsVM = GetAllQuestions().Select(o => new GridQuestionsVM()
+                {
+                    Id = o.Id,
+                    Name = o.Name,
+                    ItemType = GridItemType.Question
+
+                }).ToList().ToArray(),
+
+                GridTestQuestionsVM = thisTest.Questions.Select(o => new GridQuestionsVM()
+                {
+                    Id = o.Id,
+                    ItemType = GridItemType.Question,
+                    Name = o.Name
+                }).ToList().ToArray(),
+
+                //Review: uuuhmmm, cant remove ToList -> ToArray..?
+            };
+
+            return viewModel;
         }
     }
 }
