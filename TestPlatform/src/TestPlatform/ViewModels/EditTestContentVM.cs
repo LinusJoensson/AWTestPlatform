@@ -8,8 +8,7 @@ namespace TestPlatform.ViewModels
 {
     public class EditTestContentVM
     {
-        public GridQuestionsVM[] GridAllQuestionsVM { get; set; }
-        public GridQuestionsVM[] GridTestQuestionsVM { get; set; }
-        public string[] SelectedAnswers { get; set; }
+        public GridQuestionsVM GridAllQuestionsVM { get; set; }
+        public GridQuestionsVM GridTestQuestionsVM { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace TestPlatform.ViewModels
 {
     public interface IGridableVM
     {
-        int Id { get; set; }
-        string Name { get; set; }
         GridItemType ItemType { get; set; }
+        string[] SelectedItems { get; set; }
+        List<GridItemDetailVM> GridItemDetails { get; set; }
     }
 }

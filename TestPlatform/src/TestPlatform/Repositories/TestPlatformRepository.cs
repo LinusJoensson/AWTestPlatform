@@ -410,31 +410,38 @@ namespace TestPlatform.Repositories
             return _testSessions.Single(o => o.Id == testSessionId); ;
         }
 
-        public EditTestContentVM GetEditTestContentVM(int id)
+        public EditTestContentVM GetEditTestContentVM(int testId)
         {
-            var thisTest = _tests.Find(o => o.Id == id);
+            var thisTest = _tests.Find(o => o.Id == testId);
 
             if (thisTest == null)
-                throw new Exception((id == 0) ? "did not get a testId at method call" : $" did not find testId: {id}");
+                throw new Exception( (testId == 0) ? "did not get a testId at method call" : $" did not find testId: {testId}");
 
             var viewModel = new EditTestContentVM()
             {
-                GridAllQuestionsVM = GetAllQuestions().Select(o => new GridQuestionsVM()
+                GridAllQuestionsVM = new GridQuestionsVM()
                 {
-                    Id = o.Id,
-                    Name = o.Name,
+                    GridItemDetails = GetAllQuestions().Select(o => new GridItemDetailVM()
+                    {
+                        Id = o.Id,
+                        Name = o.Name
+
+                    }).ToList(),
+
                     ItemType = GridItemType.Question
-
-                }).ToList().ToArray(),
-
-                GridTestQuestionsVM = thisTest.Questions.Select(o => new GridQuestionsVM()
+                },
+                
+                GridTestQuestionsVM = new GridQuestionsVM()
                 {
-                    Id = o.Id,
-                    ItemType = GridItemType.Question,
-                    Name = o.Name
-                }).ToList().ToArray(),
+                    GridItemDetails = thisTest.Questions.Select(o => new GridItemDetailVM()
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                    }).ToList(),
 
-                //Review: uuuhmmm, cant remove ToList -> ToArray..?
+                    ItemType = GridItemType.Question
+                }
+
             };
 
             return viewModel;

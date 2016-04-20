@@ -1,21 +1,21 @@
-﻿@model IGridableVM[]
+﻿@model IGridableVM
 
 <table>
     
-    @foreach (var item in Model)
+    @foreach (var item in Model.GridItemDetails)
     {
         <tr>
             <td>
-            @if (item.ItemType == TestPlatform.Models.Enums.GridItemType.Question)
+            @if (Model.ItemType == TestPlatform.Models.Enums.GridItemType.Question)
             {
                 <p>Question Name: </p>@item.Name
             }
-            @if(item.ItemType == TestPlatform.Models.Enums.GridItemType.Test) 
+            @if(Model.ItemType == TestPlatform.Models.Enums.GridItemType.Test) 
             {
                 <p>Test Name: </p>@item.Name
             }
             <div class="form-group">
-                <input type="checkbox" id="@($"ItemId{@item.Id}")" name="@nameof(Model.SelectedAnswers)"/></div>
+                <input type="checkbox" id="@($"ItemId{@item.Id}")" name="@nameof(Model.SelectedItems)"/></div>
             </td>
         </tr>
     }
