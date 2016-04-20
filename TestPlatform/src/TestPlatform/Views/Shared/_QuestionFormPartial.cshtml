@@ -1,96 +1,104 @@
 ﻿@model QuestionFormVM
 
-<h1>@Model.TextQuestion</h1>
+<div class="panel panel-primary">
 
-@if (Model.Answers != null && Model.Answers.Count > 0)
-            {   <p>Answers:</p>
-            @foreach (var answer in Model.Answers)
+    <div class="panel-heading">
+        <h1>@Model.TextQuestion</h1>
+    </div>
+
+    <div class="panel-body">
+        @if (Model.Answers != null && Model.Answers.Count > 0)
+        {   <p>Answers:</p>
+        @foreach (var answer in Model.Answers)
+        {
+
+            <div class="form-group">
+                @switch (Model.QuestionType)
+                {
+                    case TestPlatform.Models.Enums.QuestionType.SingleChoice:
+                        {
+                            <label for="@($"answer{answer.AnswerId}")">
+
+                                <input type="radio"
+                                        id="@string.Format("answer{0}", answer.AnswerId)"
+                                        name="@nameof(Model.SelectedAnswers)"
+                                        value="@answer.AnswerId"
+                                        @(answer.IsChecked ? "checked=\"checked\"" : "") />
+
+                                @answer.AnswerText
+
+                            </label>
+                        }
+                        break;
+                    case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
+                        {
+                            <label for="@($"answer{answer.AnswerId}")">
+                                @if (answer.IsChecked)
+                                {
+                                    <input type="checkbox"
+                                            id="@($"answer{answer.AnswerId}")"
+                                            name="@nameof(Model.SelectedAnswers)"
+                                            value="@answer.AnswerId"
+                                            checked="checked" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox"
+                                            id="@($"answer{answer.AnswerId}")"
+                                            name="@nameof(Model.SelectedAnswers)"
+                                            value="@answer.AnswerId" />
+                                }
+                                @answer.AnswerText
+                            </label>
+                        }
+                        break;
+
+
+                }
+            </div>
+            }
+
+        }
+        else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextMultiLine)
+        {
+            @if (!Model.IsInTestSession)
             {
-
                 <div class="form-group">
-                    @switch (Model.QuestionType)
-                    {
-                        case TestPlatform.Models.Enums.QuestionType.SingleChoice:
-                            {
-                                <label for="@($"answer{answer.AnswerId}")">
-
-                                    <input type="radio"
-                                           id="@string.Format("answer{0}", answer.AnswerId)"
-                                           name="@nameof(Model.SelectedAnswers)"
-                                           value="@answer.AnswerId"
-                                           @(answer.IsChecked ? "checked=\"checked\"" : "") />
-
-                                    @answer.AnswerText
-
-                                </label>
-                            }
-                            break;
-                        case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
-                            {
-                                <label for="@($"answer{answer.AnswerId}")">
-                                    @if (answer.IsChecked)
-                                    {
-                                        <input type="checkbox"
-                                               id="@($"answer{answer.AnswerId}")"
-                                               name="@nameof(Model.SelectedAnswers)"
-                                               value="@answer.AnswerId"
-                                               checked="checked" />
-                                    }
-                                    else
-                                    {
-                                        <input type="checkbox"
-                                               id="@($"answer{answer.AnswerId}")"
-                                               name="@nameof(Model.SelectedAnswers)"
-                                               value="@answer.AnswerId" />
-                                    }
-                                    @answer.AnswerText
-                                </label>
-                            }
-                            break;
-
-
-                    }
+                    <label>Answer:</label>
+                    <textarea class="form-control" rows="5" readonly></textarea>
                 </div>
             }
-}
-else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextMultiLine)
-{
-    @if (!Model.IsInTestSession)
-    {
-        <div class="form-group">
-            <label>Answer:</label>
-            <textarea class="form-control" rows="5" readonly></textarea>
-        </div>
-    }
-    else
-    {
-        <div class="form-group">
-            <label>Answer:</label>
+            else
+            {
+                <div class="form-group">
+                    <label>Answer:</label>
 
-            <textarea class="form-control" rows="5"
-                      name="@nameof(Model.SelectedAnswers)"></textarea>
-        </div>
-    }
-}
-else
-{
-    <p>No answers added</p>
-}
+                    <textarea class="form-control" rows="5"
+                                name="@nameof(Model.SelectedAnswers)"></textarea>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No answers added</p>
+        }
 
-@if (Model.HasComment)
-    {
-    @if (Model.IsInTestSession)
-    {
-        <div class="form-group">
-            <label>Comment:</label>
-            <textarea asp-for="Comment" class="form-control" rows="5"></textarea>
-        </div>
-    }
-    else
-    {
-        <div class="form-group">
-            <label>Comment:</label>
-            <textarea class="form-control" rows="5"></textarea>
-        </div>
-    }
-}
+        @if (Model.HasComment)
+        {
+            @if (Model.IsInTestSession)
+            {
+                <div class="form-group">
+                    <label>Comment:</label>
+                    <textarea asp-for="Comment" class="form-control" rows="5"></textarea>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label>Comment:</label>
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+            }
+        }
+    </div>
+</div>

@@ -4,22 +4,40 @@
 <h2>@Model.QuestionIndex / @Model.NumOfQuestion</h2>
 <h2>Time left: @Model.TimeLeft</h2>
 
-<form asp-controller="TestSession" asp-action="ViewQuestion">
+@{
+    var progressBarProcent = Math.Floor(((double)Model.QuestionIndex / Model.NumOfQuestion) * 100);
+}
+<div>
 
-    @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+    <div class="progress">
 
-    @if (Model.QuestionIndex > 1)
-    {
-        <input type="submit" value="Previous" name="submit" class="btn btn-info" />
-    }
-    
-    @if(Model.QuestionIndex < Model.NumOfQuestion)
-    {
-        <input type="submit" value="Next" name="submit" class="btn btn-primary" />
-    }
-    else
-    {
-        <input type="submit" value="Submit" name="submit" class="btn btn-success" />
-    }
+        <div class="progress-bar" role="progressbar" aria-valuenow="@progressBarProcent"
+             aria-valuemin="0" aria-valuemax="100" style="width:@($"{progressBarProcent}%")">
+            @Model.QuestionIndex of @Model.NumOfQuestion questions
+        </div>
 
-</form>
+    </div>
+
+    <form asp-controller="TestSession" asp-action="ViewQuestion">
+
+        @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+
+        @if (Model.QuestionIndex > 1)
+        {
+            <input type="submit" value="Previous" name="submit" class="btn btn-info" />
+        }
+
+        @if (Model.QuestionIndex < Model.NumOfQuestion)
+        {
+            <input type="submit" value="Next" name="submit" class="btn btn-primary" />
+        }
+        else
+        {
+            <input type="submit" value="Submit" name="submit" class="btn btn-success" />
+        }
+
+    </form>
+
+</div>
+<br />
+
