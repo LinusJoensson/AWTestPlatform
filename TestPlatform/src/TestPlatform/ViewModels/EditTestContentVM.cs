@@ -10,6 +10,7 @@ namespace TestPlatform.ViewModels
     public class EditTestContentVM
     {
         public int TestId { get; set; }
+        public string TestName { get; set; }
         public GridQuestionsVM GridAllQuestions { get; set; }
         public GridQuestionsVM GridTestQuestions { get; set; }
     }

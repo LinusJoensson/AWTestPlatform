@@ -421,6 +421,7 @@ namespace TestPlatform.Repositories
             var viewModel = new EditTestContentVM()
             {
                 TestId = thisTest.Id,
+                TestName = thisTest.Name,
 
                 //Implements IGridableVM
                 GridAllQuestions = new GridQuestionsVM()
@@ -463,8 +464,7 @@ namespace TestPlatform.Repositories
             thisTest.Questions.RemoveAll(o => o.Id == questionId);
 
             //NOTE: In this case we will be removing the question completely from the
-            //database because a question with an assigned TestId belongs to one test only
-            //in EF this will be happening automaticaly
+            //database because a question with an assigned TestId belongs to one test only 
             _questions.RemoveAll(o => o.Id == questionId);
         }
 
@@ -477,21 +477,45 @@ namespace TestPlatform.Repositories
             {
                 Id = _tests.Count() + 1,
                 Author = thisUser.FirstName,
+                IsPublished = false,
+                Name = "TEMPLATE: " + thisTemplate.Name,
+
+                //Duplicated information
                 Category = thisTemplate.Category,
                 Description = thisTemplate.Description,
-                IsPublished = false,
-                Name = "Template: " + thisTemplate.Name,
                 Tags = thisTemplate.Tags,
                 TimeLimit = thisTemplate.TimeLimit
             };
+            
+            var defaultSortOrder = thisTest.Questions.Count > 0 ?
+                thisTest.Questions.Max(o => o.SortOrder) + 100 : 100;
 
             _tests.Add(thisTest);
 
-            foreach (var question in thisTest.Questions)
+            foreach (var templateQuestion in thisTemplate.Questions)
             {
-                AddQuestionToTest(question.Id, thisTest.Id);
-            }
+                var thisQuestion = new Question()
+                {
+                    Id = _questions.Count + 1,
+                    CreatedDate = DateTime.UtcNow,
+                    TestId = thisTest.Id,
+                    Author = thisUser.FirstName,
 
+                    //Duplicated information
+                    Name = templateQuestion.Name,
+                    Answers = templateQuestion.Answers,
+                    Category = templateQuestion.Category,
+                    Tags = templateQuestion.Tags,
+                    HasComment = templateQuestion.HasComment,
+                    QuestionType = templateQuestion.QuestionType,
+                    SortOrder = defaultSortOrder,
+                    TextQuestion = templateQuestion.TextQuestion
+                };
+
+                _questions.Add(thisQuestion);
+                AddQuestionToTest(thisQuestion.Id, thisTest.Id);
+            }
+            
             return thisTest.Id;
         }
 

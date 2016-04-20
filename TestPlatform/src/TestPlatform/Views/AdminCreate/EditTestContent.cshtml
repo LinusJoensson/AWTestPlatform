@@ -2,7 +2,6 @@
 
 <h1>Edit Test Content</h1>
 <br />
-
 <form asp-controller="AdminCreate" asp-action="AddQuestionsToTest" asp-route-testId="@Model.TestId">
 
     <table align="left">
@@ -19,6 +18,7 @@
     <table align="center">
         <tr>
             <td>
+                <h2>Test Name: @Model.TestName</h2>
                 <input type="submit" value="Remove Selected" name="submit" class="btn btn-primary" />
                     <h3>Question in this test: </h3><h4><br />@Html.Partial("_GridViewPartial", Model.GridTestQuestions)</h4></td>
         </tr>
