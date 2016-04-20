@@ -6,7 +6,6 @@ using Microsoft.AspNet.Mvc;
 using TestPlatform.Repositories;
 using TestPlatform.Models;
 using TestPlatform.ViewModels;
-using TestPlatform.ViewModels.GridViewModels;
 
 namespace TestPlatform.Controllers
 {
@@ -49,7 +48,7 @@ namespace TestPlatform.Controllers
 
             int testId = repository.CreateTest(test);
 
-            return RedirectToAction(nameof(EditTestContent), new { id = testId } );
+            return RedirectToAction(nameof(EditTestContent), new { testId = testId } );
         }
 
         [HttpGet]
@@ -62,25 +61,19 @@ namespace TestPlatform.Controllers
         }
 
         [HttpPost]
-        [Route("AdminCreate/EditTestContent/{testId}")]
-        public IActionResult EditTestContent(int testId, EditTestContentVM viewModel, string submit)
+        public IActionResult AddQuestionsToTest(int testId, string[] selectedItems)
         {
-            if (string.Equals("Add Selected", submit, StringComparison.OrdinalIgnoreCase))
-            {
-                var questionId = 1;
+            foreach(var questionId in selectedItems)
+                repository.AddQuestionToTest(Convert.ToInt32(questionId), testId);
 
-                repository.AddQuestionToTest(questionId, testId);
-            }
-            else if (string.Equals("Remove", submit, StringComparison.OrdinalIgnoreCase))
-            {
+            return RedirectToAction(nameof(EditTestContent), new { TestId = testId });
+        }
 
-            }
-            else if (string.Equals("Edit", submit, StringComparison.OrdinalIgnoreCase))
-            {
-                
-            }
-            else
-                throw new Exception("Uknown submit value: " + submit);
+        [HttpPost]
+        public IActionResult RemoveQuestionsFromTest(int testId, string[] selectedItems)
+        {
+            foreach (var questionId in selectedItems)
+                repository.RemoveQuestionFromTest(Convert.ToInt32(questionId), testId);
 
             return RedirectToAction(nameof(EditTestContent), new { TestId = testId });
         }

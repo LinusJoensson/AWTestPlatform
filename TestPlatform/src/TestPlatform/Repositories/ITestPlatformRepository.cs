@@ -20,5 +20,6 @@ namespace TestPlatform.Repositories
         void SubmitTestSession(int testSessionId);
         TestSession GetTestSessionById(int testSessionId);
         EditTestContentVM GetEditTestContentVM(int id);
+        void RemoveQuestionFromTest(int questionId, int testId);
     }
 }

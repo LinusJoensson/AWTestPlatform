@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ namespace TestPlatform.ViewModels
 {
     public class EditTestContentVM
     {
-        public GridQuestionsVM GridAllQuestionsVM { get; set; }
-        public GridQuestionsVM GridTestQuestionsVM { get; set; }
+        public int TestId { get; set; }
+        public GridQuestionsVM GridAllQuestions { get; set; }
+        public GridQuestionsVM GridTestQuestions { get; set; }
     }
 }

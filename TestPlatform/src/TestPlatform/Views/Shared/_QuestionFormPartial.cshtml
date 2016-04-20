@@ -21,6 +21,7 @@
                                            @(answer.IsChecked ? "checked=\"checked\"" : "") />
 
                                     @answer.AnswerText
+
                                 </label>
                             }
                             break;
@@ -55,7 +56,7 @@
 else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextMultiLine)
 {
     @if (!Model.IsInTestSession)
-                {
+    {
         <div class="form-group">
             <label>Answer:</label>
             <textarea class="form-control" rows="5" readonly></textarea>

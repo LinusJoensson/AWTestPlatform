@@ -9,7 +9,7 @@ namespace TestPlatform.ViewModels
     public interface IGridableVM
     {
         GridItemType ItemType { get; set; }
+        List<GridItemDetailVM> Items { get; set; }
         string[] SelectedItems { get; set; }
-        List<GridItemDetailVM> GridItemDetails { get; set; }
     }
 }

@@ -419,9 +419,13 @@ namespace TestPlatform.Repositories
 
             var viewModel = new EditTestContentVM()
             {
-                GridAllQuestionsVM = new GridQuestionsVM()
+                TestId = thisTest.Id,
+
+                GridAllQuestions = new GridQuestionsVM()
                 {
-                    GridItemDetails = GetAllQuestions().Select(o => new GridItemDetailVM()
+                    Id = thisTest.Id,
+
+                    Items = GetAllQuestions().Select(o => new GridItemDetailVM()
                     {
                         Id = o.Id,
                         Name = o.Name
@@ -430,13 +434,16 @@ namespace TestPlatform.Repositories
 
                     ItemType = GridItemType.Question
                 },
-                
-                GridTestQuestionsVM = new GridQuestionsVM()
+
+                GridTestQuestions = new GridQuestionsVM()
                 {
-                    GridItemDetails = thisTest.Questions.Select(o => new GridItemDetailVM()
+                    Id = thisTest.Id,
+
+                    Items = thisTest.Questions.Select(o => new GridItemDetailVM()
                     {
                         Id = o.Id,
                         Name = o.Name,
+
                     }).ToList(),
 
                     ItemType = GridItemType.Question
@@ -445,6 +452,12 @@ namespace TestPlatform.Repositories
             };
 
             return viewModel;
+        }
+
+        public void RemoveQuestionFromTest(int questionId, int testId)
+        {
+            var thisTest = _tests.Single(o => o.Id == testId);
+            thisTest.Questions.RemoveAll(o => o.Id == questionId);
         }
     }
 }

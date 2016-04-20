@@ -1,14 +1,29 @@
 ﻿@model EditTestContentVM
 
 <h1>Edit Test Content</h1>
-<form asp-controller="AdminCreate" asp-action="EditTestContent">
-    <input type="submit" value="Add Selected" name="submit" class="btn btn-primary" />
+<br />
+
+<form asp-controller="AdminCreate" asp-action="AddQuestionsToTest" asp-route-testId="@Model.TestId">
+
+    
+
+    <table align="left">
+        <tr>
+            <td><input type="submit" value="Add Selected" name="submit" class="btn btn-primary" />
+                <h3>Questions in database:</h3> <h4><br />@Html.Partial("_GridViewPartial", Model.GridAllQuestions)</h4></td>
+        </tr>
+    </table>
+
 </form>
 
-<table>
-    <tr>
-        <td><h3>Questions in database: </h3><br />@Html.Partial("_GridViewPartial", Model.GridAllQuestionsVM)</td>
+<form asp-controller="AdminCreate" asp-action="RemoveQuestionsFromTest" asp-route-testId="@Model.TestId">
+    
+    <table align="center">
+        <tr>
+            <td>
+                <input type="submit" value="Remove Selected" name="submit" class="btn btn-primary" />
+                    <h3>Question in this test: </h3><h4><br />@Html.Partial("_GridViewPartial", Model.GridTestQuestions)</h4></td>
+        </tr>
+    </table>
 
-        <td><h3>Question in this test: </h3><br />@Html.Partial("_GridViewPartial", Model.GridTestQuestionsVM)</td>
-    </tr>
-</table>
+</form>
