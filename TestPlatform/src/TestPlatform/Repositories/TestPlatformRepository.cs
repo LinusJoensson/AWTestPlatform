@@ -295,6 +295,7 @@ namespace TestPlatform.Repositories
             var thisQuestion = thisTest.Questions.OrderBy(o => o.SortOrder).ElementAt(questionIndex - 1);
             var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionId == thisQuestion.Id);
 
+            //TODO: temporary test
             var timeLeft = (2*60*1000 - (DateTime.UtcNow - thisTestSession.StartTime).TotalMilliseconds)/(60*100);
             var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
 
@@ -409,23 +410,24 @@ namespace TestPlatform.Repositories
         {
             return _testSessions.Single(o => o.Id == testSessionId); ;
         }
-
+        
         public EditTestContentVM GetEditTestContentVM(int testId)
         {
             var thisTest = _tests.Find(o => o.Id == testId);
 
             if (thisTest == null)
-                throw new Exception( (testId == 0) ? "did not get a testId at method call" : $" did not find testId: {testId}");
+                throw new Exception((testId == 0) ? "did not get a testId at method call" : $" did not find testId: {testId}");
 
             var viewModel = new EditTestContentVM()
             {
                 TestId = thisTest.Id,
 
+                //Implements IGridableVM
                 GridAllQuestions = new GridQuestionsVM()
                 {
                     Id = thisTest.Id,
 
-                    Items = GetAllQuestions().Select(o => new GridItemDetailVM()
+                    Items = GetAllQuestions().Where(o => o.TestId == null).Select(o => new GridItemDetailVM()
                     {
                         Id = o.Id,
                         Name = o.Name
@@ -435,6 +437,7 @@ namespace TestPlatform.Repositories
                     ItemType = GridItemType.Question
                 },
 
+                //Implements IGridableVM
                 GridTestQuestions = new GridQuestionsVM()
                 {
                     Id = thisTest.Id,
@@ -458,6 +461,56 @@ namespace TestPlatform.Repositories
         {
             var thisTest = _tests.Single(o => o.Id == testId);
             thisTest.Questions.RemoveAll(o => o.Id == questionId);
+
+            //NOTE: In this case we will be removing the question completely from the
+            //database because a question with an assigned TestId belongs to one test only
+            //in EF this will be happening automaticaly
+            _questions.RemoveAll(o => o.Id == questionId);
+        }
+
+        public int CreateTestFromTemplate(int testId)
+        {
+            var thisTemplate = _tests.Single(o => o.Id == testId);
+            var thisUser = _users.Single(o => o.Id == 1);
+
+            var thisTest = new Test()
+            {
+                Id = _tests.Count() + 1,
+                Author = thisUser.FirstName,
+                Category = thisTemplate.Category,
+                Description = thisTemplate.Description,
+                IsPublished = false,
+                Name = "Template: " + thisTemplate.Name,
+                Tags = thisTemplate.Tags,
+                TimeLimit = thisTemplate.TimeLimit
+            };
+
+            _tests.Add(thisTest);
+
+            foreach (var question in thisTest.Questions)
+            {
+                AddQuestionToTest(question.Id, thisTest.Id);
+            }
+
+            return thisTest.Id;
+        }
+
+        public ChooseTestTemplateVM GetChooseTestTemplateVM()
+        {
+            var viewModel = new ChooseTestTemplateVM()
+            {
+                GridTestsVM = new GridTestsVM()
+                {
+                    Items = GetAllTests().Select(o => new GridItemDetailVM()
+                    {
+                        Id = o.Id,
+                        Name = o.Name
+
+                    }).ToList(),
+                }
+            };
+
+            return (viewModel);
         }
     }
 }

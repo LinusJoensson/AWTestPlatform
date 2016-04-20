@@ -6,6 +6,7 @@ using Microsoft.AspNet.Mvc;
 using TestPlatform.Repositories;
 using TestPlatform.Models;
 using TestPlatform.ViewModels;
+using System.Diagnostics;
 
 namespace TestPlatform.Controllers
 {
@@ -18,26 +19,35 @@ namespace TestPlatform.Controllers
             this.repository = repository;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         // An index from where you can choose to: 
         // - Create an empty test
         // - Create a test from a template
         // - Edit tests
         // - Create test module
         // - Edit module
-        public IActionResult TestIndex()
+        public IActionResult Index()
         {
-            var viewModel = repository.GetAllTests();
-            return View(viewModel);
+            return View();
         }
 
         public IActionResult CreateTest()
         {
             return View();
+        }
+
+        public IActionResult ChooseTestTemplate()
+        {
+            var viewModel = repository.GetChooseTestTemplateVM();
+
+            return View(viewModel);
+        }
+
+        [Route("AdminCreate/CreateTestFromTemplate/{testId}")]
+        public IActionResult CreateTestFromTemplate(int testId)
+        {
+            int newTestId = repository.CreateTestFromTemplate(testId);
+
+            return RedirectToAction(nameof(EditTestContent), new { testId = newTestId });
         }
 
         [HttpPost]
@@ -50,7 +60,7 @@ namespace TestPlatform.Controllers
 
             return RedirectToAction(nameof(EditTestContent), new { testId = testId } );
         }
-
+        
         [HttpGet]
         [Route("AdminCreate/EditTestContent/{testId}")]
         public IActionResult EditTestContent(int testId)
@@ -60,13 +70,16 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
+        //NOTE: This action can not take an object reference as input, because the form view model is an interface 
+        //Instead each property needs to be explicitly typed as a separate parameter
+        //(MVC 6 as of 20/4-2016)
         [HttpPost]
         public IActionResult AddQuestionsToTest(int testId, string[] selectedItems)
         {
             foreach(var questionId in selectedItems)
                 repository.AddQuestionToTest(Convert.ToInt32(questionId), testId);
 
-            return RedirectToAction(nameof(EditTestContent), new { TestId = testId });
+            return RedirectToAction(nameof(EditTestContent), new { testId = testId });
         }
 
         [HttpPost]
@@ -75,7 +88,7 @@ namespace TestPlatform.Controllers
             foreach (var questionId in selectedItems)
                 repository.RemoveQuestionFromTest(Convert.ToInt32(questionId), testId);
 
-            return RedirectToAction(nameof(EditTestContent), new { TestId = testId });
+            return RedirectToAction(nameof(EditTestContent), new { testId = testId });
         }
     }
 }

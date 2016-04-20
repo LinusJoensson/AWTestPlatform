@@ -1,0 +1,9 @@
+﻿@model ChooseTestTemplateVM
+
+@foreach (var detail in Model.GridTestsVM.Items)
+{
+
+    @detail.Name <a href="~/AdminCreate/CreateTestFromTemplate/@detail.Id">Use As Template</a>}
+    
+}
+

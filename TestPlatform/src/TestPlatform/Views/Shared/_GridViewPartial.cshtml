@@ -1,11 +1,10 @@
 ﻿@model IGridableVM
 
-<table>
-    @foreach (var item in Model.Items)
-    {
-        <tr>
-            <td>
-                <div class="form-group">
+    <table>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
                     <label for="@($" Item{item.Id}")">
                         <input type="checkbox"
                                id="@($" ItemId{@item.Id}")"
@@ -14,18 +13,17 @@
                     </label>
 
                     @if (Model.ItemType == TestPlatform.Models.Enums.GridItemType.Question)
-                    {
+                    {   
                         <p>
-
                             Question Name: @item.Name
                             Question Id: @item.Id
                         </p>
                     }
 
-                </div>
-            </td>
-        </tr>
-    }
 
-</table>
+                </td>
+            </tr>
+        }
+    </table>
+
  
