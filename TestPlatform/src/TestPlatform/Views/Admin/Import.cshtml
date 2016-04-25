@@ -11,15 +11,23 @@
 
 </div>
 
-<input type="button" value="Copy Selected To Test" id="copySelectedButton"/>
-<input type="button" value="Delete Selected From Test" id="deleteSelectedButton"/>
+<input type="button" value="Copy Selected To Test" id="copySelectedButton" />
+<input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />
 
-<script>
-    function getAllTests() {​
-        $.get("/Admin/GetAllTests", null,​
-    function (json) {​
+<script type="text/javascript">
+
+    alert("hej");
+
+    $(document).ready(function()
+    {
+        alert("hello");
+
+        $.get("/Admin/GetAllTests", null,
+    function (json) {
         alert(json)​;
-        }​
-        );​
     }
+            );
+    });
+
+
 </script>
