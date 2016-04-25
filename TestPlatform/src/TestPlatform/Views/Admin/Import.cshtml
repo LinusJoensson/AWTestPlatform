@@ -16,18 +16,18 @@
 
 <script type="text/javascript">
 
-    alert("hej");
+    alert("first");
 
-    $(document).ready(function()
+      
+    $(document).ready(function()    
     {
-        alert("hello");
+        alert("document ready");
 
-        $.get("/Admin/GetAllTests", null,
-    function (json) {
-        alert(json)​;
-    }
-            );
+        $.get("/Admin/GetAllTests",
+            null,
+            function(data) {
+                alert(data);
+            });
     });
-
 
 </script>
