@@ -411,52 +411,52 @@ namespace TestPlatform.Repositories
             return _testSessions.Single(o => o.Id == testSessionId); ;
         }
         
-        public EditTestContentVM GetEditTestContentVM(int testId)
-        {
-            var thisTest = _tests.Find(o => o.Id == testId);
+        //public EditTestContentVM GetEditTestContentVM(int testId)
+        //{
+        //    var thisTest = _tests.Find(o => o.Id == testId);
 
-            if (thisTest == null)
-                throw new Exception((testId == 0) ? "did not get a testId at method call" : $" did not find testId: {testId}");
+        //    if (thisTest == null)
+        //        throw new Exception((testId == 0) ? "did not get a testId at method call" : $" did not find testId: {testId}");
 
-            var viewModel = new EditTestContentVM()
-            {
-                TestId = thisTest.Id,
-                TestName = thisTest.Name,
+        //    var viewModel = new EditTestContentVM()
+        //    {
+        //        TestId = thisTest.Id,
+        //        TestName = thisTest.Name,
 
-                //Implements IGridableVM
-                GridAllQuestions = new GridQuestionsVM()
-                {
-                    Id = thisTest.Id,
+        //        //Implements IGridableVM
+        //        GridAllQuestions = new GridQuestionsVM()
+        //        {
+        //            Id = thisTest.Id,
 
-                    Items = GetAllQuestions().Where(o => o.TestId == null).Select(o => new GridItemDetailVM()
-                    {
-                        Id = o.Id,
-                        Name = o.Name
+        //            Items = GetAllQuestions().Where(o => o.TestId == null).Select(o => new GridItemDetailVM()
+        //            {
+        //                Id = o.Id,
+        //                Name = o.Name
 
-                    }).ToList(),
+        //            }).ToList(),
 
-                    ItemType = GridItemType.Question
-                },
+        //            ItemType = GridItemType.Question
+        //        },
 
-                //Implements IGridableVM
-                GridTestQuestions = new GridQuestionsVM()
-                {
-                    Id = thisTest.Id,
+        //        //Implements IGridableVM
+        //        GridTestQuestions = new GridQuestionsVM()
+        //        {
+        //            Id = thisTest.Id,
 
-                    Items = thisTest.Questions.Select(o => new GridItemDetailVM()
-                    {
-                        Id = o.Id,
-                        Name = o.Name,
+        //            Items = thisTest.Questions.Select(o => new GridItemDetailVM()
+        //            {
+        //                Id = o.Id,
+        //                Name = o.Name,
 
-                    }).ToList(),
+        //            }).ToList(),
 
-                    ItemType = GridItemType.Question
-                }
+        //            ItemType = GridItemType.Question
+        //        }
 
-            };
+        //    };
 
-            return viewModel;
-        }
+        //    return viewModel;
+        //}
 
         public void RemoveQuestionFromTest(int questionId, int testId)
         {
@@ -468,6 +468,9 @@ namespace TestPlatform.Repositories
             _questions.RemoveAll(o => o.Id == questionId);
         }
 
+        //TODO: split into:
+        //- Get test information
+        //- Duplicate all questions
         public int CreateTestFromTemplate(int testId)
         {
             var thisTemplate = _tests.Single(o => o.Id == testId);
@@ -519,22 +522,22 @@ namespace TestPlatform.Repositories
             return thisTest.Id;
         }
 
-        public ChooseTestTemplateVM GetChooseTestTemplateVM()
-        {
-            var viewModel = new ChooseTestTemplateVM()
-            {
-                GridTestsVM = new GridTestsVM()
-                {
-                    Items = GetAllTests().Select(o => new GridItemDetailVM()
-                    {
-                        Id = o.Id,
-                        Name = o.Name
+        //public ChooseTestTemplateVM GetChooseTestTemplateVM()
+        //{
+        //    var viewModel = new ChooseTestTemplateVM()
+        //    {
+        //        GridTestsVM = new GridTestsVM()
+        //        {
+        //            Items = GetAllTests().Select(o => new GridItemDetailVM()
+        //            {
+        //                Id = o.Id,
+        //                Name = o.Name
 
-                    }).ToList(),
-                }
-            };
+        //            }).ToList(),
+        //        }
+        //    };
 
-            return (viewModel);
-        }
+        //    return (viewModel);
+        //}
     }
 }
