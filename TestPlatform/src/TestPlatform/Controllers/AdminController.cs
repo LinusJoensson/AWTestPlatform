@@ -51,6 +51,14 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public IActionResult CopyTestQuestions(int id, int[] questionId)
+        {
+            return View();
+            //returnera thisTestData
+            //Eventuellt: flytta logik till repository
+        }
+
         public IActionResult GetImportData(int id)
         {
             var allTests = repository.GetAllTests();
