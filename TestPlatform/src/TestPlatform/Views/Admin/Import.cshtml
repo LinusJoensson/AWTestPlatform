@@ -1,0 +1,25 @@
+﻿@model ImportVM
+
+<h1>Import Questions</h1>
+
+<div id="allTestsDiv">
+
+</div>
+
+
+<div id="currentTestDiv">
+
+</div>
+
+<input type="button" value="Copy Selected To Test" id="copySelectedButton"/>
+<input type="button" value="Delete Selected From Test" id="deleteSelectedButton"/>
+
+<script>
+    function getAllTests() {​
+        $.get("/Admin/GetAllTests", null,​
+    function (json) {​
+        alert(json)​;
+        }​
+        );​
+    }
+</script>
