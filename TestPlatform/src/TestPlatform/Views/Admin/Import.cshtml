@@ -3,7 +3,7 @@
 <h1>Import Questions</h1>
 
 <div id="allTestsDiv">
-
+    
 </div>
 
 
@@ -23,6 +23,8 @@
             function(data) {
                 var allTestsData = data.allTestsData;
                 var thisTestData = data.thisTestData;
+
+                $("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
             });
     });
 
