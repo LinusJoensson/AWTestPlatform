@@ -3,16 +3,21 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
 
     <script src="~/lib/jquery/jquery-1.12.0.js"></script>
-
+    <script src="https://code.angularjs.org/1.5.5/angular.min.js"></script>
+    <script src="https://raw.githubusercontent.com/siddii/angular-timer/master/dist/angular-timer.min.js"></script>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <link href="~/css/main.css" rel="stylesheet" />
 
-    <title>@ViewBag.Title</title>
+    <script>
+        var app = angular.module('myApp', []);
+    </script>
 </head>
 
-<body>
+<body ng-app="myApp">
     <div>
         <br />
     </div>
@@ -24,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Quiz</a>
+                <a class="navbar-brand" href="~/">Quiz</a>
             </div>
             <div class="collapse navbar-collapse" id="main-menu">
                 <ul class="nav navbar-nav navbar-right">
