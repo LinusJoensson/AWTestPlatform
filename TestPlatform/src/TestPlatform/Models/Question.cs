@@ -12,7 +12,7 @@ namespace TestPlatform.Models
         public int? TestId { get; set; }
         public int? SortOrder { get; set; }
         public string Name { get; set; }
-        public string TextQuestion { get; set; }
+        public string QuestionText { get; set; }
         public QuestionType QuestionType { get; set; }
         public string Author { get; set; }
         public QuestionCategory Category { get; set; }

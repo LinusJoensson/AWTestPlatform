@@ -51,11 +51,52 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
-        public IActionResult GetAllTests()
+        public IActionResult GetImportData(int id)
         {
-            var viewModel = new ImportVM()
+            var allTests = repository.GetAllTests();
+
+            var allTestsData = allTests.Select(o => new
             {
-                TestId = 1
+                title = o.Name,
+                isTestChecked = false,
+                tags = o.Tags,
+                questionList = o.Questions.Select(q => new
+                {
+                    questionId = q.Id,
+                    questionText = q.QuestionText,
+                    answerList = q.Answers.Select(a => new
+                    {
+                        answerText = a.AnswerText,
+                        isCorrect = a.IsCorrect
+                    })
+
+                }),
+
+            }).ToArray();
+
+            var thisTestData = allTests.Where(o => o.Id == id).Select(o => new
+            {
+                title = o.Name,
+                isTestChecked = false,
+                tags = o.Tags,
+                questionList = o.Questions.Select(q => new
+                {
+                    questionId = q.Id,
+                    questionText = q.QuestionText,
+                    answerList = q.Answers.Select(a => new
+                    {
+                        answerText = a.AnswerText,
+                        isCorrect = a.IsCorrect
+                    })
+
+                }),
+
+            }).Single();
+
+            var viewModel = new
+            {
+                allTestsData = allTestsData,
+                thisTestData = thisTestData
             };
 
             return Json(viewModel);

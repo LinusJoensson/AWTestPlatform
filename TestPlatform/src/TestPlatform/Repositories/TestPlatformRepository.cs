@@ -81,7 +81,7 @@ namespace TestPlatform.Repositories
             {
                 Id = 1,
                 Name = "First Question",
-                TextQuestion = "Is this the first question?",
+                QuestionText = "Is this the first question?",
                 QuestionType = QuestionType.SingleChoice,
                 Tags = "for lolz" + "," + "eazy",
                 Author = "Linus Joensson",
@@ -89,8 +89,8 @@ namespace TestPlatform.Repositories
                 HasComment = true,
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, AnswerText = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, AnswerText = "Yes! ... Uhm I mean no" }
                 }
             });
 
@@ -102,7 +102,7 @@ namespace TestPlatform.Repositories
             {
                 Id = 2,
                 Name = "Second Question",
-                TextQuestion = "Is this the third question?",
+                QuestionText = "Is this the third question?",
                 QuestionType = QuestionType.MultipleChoice,
                 Tags = "for lolz" + "," + "eazy",
                 Author = "Linus Joensson",
@@ -110,8 +110,8 @@ namespace TestPlatform.Repositories
                 HasComment = true,
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = false, TextAnswer = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = true, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = false, AnswerText = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = true, AnswerText = "Yes! ... Uhm I mean no" }
                 }
             });
             _answers.Add(_questions.Last().Answers.ElementAt(0));
@@ -122,15 +122,15 @@ namespace TestPlatform.Repositories
             {
                 Id = 3,
                 Name = "Second Question",
-                TextQuestion = "Is THIS the third question?",
+                QuestionText = "Is THIS the third question?",
                 QuestionType = QuestionType.SingleChoice,
                 Tags = "for lolz" + "," + "hard",
                 Author = "Linus Joensson",
                 Category = _questionCategories.First(),
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, AnswerText = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, AnswerText = "Yes! ... Uhm I mean no" }
                 }
             });
             _answers.Add(_questions.Last().Answers.ElementAt(0));
@@ -178,7 +178,7 @@ namespace TestPlatform.Repositories
                 Category = selectedQuestion.Category,
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
-                TextQuestion = selectedQuestion.TextQuestion,
+                QuestionText = selectedQuestion.QuestionText,
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
@@ -208,7 +208,7 @@ namespace TestPlatform.Repositories
                 Category = selectedQuestion.Category,
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
-                TextQuestion = selectedQuestion.TextQuestion,
+                QuestionText = selectedQuestion.QuestionText,
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
@@ -261,7 +261,7 @@ namespace TestPlatform.Repositories
                 Name = thisQuestion.Name,
                 QuestionType = thisQuestion.QuestionType,
                 Tags = thisQuestion.Tags,
-                TextQuestion = thisQuestion.TextQuestion,
+                QuestionText = thisQuestion.QuestionText,
                 HasComment = thisQuestion.HasComment,
 
                 //New question id
@@ -310,14 +310,14 @@ namespace TestPlatform.Repositories
                 {
                     IsInTestSession = isInSession,
                     QuestionType = thisQuestion.QuestionType,
-                    TextQuestion = thisQuestion.TextQuestion,
+                    TextQuestion = thisQuestion.QuestionText,
                     HasComment = thisQuestion.HasComment,
                     Comment = thisQuestionResult?.Comment,
                     SelectedAnswers = selectedAnswers,
                     Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                     {
                         AnswerId = o.Id,
-                        AnswerText = o.TextAnswer,
+                        AnswerText = o.AnswerText,
                         ShowAsCorrect = ((!isInSession) && (o.IsCorrect)),
                         IsChecked = selectedAnswers == null ? false :
                             ((isInSession) && (selectedAnswers.Contains(o.Id.ToString()))),
@@ -512,7 +512,7 @@ namespace TestPlatform.Repositories
                     HasComment = templateQuestion.HasComment,
                     QuestionType = templateQuestion.QuestionType,
                     SortOrder = defaultSortOrder,
-                    TextQuestion = templateQuestion.TextQuestion
+                    QuestionText = templateQuestion.QuestionText
                 };
 
                 _questions.Add(thisQuestion);
