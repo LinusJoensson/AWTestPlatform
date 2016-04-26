@@ -12,7 +12,6 @@ namespace TestPlatform.Models
         public string Description { get; set; }
         public int? ModuleId { get; set; }
         public string Author { get; set; } //Sekundärnyckel till användaren
-        public TestCategory Category { get; set; }
         public string Tags { get; set; }
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }

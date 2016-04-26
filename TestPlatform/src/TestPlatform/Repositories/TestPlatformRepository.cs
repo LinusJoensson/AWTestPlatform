@@ -16,8 +16,6 @@ namespace TestPlatform.Repositories
         public List<User> _users { get; set; } 
         public List<Question> _questions { get; set; }
         public List<Answer> _answers { get; set; }
-        public List<QuestionCategory> _questionCategories { get; set; }
-        public List<TestCategory> _testCategories { get; set; }
         public List<TestSession> _testSessions { get; set; }
         public List<QuestionResult> _questionResults { get; set; }
 
@@ -26,8 +24,6 @@ namespace TestPlatform.Repositories
             _tests = new List<Test>();
             _users = new List<User>();
             _questions = new List<Question>();
-            _questionCategories = new List<QuestionCategory>();
-            _testCategories = new List<TestCategory>();
             _answers = new List<Answer>();
             _testSessions = new List<TestSession>();
             _questionResults = new List<QuestionResult>();
@@ -53,26 +49,26 @@ namespace TestPlatform.Repositories
             _users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
 
-            #region Add static categories 
-            _questionCategories.Add(new QuestionCategory()
-            {
-                Id = 1,
-                Name = "My First Question Category",
-                //Tags = new List<string>() { "first", "good questions" },
-                Author = "Linus Joensson",
-                Description = "Very good questions",
-            });
+            //#region Add static categories 
+            //_questionCategories.Add(new QuestionCategory()
+            //{
+            //    Id = 1,
+            //    Name = "My First Question Category",
+            //    //Tags = new List<string>() { "first", "good questions" },
+            //    Author = "Linus Joensson",
+            //    Description = "Very good questions",
+            //});
 
-            _testCategories.Add(new TestCategory()
-            {
-                Id = 1,
-                Name = "My First Test Category",
-                //Tags = new List<string>() { "first", "good tests" },
-                Author = "Linus Joensson",
-                Description = "Very good tests",
-            });
+            //_testCategories.Add(new TestCategory()
+            //{
+            //    Id = 1,
+            //    Name = "My First Test Category",
+            //    //Tags = new List<string>() { "first", "good tests" },
+            //    Author = "Linus Joensson",
+            //    Description = "Very good tests",
+            //});
 
-            #endregion
+            //#endregion
 
             #region Add static questions 
 
@@ -81,16 +77,15 @@ namespace TestPlatform.Repositories
             {
                 Id = 1,
                 Name = "First Question",
-                TextQuestion = "Is this the first question?",
+                QuestionText = "Is this the first question?",
                 QuestionType = QuestionType.SingleChoice,
                 Tags = "for lolz" + "," + "eazy",
                 Author = "Linus Joensson",
-                Category = _questionCategories.First(),
                 HasComment = true,
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, AnswerText = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, AnswerText = "Yes! ... Uhm I mean no" }
                 }
             });
 
@@ -102,16 +97,15 @@ namespace TestPlatform.Repositories
             {
                 Id = 2,
                 Name = "Second Question",
-                TextQuestion = "Is this the third question?",
+                QuestionText = "Is this the third question?",
                 QuestionType = QuestionType.MultipleChoice,
                 Tags = "for lolz" + "," + "eazy",
                 Author = "Linus Joensson",
-                Category = _questionCategories.First(),
                 HasComment = true,
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = false, TextAnswer = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = true, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = false, AnswerText = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = true, AnswerText = "Yes! ... Uhm I mean no" }
                 }
             });
             _answers.Add(_questions.Last().Answers.ElementAt(0));
@@ -122,15 +116,14 @@ namespace TestPlatform.Repositories
             {
                 Id = 3,
                 Name = "Second Question",
-                TextQuestion = "Is THIS the third question?",
+                QuestionText = "Is THIS the third question?",
                 QuestionType = QuestionType.SingleChoice,
                 Tags = "for lolz" + "," + "hard",
                 Author = "Linus Joensson",
-                Category = _questionCategories.First(),
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, TextAnswer = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, TextAnswer = "Yes! ... Uhm I mean no" }
+                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, AnswerText = "Yes" },
+                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, AnswerText = "Yes! ... Uhm I mean no" }
                 }
             });
             _answers.Add(_questions.Last().Answers.ElementAt(0));
@@ -144,7 +137,6 @@ namespace TestPlatform.Repositories
                 Id = 1,
                 //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
                 Author = "Linus Joensson",
-                Category = _testCategories.ElementAt(0),
                 Name = "My First Test",
                 Description = "An eazy test",
                 Questions = new List<Question>(),
@@ -175,10 +167,9 @@ namespace TestPlatform.Repositories
                 Answers = selectedQuestion.Answers,
                 Tags = selectedQuestion.Tags,
                 Author = selectedQuestion.Author,
-                Category = selectedQuestion.Category,
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
-                TextQuestion = selectedQuestion.TextQuestion,
+                QuestionText = selectedQuestion.QuestionText,
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
@@ -205,10 +196,9 @@ namespace TestPlatform.Repositories
                 Answers = selectedQuestion.Answers,
                 Tags = selectedQuestion.Tags,
                 Author = selectedQuestion.Author,
-                Category = selectedQuestion.Category,
                 Name = selectedQuestion.Name,
                 QuestionType = selectedQuestion.QuestionType,
-                TextQuestion = selectedQuestion.TextQuestion,
+                QuestionText = selectedQuestion.QuestionText,
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
@@ -239,7 +229,6 @@ namespace TestPlatform.Repositories
                 IsPublished = true,
                 //Tags = new List<string>() { "happy", "insane" },
                 Author = _users.ElementAt(0).FirstName,
-                Category = _testCategories.ElementAt(0),
             });
 
             return _tests.Last().Id;  
@@ -257,11 +246,10 @@ namespace TestPlatform.Repositories
             {
                 //Duplicate original question
                 Answers = thisQuestion.Answers,
-                Category = thisQuestion.Category,
                 Name = thisQuestion.Name,
                 QuestionType = thisQuestion.QuestionType,
                 Tags = thisQuestion.Tags,
-                TextQuestion = thisQuestion.TextQuestion,
+                QuestionText = thisQuestion.QuestionText,
                 HasComment = thisQuestion.HasComment,
 
                 //New question id
@@ -310,14 +298,14 @@ namespace TestPlatform.Repositories
                 {
                     IsInTestSession = isInSession,
                     QuestionType = thisQuestion.QuestionType,
-                    TextQuestion = thisQuestion.TextQuestion,
+                    TextQuestion = thisQuestion.QuestionText,
                     HasComment = thisQuestion.HasComment,
                     Comment = thisQuestionResult?.Comment,
                     SelectedAnswers = selectedAnswers,
                     Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                     {
                         AnswerId = o.Id,
-                        AnswerText = o.TextAnswer,
+                        AnswerText = o.AnswerText,
                         ShowAsCorrect = ((!isInSession) && (o.IsCorrect)),
                         IsChecked = selectedAnswers == null ? false :
                             ((isInSession) && (selectedAnswers.Contains(o.Id.ToString()))),
@@ -484,7 +472,6 @@ namespace TestPlatform.Repositories
                 Name = "TEMPLATE: " + thisTemplate.Name,
 
                 //Duplicated information
-                Category = thisTemplate.Category,
                 Description = thisTemplate.Description,
                 Tags = thisTemplate.Tags,
                 TimeLimit = thisTemplate.TimeLimit
@@ -507,12 +494,11 @@ namespace TestPlatform.Repositories
                     //Duplicated information
                     Name = templateQuestion.Name,
                     Answers = templateQuestion.Answers,
-                    Category = templateQuestion.Category,
                     Tags = templateQuestion.Tags,
                     HasComment = templateQuestion.HasComment,
                     QuestionType = templateQuestion.QuestionType,
                     SortOrder = defaultSortOrder,
-                    TextQuestion = templateQuestion.TextQuestion
+                    QuestionText = templateQuestion.QuestionText
                 };
 
                 _questions.Add(thisQuestion);

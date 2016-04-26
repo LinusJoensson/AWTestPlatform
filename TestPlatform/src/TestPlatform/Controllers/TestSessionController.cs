@@ -57,17 +57,17 @@ namespace TestPlatform.Controllers
             else if (string.Equals("submit", submit, StringComparison.OrdinalIgnoreCase))
             {
                 repository.SubmitTestSession(testSessionId);
-                return RedirectToAction(nameof(SubmittedSession), new { TestSessionId = testSessionId } );
+                return RedirectToAction(nameof(SubmitSession), new { TestSessionId = testSessionId } );
             }
             else
-                throw new Exception("Uknown submit value");
+                throw new Exception("Unknown submit value");
 
             return RedirectToAction(nameof(ViewQuestion), 
                 new { TestSessionId = testSessionId, QuestionIndex = questionIndex });
         }
 
         [Route("TestSession/{testSessionId}")]
-        public IActionResult SubmittedSession(int testSessionId)
+        public IActionResult SubmitSession(int testSessionId)
         {
             var viewModel = repository.GetTestSessionById(testSessionId);
             return View(viewModel);

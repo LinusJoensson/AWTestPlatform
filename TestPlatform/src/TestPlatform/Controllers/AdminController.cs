@@ -22,8 +22,8 @@ namespace TestPlatform.Controllers
             return View();
         }
 
-        [Route("Admin/Test/Create")]
-        public IActionResult CreateTest()
+        [Route("Admin/Test/Settings")]
+        public IActionResult ManageTestSettings()
         {
             return View();
         }
@@ -51,11 +51,63 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
-        public IActionResult GetAllTests()
+        [HttpPost]
+        public IActionResult CopyQuestionsToTest(int testId, int[] questionId)
         {
-            var viewModel = new ImportVM()
+            //TODO: review
+            //Add multiple questions in one query (or Json -> Ajax)
+            foreach (var qId in questionId)
+                repository.AddQuestionToTest(qId, testId);
+
+            return RedirectToAction(nameof(GetImportData), new { id = testId });
+        }
+
+        public IActionResult GetImportData(int id)
+        {
+            var allTests = repository.GetAllTests();
+
+            var allTestsData = allTests.Select(o => new
             {
-                TestId = 1
+                title = o.Name,
+                isTestChecked = false,
+                tags = o.Tags,
+                questionList = o.Questions.Select(q => new
+                {
+                    questionId = q.Id,
+                    questionText = q.QuestionText,
+                    answerList = q.Answers.Select(a => new
+                    {
+                        answerText = a.AnswerText,
+                        isCorrect = a.IsCorrect
+                    })
+
+                }),
+
+            }).ToArray();
+
+            var thisTestData = allTests.Where(o => o.Id == id).Select(o => new
+            {
+                title = o.Name,
+                isTestChecked = false,
+                tags = o.Tags,
+                questionList = o.Questions.Select(q => new
+                {
+                    questionId = q.Id,
+                    questionText = q.QuestionText,
+                    answerList = q.Answers.Select(a => new
+                    {
+                        answerText = a.AnswerText,
+                        isCorrect = a.IsCorrect
+                    })
+
+                }),
+
+            }).Single();
+
+            var viewModel = new
+            {
+                allTestsData = allTestsData,
+                thisTestData = thisTestData
             };
 
             return Json(viewModel);

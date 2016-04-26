@@ -3,7 +3,7 @@
 <h1>Import Questions</h1>
 
 <div id="allTestsDiv">
-
+    
 </div>
 
 
@@ -16,17 +16,17 @@
 
 <script type="text/javascript">
 
-    alert("hej");
-
-    $(document).ready(function()
+    $(document).ready(function()    
     {
-        alert("hello");
+        $.get("/Admin/GetImportData",
+            { id: @Model.TestId },
+            function(data) {
+                var allTestsData = data.allTestsData;
+                var thisTestData = data.thisTestData;
 
-        $.get("/Admin/GetAllTests", null,
-    function (json) {
-        alert(json)​;
+                //Example
+                $("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
+            });
     });
-    });
-
 
 </script>
