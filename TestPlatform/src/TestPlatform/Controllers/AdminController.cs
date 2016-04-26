@@ -36,14 +36,29 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult PreviewQuestionPartial(int id)
         {
-            var viewModelPartial = repository.GetAllQuestions().Select(o => new QuestionFormVM()
+            var thisQuestion = repository.GetAllQuestions().Single(o => o.Id == id);
+                
+            var viewModelPartial = new QuestionFormVM()
             {
-                TextQuestion = o.QuestionText,
-                HasComment = o.HasComment,
-                QuestionType = o.QuestionType
-            });
+                Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                {
+                    AnswerId = o.Id,
+                    AnswerText = o.AnswerText,
+                    ShowAsCorrect = o.IsCorrect,
+                    IsChecked = o.IsCorrect
+                }).ToList(),
+
+                IsInTestSession = true,
+                TextQuestion = thisQuestion.QuestionText,
+                HasComment = thisQuestion.HasComment,
+                QuestionType = thisQuestion.QuestionType
+            };
+
+            if (viewModelPartial == null)
+                throw new Exception();
+            
         
             return PartialView("_QuestionFormPartial", viewModelPartial);
         }

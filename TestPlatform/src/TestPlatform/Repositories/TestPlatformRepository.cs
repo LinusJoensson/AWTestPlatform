@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TestPlatform.Models;
 using TestPlatform.Models.Enums;
 using TestPlatform.ViewModels;
-using TestPlatform.ViewModels.GridViewModels;
 
 namespace TestPlatform.Repositories
 {
@@ -210,7 +209,36 @@ namespace TestPlatform.Repositories
             //We use the same database table for questions owned by tests as for questions without owner
             _questions.Add(selectedTest.Questions.Last());
 
-            
+
+
+            selectedQuestionId = 3;
+            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
+            selectedTest = _tests.ElementAt(0);
+
+            if (selectedQuestion == null)
+                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
+
+            //Note that C# does not support object duplication so we need to do this manually
+            selectedTest.Questions.Add(new Question()
+            {
+                //Duplication
+                Answers = selectedQuestion.Answers,
+                Tags = selectedQuestion.Tags,
+                Author = selectedQuestion.Author,
+                Name = selectedQuestion.Name,
+                QuestionType = selectedQuestion.QuestionType,
+                QuestionText = selectedQuestion.QuestionText,
+                HasComment = selectedQuestion.HasComment,
+
+                //Test specific properties
+                Id = _questions.Count() + 1,
+                TestId = _tests.Last().Id,
+                SortOrder = 300
+            });
+
+            //We use the same database table for questions owned by tests as for questions without owner
+            _questions.Add(selectedTest.Questions.Last());
+
         }
 
         #endregion
