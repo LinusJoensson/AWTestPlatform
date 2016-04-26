@@ -8,19 +8,17 @@
     @foreach (var question in Model.Questions)
     {
         <li>
+            <div id="detailsDiv">
+
+            </div>
+
+            <br />
+
             <div style="border: solid black 1px;">
                 @question.Name
                 <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">Edit</a>
                 <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">>Remove</a>
-                
-                <button onclick="PartialUpdate(@question.Id)" id="previewId"> Preview </button>
-
-                <div id="detailsDiv">
-                    <br />
-                     @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
-                    <br /> 
-                </div>
-
+                <button onclick="PartialPreview(@question.Id)" id="previewId"> Preview </button>
             </div>
         </li>
     }
@@ -28,16 +26,15 @@
 
 <script>
 
-    function PartialUpdate(id) {
+    function PartialPreview(id) {
 
-        $.get("/Admin/PreviewQuestionPartial",
-            { id: id },
-            function (data) {
-                $("#detailsDiv").html(data);
+    $.get("/Admin/PreviewQuestionPartial",
+        { id: id },
+        function (data) {
+            $("#detailsDiv").html(data);
 
-                console.log(id);
-            });
+            console.log(id);
+        });
     }
-
 
 </script>
