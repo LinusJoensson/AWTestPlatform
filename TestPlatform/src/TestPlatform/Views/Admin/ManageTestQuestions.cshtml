@@ -12,29 +12,32 @@
                 @question.Name
                 <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">Edit</a>
                 <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">>Remove</a>
-                <button name="myButton" value="myButton" id="preview">Preview</button>
                 
-                <div id="partial">
-                    @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM);
-                </div>
-
+                <button data-url='@Url.Action("Details","Admin", new { id = question.Id } )'
+                        class="js-reload-details">
+                    Preview
+                </button>
+  
+                    <div id="detailsDiv">
+                        @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+                    </div>
             </div>
         </li>
     }
 </ul>
 
-<script type="text/javascript">
-   $(function() {
-       $('#preview').click( function() {
-           $.ajax({
-              url: '/Admin/action',
-              data: { id: 1, id: 1 },
-              dataType: 'html',
-              success: function(data) {
-                 $('#partial').html(data);
-              },
-              ...
-           });
-       });
-   });
+<script>
+
+        $('.js-reload-details').on('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        var $detailDiv = $('#detailsDiv'),
+            url = $(this).data('url');
+
+        $.get(url, function(data) {
+            $detailsDiv.replaceWith(data);
+        });
+        });
+
 </script>

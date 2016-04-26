@@ -1,11 +1,12 @@
 ﻿@model QuestionFormVM
 
+@if (Model != null)
+{
 <div class="panel panel-primary">
-
     <div class="panel-heading">
         <h1>@Model.TextQuestion</h1>
     </div>
-
+    <
     <div class="panel-body">
         @if (Model.Answers != null && Model.Answers.Count > 0)
         {   <p>Answers:</p>
@@ -102,3 +103,4 @@
         }
     </div>
 </div>
+}

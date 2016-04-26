@@ -36,11 +36,16 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
-        public PartialViewResult PreviewQuestion(int questionId)
+        public ActionResult Details(int id)
         {
-            var viewModel = repository.GetPreviewQuestion(questionId);
-
-            return PartialView("_QuestionFormPartial", viewModel);
+            var viewModelPartial = repository.GetAllQuestions().Select(o => new QuestionFormVM()
+            {
+                TextQuestion = o.QuestionText,
+                HasComment = o.HasComment,
+                QuestionType = o.QuestionType
+            });
+        
+            return PartialView("_QuestionFormPartial", viewModelPartial);
         }
 
         public IActionResult RemoveQuestion(int testId, int questionId)
