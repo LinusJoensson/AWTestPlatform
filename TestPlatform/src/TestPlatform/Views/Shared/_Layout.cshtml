@@ -6,7 +6,7 @@
     <title>@ViewBag.Title</title>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="https://code.angularjs.org/1.5.5/angular.min.js"></script>
-    <script src="https://raw.githubusercontent.com/siddii/angular-timer/master/dist/angular-timer.min.js"></script>
+    @*<script src="https://raw.githubusercontent.com/siddii/angular-timer/master/dist/angular-timer.min.js"></script>*@
     <script src="~/scripts/highchecktree.js"></script>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -20,9 +20,8 @@
 </head>
 
 <body ng-app="myApp">
-    <div>
-        <br />
-    </div>
+
+    <!-- #region Header -->
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
@@ -44,6 +43,8 @@
             </div>
         </div>
     </nav>
+    <!-- #endregion -->
+
     <div class="container">
         <div class="row">
             <div class="center-block">
@@ -54,5 +55,4 @@
         </div>
     </div>
 </body>
-
 </html>

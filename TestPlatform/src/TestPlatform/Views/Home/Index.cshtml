@@ -29,15 +29,13 @@
 
         $scope.checkCurrent = function (questionId) {
             checkboxValue = true;
-            alert(questionId);
-            alert(checkboxValue);
         };
 
         $scope.testList =
             [{
                 title: "C#-quiz",
                 isTestChecked: false,
-                tag: "C#",
+                tags: "C#",
                 questionList: [{
                     questionId: 1,
                     title: "Vad är en variabel?",
@@ -69,8 +67,9 @@
                 }
                 ]
             }];
-    }]);
 
+
+    }]);
 </script>
 
 <div class="row">
@@ -159,5 +158,7 @@
     </div>
     <hr />
     <!-- #endregion -->
+    
 </div>
+
 
