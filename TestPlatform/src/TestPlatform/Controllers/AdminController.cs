@@ -52,8 +52,13 @@ namespace TestPlatform.Controllers
         }
 
         [HttpPost]
-        public IActionResult CopyTestQuestions(int id, int[] questionId)
+        public IActionResult CopyQuestionsToTest(int id, int[] questionId)
         {
+            //TODO: review
+            //Add multiple questions in one query
+            foreach (var qId in questionId)
+                repository.AddQuestionToTest(qId, id);
+
             return View();
             //returnera thisTestData
             //Eventuellt: flytta logik till repository
