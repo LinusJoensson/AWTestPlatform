@@ -398,61 +398,12 @@ namespace TestPlatform.Repositories
         {
             return _testSessions.Single(o => o.Id == testSessionId); ;
         }
-        
-        //public EditTestContentVM GetEditTestContentVM(int testId)
-        //{
-        //    var thisTest = _tests.Find(o => o.Id == testId);
-
-        //    if (thisTest == null)
-        //        throw new Exception((testId == 0) ? "did not get a testId at method call" : $" did not find testId: {testId}");
-
-        //    var viewModel = new EditTestContentVM()
-        //    {
-        //        TestId = thisTest.Id,
-        //        TestName = thisTest.Name,
-
-        //        //Implements IGridableVM
-        //        GridAllQuestions = new GridQuestionsVM()
-        //        {
-        //            Id = thisTest.Id,
-
-        //            Items = GetAllQuestions().Where(o => o.TestId == null).Select(o => new GridItemDetailVM()
-        //            {
-        //                Id = o.Id,
-        //                Name = o.Name
-
-        //            }).ToList(),
-
-        //            ItemType = GridItemType.Question
-        //        },
-
-        //        //Implements IGridableVM
-        //        GridTestQuestions = new GridQuestionsVM()
-        //        {
-        //            Id = thisTest.Id,
-
-        //            Items = thisTest.Questions.Select(o => new GridItemDetailVM()
-        //            {
-        //                Id = o.Id,
-        //                Name = o.Name,
-
-        //            }).ToList(),
-
-        //            ItemType = GridItemType.Question
-        //        }
-
-        //    };
-
-        //    return viewModel;
-        //}
 
         public void RemoveQuestionFromTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);
             thisTest.Questions.RemoveAll(o => o.Id == questionId);
-
-            //NOTE: In this case we will be removing the question completely from the
-            //database because a question with an assigned TestId belongs to one test only 
+            
             _questions.RemoveAll(o => o.Id == questionId);
         }
 
@@ -508,22 +459,30 @@ namespace TestPlatform.Repositories
             return thisTest.Id;
         }
 
-        //public ChooseTestTemplateVM GetChooseTestTemplateVM()
-        //{
-        //    var viewModel = new ChooseTestTemplateVM()
-        //    {
-        //        GridTestsVM = new GridTestsVM()
-        //        {
-        //            Items = GetAllTests().Select(o => new GridItemDetailVM()
-        //            {
-        //                Id = o.Id,
-        //                Name = o.Name
+        public ManageTestQuestionsVM GetManageTestQuestionVM(int testId)
+        {
+            var thisTest = _tests.Single(o => o.Id == testId);
 
-        //            }).ToList(),
-        //        }
-        //    };
+            var viewModel = new ManageTestQuestionsVM()
+            {
+                testId = testId,
+                Description = thisTest.Description,
+                Questions = thisTest.Questions,
+                TestName = thisTest.Name,
+            };
 
-        //    return (viewModel);
-        //}
+            return viewModel;
+        }
+
+        public QuestionFormVM GetPreviewQuestion(int questionId)
+        {
+            var thisQuestion = _questions.Single(o => o.Id == questionId);
+            var viewModel = new QuestionFormVM()
+            {
+                TextQuestion = thisQuestion.QuestionText
+            };
+
+            return viewModel;
+        }
     }
 }

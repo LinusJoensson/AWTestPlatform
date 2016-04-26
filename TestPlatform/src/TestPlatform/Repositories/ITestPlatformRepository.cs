@@ -19,9 +19,11 @@ namespace TestPlatform.Repositories
         int StartNewSession(int userId, int testId);
         void SubmitTestSession(int testSessionId);
         TestSession GetTestSessionById(int testSessionId);
+        ManageTestQuestionsVM GetManageTestQuestionVM(int testId);
         //EditTestContentVM GetEditTestContentVM(int id);
         void RemoveQuestionFromTest(int questionId, int testId);
         int CreateTestFromTemplate(int testId);
+        QuestionFormVM GetPreviewQuestion(int questionId);
         //ChooseTestTemplateVM GetChooseTestTemplateVM();
     }
 }

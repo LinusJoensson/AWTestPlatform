@@ -29,13 +29,30 @@ namespace TestPlatform.Controllers
         }
 
         [Route("Admin/Test/{testId}")]
-        public IActionResult ViewQuestions(int testId)
+        public IActionResult ManageTestQuestions(int testId)
         {
-            return View();
+            var viewModel = repository.GetManageTestQuestionVM(testId);
+
+            return View(viewModel);
+        }
+
+        public PartialViewResult PreviewQuestion(int questionId)
+        {
+            var viewModel = repository.GetPreviewQuestion(questionId);
+
+            return PartialView("_QuestionFormPartial", viewModel);
+        }
+
+        public IActionResult RemoveQuestion(int testId, int questionId)
+        {
+            //TODO: ARE YOU SURE?
+            //Review: remove question from db...?
+            repository.RemoveQuestionFromTest(questionId, testId);
+            return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
 
         [Route("Admin/Test/{testId}/Question/{questionId}")]
-        public IActionResult CreateQuestion(int testId, int questionId)
+        public IActionResult ManageQuestion(int testId, int questionId)
         {
             return View();
         }
