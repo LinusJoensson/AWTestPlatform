@@ -22,8 +22,8 @@ namespace TestPlatform.Controllers
             return View();
         }
 
-        [Route("Admin/Test/Create")]
-        public IActionResult CreateTest()
+        [Route("Admin/Test/Settings")]
+        public IActionResult ManageTestSettings()
         {
             return View();
         }
@@ -55,7 +55,7 @@ namespace TestPlatform.Controllers
         public IActionResult CopyQuestionsToTest(int testId, int[] questionId)
         {
             //TODO: review
-            //Add multiple questions in one query
+            //Add multiple questions in one query (or Json -> Ajax)
             foreach (var qId in questionId)
                 repository.AddQuestionToTest(qId, testId);
 
