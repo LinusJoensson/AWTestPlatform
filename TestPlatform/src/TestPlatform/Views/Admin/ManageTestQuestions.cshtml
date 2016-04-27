@@ -30,10 +30,10 @@
                         @question.Name
                         <div class="buttons">
                             <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
-                                <span class="glyphicon glyphicon-pencil" style="color:khaki; font-size:x-large" title="EDIT"></span>
+                                <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="EDIT"></span>
                             </a>
                             <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
-                                <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="EDIT"></span>
+                                <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="Remove"></span>
                             </a>
                             <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
                             <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>

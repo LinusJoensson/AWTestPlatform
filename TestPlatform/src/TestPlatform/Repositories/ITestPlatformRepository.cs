@@ -24,6 +24,7 @@ namespace TestPlatform.Repositories
         void RemoveQuestionFromTest(int questionId, int testId);
         int CreateTestFromTemplate(int testId);
         QuestionFormVM GetPreviewQuestion(int questionId);
+        int CreateQuestion(Question question);
         //ChooseTestTemplateVM GetChooseTestTemplateVM();
     }
 }

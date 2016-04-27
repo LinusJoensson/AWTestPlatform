@@ -512,5 +512,31 @@ namespace TestPlatform.Repositories
 
             return viewModel;
         }
+
+        public int CreateQuestion(Question question)
+        {
+            var newQuestion = new Question()
+            {
+                TestId = question.TestId,
+                QuestionText = question.QuestionText,
+                Tags = question.Tags,
+                SortOrder = question.SortOrder,
+
+                //.....
+
+                Id = _questions.Count + 1,
+                CreatedDate = DateTime.UtcNow,
+            };
+
+            _questions.Add(newQuestion);
+
+            if(question.TestId != null)
+            { 
+                _tests.SingleOrDefault(o => o.Id == question.TestId)
+                    ?.Questions.Add(newQuestion);
+            }
+
+            return newQuestion.Id;
+        }
     }
 }

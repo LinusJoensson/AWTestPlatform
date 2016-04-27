@@ -4,10 +4,11 @@
 {
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h1>@Model.TextQuestion</h1>
+        
     </div>
     <
     <div class="panel-body">
+        <h1>@(Html.Raw(Model.TextQuestion))</h1>
         @if (Model.Answers != null && Model.Answers.Count > 0)
         {   <p>Answers:</p>
         @foreach (var answer in Model.Answers)

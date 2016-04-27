@@ -21,11 +21,33 @@ namespace TestPlatform.Controllers
         public IActionResult Dashboard()
         {
             var model = repository.GetAllTests();
-            var dashboard = new DashboardVM
+            var viewModel = new DashboardVM
             {
                 Tests = model.ToList()
             };
-            return View(dashboard);
+            return View(viewModel);
+        }
+
+
+        [Route("Admin/Test/{testId}/Question/Create")]
+        public IActionResult CreateQuestion(int testId)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Admin/Test/{testId}/Question/Create")]
+        public IActionResult CreateQuestion(EditQuestionFormVM viewModel, int testId)
+        {
+            int questionId = repository.CreateQuestion(new Question()
+            {
+                TestId = testId,
+                QuestionText = viewModel.QuestionText,
+                CreatedDate = DateTime.UtcNow,
+            }
+            );
+
+            return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
 
         [Route("Admin/Test/{testId}/Settings")]
@@ -75,7 +97,6 @@ namespace TestPlatform.Controllers
         public IActionResult RemoveQuestion(int testId, int questionId)
         {
             //TODO: ARE YOU SURE?
-            //Review: remove question from db...?
             repository.RemoveQuestionFromTest(questionId, testId);
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
@@ -83,12 +104,16 @@ namespace TestPlatform.Controllers
         [Route("Admin/Test/{testId}/Question/{questionId}")]
         public IActionResult EditQuestion(int testId, int questionId)
         {
-            return View();
-        }
+            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
 
-        [Route("Admin/Test/{testId}/Question/Create")]
-        public IActionResult CreateQuestion(int testId)
-        {
+            var viewModel = new EditQuestionFormVM()
+            {
+                Id = thisQuestion.Id,
+                HasComment = thisQuestion.HasComment,
+                QuestionText = thisQuestion.QuestionText,
+                SortOrder = (int)thisQuestion.SortOrder,
+                Type = thisQuestion.QuestionType
+            };
 
             return View();
         }
