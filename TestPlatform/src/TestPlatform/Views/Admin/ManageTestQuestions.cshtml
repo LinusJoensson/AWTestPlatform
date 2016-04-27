@@ -2,7 +2,7 @@
 <style>
     .buttons {
         display: flex;
-        padding: 25px;
+        letter-spacing: 20px;
         justify-content: flex-end;
     }
 </style>
@@ -23,11 +23,7 @@
         @foreach (var question in Model.Questions)
         {
             <tr>
-                <td>
-                    <div id="detailsDiv">
-                        @*Preview Question*@
-                        @*If possible, place beside the correct question*@
-                    </div>
+                <td></td>
             </tr>
 
             <tr>
@@ -35,10 +31,17 @@
                     @question.Name
                     <div class="buttons">
                         <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
-                        <span class="glyphicon glyphicon-pencil" style="color:khaki; font-size:x-large" title="EDIT"></span></a>
+                            <span class="glyphicon glyphicon-pencil" style="color:khaki; font-size:x-large" title="EDIT"></span>
+                        </a>
                         <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
-                            <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="EDIT"></span></a>
+                            <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="EDIT"></span>
+                        </a>
                         <button onclick="PartialPreview(@question.Id)" id="previewId"> Preview </button>
+                    </div>
+
+                    <div id="@("detailsDiv"+question.Id)">
+                        @*Preview Question*@
+                        @*If possible, place beside the correct question*@
                     </div>
                 </td>
             </tr>
@@ -53,9 +56,11 @@
         $.get("/Admin/PreviewQuestionPartial",
             { id: id },
             function (data) {
-                $("#detailsDiv").html(data);
 
-                console.log(id);
+                var divId = "#detailsDiv" + id;
+
+                $(divId).html(data);
+
             });
     }
 

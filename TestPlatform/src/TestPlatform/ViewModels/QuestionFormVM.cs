@@ -9,7 +9,6 @@ namespace TestPlatform.ViewModels
 {
     public class QuestionFormVM
     {
-        public int? previewId { get; set; }
         public string TextQuestion { get; set; }
         public bool HasComment { get; set; }
 

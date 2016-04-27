@@ -42,7 +42,6 @@ namespace TestPlatform.Controllers
                 
             var viewModelPartial = new QuestionFormVM()
             {
-                previewId = id,
                 IsInTestSession = true,
                 Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                 {
