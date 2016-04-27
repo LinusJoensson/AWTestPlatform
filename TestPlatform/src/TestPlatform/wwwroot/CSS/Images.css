@@ -1,0 +1,22 @@
+﻿/*---------------------------------------------------------------------------
+                           BACKGROUND PICTURE 
+---------------------------------------------------------------------------*/
+
+.bgPicture {
+    margin-top: -80px;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* This image will be displayed fullscreen */
+    background-color: lightgray;
+    /*background: url("../../../Images/MoodPictures/BLUR1.jpg") no-repeat center center;*/
+    /* Ensure the html element always takes up the full height of the browser window */
+    min-height: 100%;
+    /* The Magic */
+    background-size: cover;
+    /*-webkit-filter: blur(1px);*/
+}
