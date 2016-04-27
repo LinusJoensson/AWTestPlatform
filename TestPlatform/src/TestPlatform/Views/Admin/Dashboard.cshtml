@@ -1,1 +1,24 @@
-﻿
+﻿@model DashboardVM
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>
+                <a asp-controller="Admin" asp-action="CreateTest">Create Test</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="table">
+        @foreach (var test in Model.Tests)
+        {
+            <tr>
+                <td>
+                    @test.Name
+                    @test.Description
+                    <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id">Edit test</a>
+                    <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id">Edit questions</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

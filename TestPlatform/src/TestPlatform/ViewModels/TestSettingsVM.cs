@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestPlatform.ViewModels
 {
-    public class ManageTestSettingsVM
+    public class TestSettingsVM
     {
         public int? Id { get; set; }
 

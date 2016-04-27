@@ -1,10 +1,8 @@
 ﻿@model TestSettingsVM
-
-<h1>Create a new test</h1>
-<form asp-controller="Admin" asp-action="CreateTest">
+<form asp-controller="Admin" asp-action="EditTestSettings">
     <label asp-for="TestName"></label>
     <input asp-for="TestName" />
     <span asp-validation-for="TestName"></span>
     <br />
-    <input type="submit" value="Save" />
+    <input type="submit" value="Save"/>
 </form>

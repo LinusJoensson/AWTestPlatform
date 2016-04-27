@@ -19,14 +19,46 @@ namespace TestPlatform.Controllers
 
         public IActionResult Dashboard()
         {
-            return View();
+            var model = repository.GetAllTests();
+            var dashboard = new DashboardVM
+            {
+                Tests = model.ToList()
+            };
+            return View(dashboard);
         }
 
-        [Route("Admin/Test/Settings")]
-        public IActionResult ManageTestSettings()
+        [Route("Admin/Test/{testId}/Settings")]
+        public IActionResult EditTestSettings(int testId)
+        {
+            var model = repository.GetAllTests()
+                .Where(o => o.Id == testId)
+                .Select(o=> new TestSettingsVM
+                {
+                    Id = o.Id,
+                    TestName = o.Name,
+                    Description = o.Description,
+                    Tags = o.Tags/*,*/
+                    //TimeLimit = o.TimeLimit
+                })
+                .SingleOrDefault();
+            return View(model);
+        }
+
+        [Route("Admin/Test/Create")]
+        public IActionResult CreateTest()
         {
             return View();
         }
+
+        [Route("Admin/Test/Create")]
+        [HttpPost]
+        public IActionResult CreateTest(TestSettingsVM model)
+        {
+            //TODO: add test to db
+            var testId = 1;
+            return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
+        }
+
 
         [Route("Admin/Test/{testId}")]
         public IActionResult ManageTestQuestions(int testId)
