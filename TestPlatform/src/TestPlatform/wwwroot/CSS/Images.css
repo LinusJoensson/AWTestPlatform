@@ -4,7 +4,7 @@
 
 .bgPicture {
     margin-top: -80px;
-    position: fixed;
+    /*position: fixed;*/
     padding: 0;
     margin: 0;
     top: 0;
@@ -19,4 +19,8 @@
     /* The Magic */
     background-size: cover;
     /*-webkit-filter: blur(1px);*/
+}
+
+body {
+    background-color: lightgray;
 }
