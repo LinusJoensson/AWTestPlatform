@@ -1,10 +1,25 @@
 ﻿@model TestSettingsFormVM
 
-<h1>Create a new test</h1>
 <form asp-controller="Admin" asp-action="CreateTest">
-    <label asp-for="TestName"></label>
-    <input asp-for="TestName" />
-    <span asp-validation-for="TestName"></span>
-    <br />
-    <input type="submit" value="Save" />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-2 hidden-xs"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8 col-sx-12 whiteSquare">
+                <h1>Create Test</h1>
+                <label asp-for="TestName"></label>
+                <input asp-for="TestName" class="form-control" />
+                <span asp-validation-for="TestName"></span>
+                <br />
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description"></span>
+                <br />
+                <label asp-for="Tags"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags"></span>
+                <input type="submit" value="Create Test" class="form-control OrcaQuizzBtn"/>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-2 hidden-xs"></div>
+        </div>
+    </div>
 </form>

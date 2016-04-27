@@ -57,7 +57,8 @@ namespace TestPlatform.Controllers
         {
             var testId = repository.CreateTest(new Test()
             {
-                Name = model.TestName
+                Name = model.TestName,
+                Description = model.Description
             });
 
             return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
