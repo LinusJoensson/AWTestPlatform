@@ -63,39 +63,12 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
         }
 
-
         [Route("Admin/Test/{testId}")]
         public IActionResult ManageTestQuestions(int testId)
         {
             var viewModel = repository.GetManageTestQuestionVM(testId);
 
             return View(viewModel);
-        }
-
-        public ActionResult PreviewQuestionPartial(int id)
-        {
-            var thisQuestion = repository.GetAllQuestions().Single(o => o.Id == id);
-                
-            var viewModelPartial = new QuestionFormVM()
-            {
-                IsInTestSession = true,
-                Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
-                {
-                    AnswerId = o.Id,
-                    AnswerText = o.AnswerText,
-                    ShowAsCorrect = o.IsCorrect,
-                    IsChecked = o.IsCorrect
-                }).ToList(),
-                TextQuestion = thisQuestion.QuestionText,
-                HasComment = thisQuestion.HasComment,
-                QuestionType = thisQuestion.QuestionType
-            };
-
-            if (viewModelPartial == null)
-                throw new Exception();
-            
-        
-            return PartialView("_QuestionFormPartial", viewModelPartial);
         }
 
         public IActionResult RemoveQuestion(int testId, int questionId)
@@ -190,6 +163,32 @@ namespace TestPlatform.Controllers
             };
 
             return Json(viewModel);
+        }
+
+        public ActionResult PreviewQuestionPartial(int id)
+        {
+            var thisQuestion = repository.GetAllQuestions().Single(o => o.Id == id);
+
+            var viewModelPartial = new QuestionFormVM()
+            {
+                IsInTestSession = true,
+                Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                {
+                    AnswerId = o.Id,
+                    AnswerText = o.AnswerText,
+                    ShowAsCorrect = o.IsCorrect,
+                    IsChecked = o.IsCorrect
+                }).ToList(),
+                TextQuestion = thisQuestion.QuestionText,
+                HasComment = thisQuestion.HasComment,
+                QuestionType = thisQuestion.QuestionType
+            };
+
+            if (viewModelPartial == null)
+                throw new Exception();
+
+
+            return PartialView("_QuestionFormPartial", viewModelPartial);
         }
     }
 }
