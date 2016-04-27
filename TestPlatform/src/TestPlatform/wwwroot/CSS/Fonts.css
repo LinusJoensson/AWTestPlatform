@@ -3,3 +3,40 @@
     font-size: 16px; 
     font-weight: 400;
 }
+
+h1 {
+    font-family: Lora; 
+    font-size: 42px; 
+    font-weight: 700;
+}
+
+h2 {
+    font-family: Lora; 
+    font-size: 28px; 
+    font-weight: 700;
+}
+
+h3 {
+    font-family: Lora; 
+    font-size: 22px; 
+    font-weight: 700;
+}
+
+h4 {
+    font-family: Lora; 
+    font-size: 16px; 
+    font-weight: 700;
+}
+
+h5 {
+    font-family: Lora; 
+    font-style: italic;
+    font-size: 16px; 
+    font-weight: 400;
+}
+
+h6 {
+    font-family: Lora; 
+    font-size: 14px; 
+    font-weight: 700;
+}
