@@ -23,5 +23,7 @@ namespace TestPlatform.ViewModels
         [Display(Name = "Question type")]
         [Required(ErrorMessage = "Must choose a type.")]
         public QuestionType Type { get; set; }
+
+        public List<AnswerDetailVM> Answers { get; set; }
     }
 }
