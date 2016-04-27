@@ -69,7 +69,7 @@ namespace TestPlatform.Controllers
             repository.RemoveQuestionFromTest(questionId, testId);
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
-
+         
         [Route("Admin/Test/{testId}/Question/{questionId}")]
         public IActionResult ManageQuestion(int testId, int questionId)
         {
