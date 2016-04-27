@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestPlatform.Models;
 using TestPlatform.Repositories;
 using TestPlatform.ViewModels;
 
@@ -54,8 +55,11 @@ namespace TestPlatform.Controllers
         [HttpPost]
         public IActionResult CreateTest(TestSettingsVM model)
         {
-            //TODO: add test to db
-            var testId = 1;
+            var testId = repository.CreateTest(new Test()
+            {
+                Name = model.TestName
+            });
+
             return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
         }
 
