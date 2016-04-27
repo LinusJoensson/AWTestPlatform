@@ -33,7 +33,7 @@ namespace TestPlatform.Controllers
         {
             var model = repository.GetAllTests()
                 .Where(o => o.Id == testId)
-                .Select(o=> new TestSettingsVM
+                .Select(o=> new TestSettingsFormVM
                 {
                     Id = o.Id,
                     TestName = o.Name,
@@ -53,7 +53,7 @@ namespace TestPlatform.Controllers
 
         [Route("Admin/Test/Create")]
         [HttpPost]
-        public IActionResult CreateTest(TestSettingsVM model)
+        public IActionResult CreateTest(TestSettingsFormVM model)
         {
             var testId = repository.CreateTest(new Test()
             {
