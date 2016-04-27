@@ -6,6 +6,7 @@
     }
 </style>
 
+<h1>Manage Test Questions</h1>
 <p>@Model.TestName</p>
 <p>@Model.Description</p>
 
@@ -34,12 +35,12 @@
                         <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
                             <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="EDIT"></span>
                         </a>
-                        <button onclick="PartialPreview(@question.Id)" id="previewId"> Preview </button>
+                        <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
+                        <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>
+
                     </div>
 
                     <div id="@("detailsDiv"+question.Id)">
-                        @*Preview Question*@
-                        @*If possible, place beside the correct question*@
                     </div>
                 </td>
             </tr>
@@ -55,11 +56,33 @@
             { id: id },
             function (data) {
 
+                var buttonPrevId = "#btnPreview" + id;
+                var buttonHideId = "#btnHide" + id;
+
+                $(buttonPrevId).hide();
+                $(buttonHideId).show();
+
                 var divId = "#detailsDiv" + id;
 
                 $(divId).html(data);
+                $(divId).show();
 
             });
     }
+
+    function PartialHide(id) {
+
+        var buttonPrevId = "#btnPreview" + id;
+        var buttonHideId = "#btnHide" + id;
+
+        $(buttonPrevId).show();
+        $(buttonHideId).hide();
+
+        var divId = "#detailsDiv" + id;
+        $(divId).hide();
+
+    }
+
+
 
 </script>
