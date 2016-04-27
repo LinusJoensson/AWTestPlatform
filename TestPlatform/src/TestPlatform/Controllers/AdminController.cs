@@ -71,8 +71,15 @@ namespace TestPlatform.Controllers
         }
          
         [Route("Admin/Test/{testId}/Question/{questionId}")]
-        public IActionResult ManageQuestion(int testId, int questionId)
+        public IActionResult EditQuestion(int testId, int questionId)
         {
+            return View();
+        }
+
+        [Route("Admin/Test/{testId}/Question/Create")]
+        public IActionResult CreateQuestion(int testId)
+        {
+
             return View();
         }
 

@@ -10,79 +10,79 @@
 <p>@Model.TestName</p>
 <p>@Model.Description</p>
 
-<table class="table table-responsive">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody class="table table table">
-        @foreach (var question in Model.Questions)
-        {
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-questionId="@Model." asp-route-testId="@Model.testId">
+</a>
+    <table class="table table-responsive">
+        <thead>
             <tr>
-                <td></td>
+                <th></th>
+                <th></th>
             </tr>
+        </thead>
 
-            <tr>
-                <td>
-                    @question.Name
-                    <div class="buttons">
-                        <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
-                            <span class="glyphicon glyphicon-pencil" style="color:khaki; font-size:x-large" title="EDIT"></span>
-                        </a>
-                        <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
-                            <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="EDIT"></span>
-                        </a>
-                        <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
-                        <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>
+        <tbody class="table">
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td></td>
+                </tr>
 
-                    </div>
+                <tr>
+                    <td>
+                        @question.Name
+                        <div class="buttons">
+                            <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
+                                <span class="glyphicon glyphicon-pencil" style="color:khaki; font-size:x-large" title="EDIT"></span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.testId">
+                                <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="EDIT"></span>
+                            </a>
+                            <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
+                            <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>
 
-                    <div id="@("detailsDiv"+question.Id)">
-                    </div>
-                </td>
-            </tr>
+                        </div>
+
+                        <div id="@("detailsDiv"+question.Id)">
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+
+        function PartialPreview(id) {
+
+            $.get("/Admin/PreviewQuestionPartial",
+                { id: id },
+                function (data) {
+
+                    var buttonPrevId = "#btnPreview" + id;
+                    var buttonHideId = "#btnHide" + id;
+
+                    $(buttonPrevId).hide();
+                    $(buttonHideId).show();
+
+                    var divId = "#detailsDiv" + id;
+
+                    $(divId).html(data);
+                    $(divId).show();
+
+                });
         }
-    </tbody>
-</table>
 
-<script>
+        function PartialHide(id) {
 
-    function PartialPreview(id) {
+            var buttonPrevId = "#btnPreview" + id;
+            var buttonHideId = "#btnHide" + id;
 
-        $.get("/Admin/PreviewQuestionPartial",
-            { id: id },
-            function (data) {
+            $(buttonPrevId).show();
+            $(buttonHideId).hide();
 
-                var buttonPrevId = "#btnPreview" + id;
-                var buttonHideId = "#btnHide" + id;
+            var divId = "#detailsDiv" + id;
+            $(divId).hide();
 
-                $(buttonPrevId).hide();
-                $(buttonHideId).show();
+        }
 
-                var divId = "#detailsDiv" + id;
-
-                $(divId).html(data);
-                $(divId).show();
-
-            });
-    }
-
-    function PartialHide(id) {
-
-        var buttonPrevId = "#btnPreview" + id;
-        var buttonHideId = "#btnHide" + id;
-
-        $(buttonPrevId).show();
-        $(buttonHideId).hide();
-
-        var divId = "#detailsDiv" + id;
-        $(divId).hide();
-
-    }
-
-
-
-</script>
+    </script>
