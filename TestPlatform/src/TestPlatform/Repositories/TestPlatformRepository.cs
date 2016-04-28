@@ -571,5 +571,10 @@ namespace TestPlatform.Repositories
             return answer.Id;
             
         }
+
+        public Answer[] GetAllAnswers()
+        {
+            return _answers.ToArray();
+        }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model AnswerDetailVM
+
+<h1>Answer ID: @Model.AnswerId</h1>
+<h2>@Model.AnswerText</h2>
+
+<div>
+    <textarea asp-for="@Model.AnswerText" placeholder="" id="mceAnswerBox" class="mceAnswerBox"></textarea><span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
+    <button value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"> SAVE </button>
+</div>
+
+
+<script>
+
+    function PartialEditAnswer(answerId) {
+     
+        var answerText = tinymce.get('mceAnswerBox').getContent();
+
+        $.post("/Admin/EditAnswerPartial",
+            { answerId: answerId, answerText: answerText },
+            function (data) {
+
+                var listAnswerDiv = "#listAnswerDiv" + answerId;
+                var editAnswerDiv = "#editAnswerDiv" + answerId;
+
+                $(editAnswerDiv).hide();
+                $(listAnswerDiv).show();
+
+            });
+    }
+
+    //-------
+
+    tinymce.init({
+        selector: '.mceAnswerBox',
+        height: 100,
+        width: 800,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code',
+            'textcolor colorpicker'
+        ],
+        toolbar: 'media | forecolor backcolor | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        content_css: [
+            '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+            '//www.tinymce.com/css/codepen.min.css'
+        ]
+    });
+
+</script>

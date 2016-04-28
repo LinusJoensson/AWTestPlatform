@@ -1,52 +1,95 @@
 ﻿@model EditQuestionFormVM
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8 col-sx-12">
+            <form asp-action="UpdateQuestion" asp-controller="Admin" role="form" class="form-inline">
+                <div class="container-fluid">
+                    <div class="row">
+                        <textarea asp-for="QuestionText" placeholder="QuestionText" id="mceQuestionBox"></textarea>
+                        <span asp-validation-for="QuestionText" class="text-danger"></span>
+                        <br />
+                        <label asp-for="SortOrder"></label>
+                        <input asp-for="SortOrder" placeholder="Sort order" />
+                        <span asp-validation-for="SortOrder" class="text-danger"></span>
 
-<form asp-action="UpdateQuestion" asp-controller="Admin" role="form" class="form-inline">
-    <div class="container-fluid">
-        <div class="row">
-            <textarea asp-for="QuestionText" placeholder="QuestionText" id="mceQuestionBox"></textarea>
-            <span asp-validation-for="QuestionText" class="text-danger"></span>
-            <br />
-            <label asp-for="SortOrder"></label>
-            <input asp-for="SortOrder" placeholder="Sort order" />
-            <span asp-validation-for="SortOrder" class="text-danger"></span>
+                        <label asp-for="HasComment"></label>
+                        <input asp-for="HasComment" placeholder="Question" />
+                        <span asp-validation-for="HasComment" class="text-danger"></span>
 
-            <label asp-for="HasComment"></label>
-            <input asp-for="HasComment" placeholder="Question" />
-            <span asp-validation-for="HasComment" class="text-danger"></span>
+                        <div class="form-group">
+                            <label asp-for="Type"></label>
+                            <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemTypes" onchange="TypeChanged()"></select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" style="justify-content: center" class="btn btn-success" value="Save Changes" />
 
-            <div class="form-group">
-                <label asp-for="Type"></label>
-                <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemTypes" onchange="TypeChanged()"></select>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
+
+            </form>
 
             <div id="answers">
+                <br />
+                <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.Id">
+                    <input type="submit" style="justify-content: center" class="btn btn-success" value="Add New Answer" />
+                </a>
+                <br />
+                <table class="table table-responsive">
+                    <tbody class="table">
 
-                @if (Model.Answers != null)
-                {
-                        @foreach (var answer in Model.Answers)
+                        @if (Model.Answers != null)
                         {
-                            <div class="mceAnswerBox">
-                                <textarea asp-for="@answer.AnswerText" placeholder=""></textarea>
-                                <span asp-validation-for="@answer.AnswerText" class="text-danger"></span>
-                            </div>
+                            @foreach (var answer in Model.Answers)
+                            {
+                                <tr>
+                                    <td>
+                                        <div id=@("listAnswerDiv"+answer.AnswerId)>
+                                            @answer.AnswerText
+                                            <button onclick="PartialEditAnswer(@answer.AnswerId)" id="@("editAnswerButton"+answer.AnswerId)">EDIT</button>
+                                        </div>
+                                    
+                                    
+                                        <div id=@("editAnswerDiv"+answer.AnswerId) hidden="hidden">
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
                         }
-                }
+
+                        </tbody>
+                </table>
 
             </div>
-
-            <input type="submit" class="btn btn-success" value="UpdateQuestion" />
         </div>
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
     </div>
-</form>
+</div>
 
-<a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.Id">
-    ADD NEW ANSWER
-</a>
+
+@*----------------------------------------------------------------------------------------*@
+@*----------------------------------------------------------------------------------------*@
 
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <script>
+
+    function PartialEditAnswer(id) {
+
+        $.get("/Admin/ListAnswerPartial",
+            { id: id },
+            function (data) {
+
+                var listAnswerDiv = "#listAnswerDiv" + id;
+                var editAnswerDiv = "#editAnswerDiv" + id;
+
+                $(listAnswerDiv).hide();
+
+                $(editAnswerDiv).html(data);
+                $(editAnswerDiv).show();
+            });
+    }
 
     function TypeChanged() {
         var questionType = document.getElementById('dropQuestionType');
@@ -54,12 +97,10 @@
 
         if (questionTypeToString == "Multiple Choice"
             ||
-            questionTypeToString == "Single Choice")
-        {
+            questionTypeToString == "Single Choice") {
             $("#answers").show();
         }
-        else 
-        {
+        else {
             $("#answers").hide();
         }
     }
@@ -72,7 +113,7 @@
     tinymce.init({
         selector: 'textarea#mceQuestionBox',
         height: 100,
-        width: 800,
+        width: 1000,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
@@ -86,25 +127,7 @@
         ]
     });
 
-    //------------------------------------------------------------------//
 
-    tinymce.init({
-        selector: '.mceAnswerBox',
-        height: 100,
-        width: 500,
-        plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table contextmenu paste code',
-            'textcolor colorpicker'
-        ],
-        toolbar: 'media | forecolor backcolor | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-        content_css: [
-            '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
-            '//www.tinymce.com/css/codepen.min.css'
-        ]
-    });
 
-    //------------------------------------------------------------------//
 
 </script>
