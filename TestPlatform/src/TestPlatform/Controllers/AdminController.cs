@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TestPlatform.Models;
+using TestPlatform.Models.Enums;
 using TestPlatform.Repositories;
 using TestPlatform.ViewModels;
 
@@ -21,32 +24,80 @@ namespace TestPlatform.Controllers
         public IActionResult Dashboard()
         {
             var model = repository.GetAllTests();
-            var viewModel = new DashboardVM
+            var viewModel = new DashboardVM()
             {
                 Tests = model.ToList()
             };
             return View(viewModel);
         }
 
+        [Route("Admin/Test/{testId}/Question/{questionId}/Answer/Create")]
+        public IActionResult CreateAnswer(int testId, int questionId)
+        {
+            int answerId = repository.CreateAnswer(questionId);
+
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
+        }
 
         [Route("Admin/Test/{testId}/Question/Create")]
         public IActionResult CreateQuestion(int testId)
         {
-            return View();
-        }
-
-        [HttpPost]
-        [Route("Admin/Test/{testId}/Question/Create")]
-        public IActionResult CreateQuestion(EditQuestionFormVM viewModel, int testId)
-        {
             int questionId = repository.CreateQuestion(new Question()
             {
                 TestId = testId,
-                QuestionText = viewModel.QuestionText,
                 CreatedDate = DateTime.UtcNow,
-            }
-            );
+            });
 
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId } );
+        }
+
+        [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
+        public IActionResult UpdateQuestion(int testId, int questionId)
+        {
+            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+
+
+            var viewModel = new EditQuestionFormVM()
+            {
+                ItemTypes = new SelectListItem[]
+                {
+                    new SelectListItem { Value = ((int)QuestionType.SingleChoice).ToString(), Text="Single Choice"},
+                    new SelectListItem { Value = ((int)QuestionType.MultipleChoice).ToString(), Text="Multiple Choice"},
+                    new SelectListItem { Value = ((int)QuestionType.TextSingleLine).ToString(), Text="Single Line Text"},
+                    new SelectListItem { Value = ((int)QuestionType.TextMultiLine).ToString(), Text="Multi Line Text"}
+                },
+                TestId = testId,
+                Id = questionId,
+                Answers = new List<AnswerDetailVM>()
+            };
+
+            if (thisQuestion != null)
+            {
+                foreach (var answer in thisQuestion.Answers)
+                {
+                    viewModel.Answers.Add(new AnswerDetailVM()
+                    {
+                        AnswerId = answer.Id,
+                        AnswerText = answer.AnswerText,
+                        ShowAsCorrect = answer.IsCorrect,
+                        IsChecked = answer.IsCorrect
+                    });
+                }
+            }
+            else
+                throw new Exception("question is null");
+
+            return View(viewModel);
+            
+        }
+        
+        [HttpPost]
+        [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
+        public IActionResult UpdateQuestion(EditQuestionFormVM viewModel, int testId, int questionId)
+        {
+            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+            thisQuestion.QuestionText = viewModel.QuestionText;
+            
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
 
@@ -55,7 +106,7 @@ namespace TestPlatform.Controllers
         {
             var model = repository.GetAllTests()
                 .Where(o => o.Id == testId)
-                .Select(o=> new TestSettingsFormVM
+                .Select(o => new TestSettingsFormVM
                 {
                     Id = o.Id,
                     TestName = o.Name,
@@ -99,23 +150,6 @@ namespace TestPlatform.Controllers
             //TODO: ARE YOU SURE?
             repository.RemoveQuestionFromTest(questionId, testId);
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
-        }
-         
-        [Route("Admin/Test/{testId}/Question/{questionId}")]
-        public IActionResult EditQuestion(int testId, int questionId)
-        {
-            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
-
-            var viewModel = new EditQuestionFormVM()
-            {
-                Id = thisQuestion.Id,
-                HasComment = thisQuestion.HasComment,
-                QuestionText = thisQuestion.QuestionText,
-                SortOrder = (int)thisQuestion.SortOrder,
-                Type = thisQuestion.QuestionType
-            };
-
-            return View();
         }
 
         [Route("Admin/Test/{testId}/Import")]

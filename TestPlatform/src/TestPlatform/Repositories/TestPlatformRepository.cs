@@ -493,7 +493,7 @@ namespace TestPlatform.Repositories
 
             var viewModel = new ManageTestQuestionsVM()
             {
-                testId = testId,
+                TestId = testId,
                 Description = thisTest.Description,
                 Questions = thisTest.Questions,
                 TestName = thisTest.Name,
@@ -537,6 +537,39 @@ namespace TestPlatform.Repositories
             }
 
             return newQuestion.Id;
+        }
+
+        public int CreateAnswer(int questionId, AnswerDetailVM viewModel)
+        {
+            var answer = new Answer()
+            {
+                Id = _answers.Count() + 1,
+                AnswerText = viewModel.AnswerText,
+                IsCorrect = viewModel.ShowAsCorrect,
+                QuestionId = questionId,
+            };
+
+            _answers.Add(answer);
+            _questions.SingleOrDefault(o => o.Id == questionId)?
+                .Answers.Add(answer);
+
+
+            return answer.Id; 
+        }
+
+        public int CreateAnswer(int questionId)
+        {
+            var answer = new Answer()
+            {
+                Id = _answers.Count() + 1
+            };
+
+            _answers.Add(answer);
+            _questions.SingleOrDefault(o => o.Id == questionId)?
+                .Answers.Add(answer);
+
+            return answer.Id;
+            
         }
     }
 }

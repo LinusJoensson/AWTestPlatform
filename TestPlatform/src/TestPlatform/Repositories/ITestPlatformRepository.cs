@@ -22,6 +22,8 @@ namespace TestPlatform.Repositories
         ManageTestQuestionsVM GetManageTestQuestionVM(int testId);
         //EditTestContentVM GetEditTestContentVM(int id);
         void RemoveQuestionFromTest(int questionId, int testId);
+        int CreateAnswer(int questionId);
+        int CreateAnswer(int questionId, AnswerDetailVM viewModel);
         int CreateTestFromTemplate(int testId);
         QuestionFormVM GetPreviewQuestion(int questionId);
         int CreateQuestion(Question question);

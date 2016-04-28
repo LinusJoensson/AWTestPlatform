@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +10,13 @@ namespace TestPlatform.ViewModels
 {
     public class EditQuestionFormVM
     {
+        public int TestId { get; set; }
+
+        public SelectListItem[] ItemTypes { get; set; }
+        public List<AnswerDetailVM> Answers { get; set; }
+
         public int Id { get; set; }
+
         [Required(ErrorMessage = "A Question is required")]
         public string QuestionText { get; set; }
 
@@ -23,7 +30,6 @@ namespace TestPlatform.ViewModels
         [Display(Name = "Question type")]
         [Required(ErrorMessage = "Must choose a type.")]
         public QuestionType Type { get; set; }
-
-        public List<AnswerDetailVM> Answers { get; set; }
+        
     }
 }

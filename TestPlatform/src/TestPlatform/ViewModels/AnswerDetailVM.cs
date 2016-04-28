@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestPlatform.ViewModels
 {
+    [Bind(Prefix = nameof(EditQuestionFormVM.Answers))]
     public class AnswerDetailVM
     {
         public int AnswerId { get; set; }
