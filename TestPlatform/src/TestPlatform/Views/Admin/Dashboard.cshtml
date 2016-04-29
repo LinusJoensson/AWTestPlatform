@@ -1,15 +1,16 @@
 ﻿@model DashboardVM
 <div class="container-fluid">
     <div class="row">
-        <div id="leftColumn" class="col-lg-3 col-md-3 col-sm-1 hidden-xs"></div>
-        <div id="mainColumn" class="col-lg-6 col-md-6 col-sm-10 col-xs-12 whiteSquare">
+        <div id="leftColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
+        <div id="mainColumn" class="col-lg-8 col-md-10 col-sm-12 col-xs-12 transparentWhiteSquare">
             <h1>Dashboard</h1>
             <a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn">Create Test</button></a>
             <div style="display:inline">
                 @foreach (var test in Model.Tests)
                 {
-                    <div style="background-color: white; padding: 20px;">
-                        <p class="onTheLine">@test.Name</p>
+                    <div class="whiteSquare">
+                        <p class="pBold onTheLine">@test.Name</p>
+                        <p class="pBold onTheLine rightMargin10">: </p>
                         <p class="onTheLine">@test.Description</p>
                         <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><button class="orcaBtn" style="float: right;">Change Quizz Name</button></a>
                         <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id"><button class="orcaBtn" style="float: right;">Manage questions</button></a>
@@ -18,7 +19,7 @@
             </div>
 
         </div>
-        <div id="rightColumn" class="col-lg-3 col-md-3 col-sm-1 hidden-xs"></div>
+        <div id="rightColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
     </div>
 </div>
 
