@@ -1,13 +1,13 @@
 ﻿@model EditQuestionFormVM
 <div class="row">
     <div id="leftColumn" class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
-    <div id="mainColumn" class="col-lg-8 col-md-8 col-sm-10 col-xs-10 whiteSquare">
+    <div id="mainColumn" class="col-lg-8 col-md-8 col-sm-10 col-xs-10 transparentWhiteSquare">
         <form asp-action="UpdateQuestion" asp-controller="Admin" role="form" class="form-inline">
             <div>
                 <textarea asp-for="QuestionText" placeholder="" class="tinyMCE" id="mceQuestionBox"></textarea>
                 <span asp-validation-for="QuestionText" class="text-danger"></span>
 
-                <div class="whiteSquare">
+                <div class="transparentWhiteSquare">
                     <br />
                     <label asp-for="SortOrder"></label>
                     <input asp-for="SortOrder" placeholder="Sort order" />
