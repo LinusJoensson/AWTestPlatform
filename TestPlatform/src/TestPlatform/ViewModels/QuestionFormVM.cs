@@ -10,6 +10,7 @@ namespace TestPlatform.ViewModels
     public class QuestionFormVM
     {
         public string TextQuestion { get; set; }
+        public int MyProperty { get; set; }
         public bool HasComment { get; set; }
 
         [DataType(DataType.MultilineText)]

@@ -19,7 +19,9 @@
             @foreach (var question in Model.Questions)
             {
                 <div class="questionBackground">
-                    @question.Name
+                    @(Html.Raw((question.QuestionText).ToString()
+                    .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 100)) + "....."))
+
                     <div class="buttons">
                         <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
                             <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="Edit"></span>
