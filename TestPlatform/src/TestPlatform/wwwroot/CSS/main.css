@@ -19,6 +19,26 @@
                               BUTTON
 ---------------------------------------------------------------------------*/
 
+.awesomeQuizzBtn {
+    background-color: #337AB7; /* Blue */
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-family: Lato !important;
+    font-size: 16px !important;
+    letter-spacing: 1px !important;
+    font-weight: 400 !important;
+    text-decoration: none;
+    padding:8px;
+    margin-top:-8px;
+    margin-right:4px;
+}
+
+ .OrcaQuizzBtn:hover {
+        opacity: 1;
+    background-color: #2b679b; /* Blue */
+    }
+
 .OrcaQuizzBtn {
     background-color: #337AB7; /* Blue */
     border: none;
@@ -42,14 +62,14 @@
     /*-webkit-transition: all 0.6s ease;*/
 }
 
-.btnLong {
+    .awesomeQuizzBtn:hover {
+        opacity: 1;
+        background-color: #2b679b; /* Blue */
+    }
+
+    .btnLong {
 width: 200px !important;
 }
-
-    .OrcaQuizzBtn:hover {
-        opacity: 1;
-    background-color: #2b679b; /* Blue */
-    }
 
 /*---------------------------------------------------------------------------
                             WHITE BACKGROUND 
