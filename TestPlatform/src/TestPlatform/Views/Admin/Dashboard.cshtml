@@ -4,7 +4,7 @@
         <div id="leftColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
         <div id="mainColumn" class="col-lg-8 col-md-10 col-sm-12 col-xs-12 transparentWhiteSquare">
             <h1>Dashboard</h1>
-            <a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn">Create Test</button></a>
+            <a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn btnMedium buttonWidth120 topBottomMargin20">Create Test</button></a>
             <div style="display:inline">
                 @foreach (var test in Model.Tests)
                 {
