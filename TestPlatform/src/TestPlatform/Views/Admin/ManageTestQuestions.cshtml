@@ -1,80 +1,71 @@
 ﻿@model ManageTestQuestionsVM
-<div class="row">
-    <div id="leftColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
-    <div id="mainColumn" class="col-lg-6 col-md-6 col-sm-10 col-xs-10 transparentWhiteSquare">
-        <style>
-            .buttons {
-                display: flex;
-                justify-content: flex-end;
-            }
-        </style>
+<style>
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+    }
+</style>
+<h1>Manage Test Questions</h1>
+<h3>@Model.TestName</h3>
+<p>@Model.Description</p>
 
-        <h1>Manage Test Questions</h1>
-        <p>@Model.TestName</p>
-        <p>@Model.Description</p>
-
-        <a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn">Create New Question</button></a>
-        <a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn">Import Questions</button></a>
-        <div>
-            @foreach (var question in Model.Questions)
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
+<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
+<div>
+    @foreach (var question in Model.Questions)
             {
-                <div class="questionBackground">
-                    @question.Name
-                    <div class="buttons">
-                        <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                            <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="Edit"></span>
-                        </a>
-                        <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                            <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="Remove"></span>
-                        </a>
-                        <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
-                        <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>
+        <div class="whiteSquare BottomMargin20">
+            @question.Name
+            <div class="buttons">
+                <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                    <button class="orcaBtn rightMargin10"><span class="fa fa-pencil rightMargin5" title="Edit"></span>Edit</button>
+                </a>
+                <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                    <button class="orcaBtn bgRed rightMargin10"><span class="fa fa-trash rightMargin5" title="Remove"></span>Delete</button>
+                </a>
+                <button class="orcaBtn" onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"><span class="fa fa-eye rightMargin5"></span>Preview</button>
+                <button class="orcaBtn" onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"><span class="fa fa-eye-slash rightMargin5"></span>Hide</button>
 
-                    </div>
+            </div>
 
-                    <div id="@("detailsDiv"+question.Id)">
-                    </div>
-                </div>
-            }
+            <div id="@("detailsDiv"+question.Id)"></div>
         </div>
+    }
+</div>
 
-        <script>
+<button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed">Go Back</button>
+<a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth120 TopMargin20">Save</button></a>
 
-            function PartialPreview(id) {
-
-                $.get("/Admin/PreviewQuestionPartial",
-                    { id: id },
-                    function (data) {
-
-                        var buttonPrevId = "#btnPreview" + id;
-                        var buttonHideId = "#btnHide" + id;
-
-                        $(buttonPrevId).hide();
-                        $(buttonHideId).show();
-
-                        var divId = "#detailsDiv" + id;
-
-                        $(divId).html(data);
-                        $(divId).show();
-
-                    });
-            }
-
-            function PartialHide(id) {
+<script>
+    function PartialPreview(id) {
+        $.get("/Admin/PreviewQuestionPartial",
+            { id: id },
+            function (data) {
 
                 var buttonPrevId = "#btnPreview" + id;
                 var buttonHideId = "#btnHide" + id;
 
-                $(buttonPrevId).show();
-                $(buttonHideId).hide();
+                $(buttonPrevId).hide();
+                $(buttonHideId).show();
 
                 var divId = "#detailsDiv" + id;
-                $(divId).hide();
 
-            }
+                $(divId).html(data);
+                $(divId).show();
+            });
+    }
 
-        </script>
+    function PartialHide(id) {
 
-    </div>
-    <div id="rightColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
-</div>
+        var buttonPrevId = "#btnPreview" + id;
+        var buttonHideId = "#btnHide" + id;
+
+        $(buttonPrevId).show();
+        $(buttonHideId).hide();
+
+        var divId = "#detailsDiv" + id;
+        $(divId).hide();
+    }
+</script>
+
+

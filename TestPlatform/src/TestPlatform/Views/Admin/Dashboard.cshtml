@@ -1,25 +1,17 @@
 ﻿@model DashboardVM
-<div class="container-fluid">
-    <div class="row">
-        <div id="leftColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
-        <div id="mainColumn" class="col-lg-8 col-md-10 col-sm-12 col-xs-12 transparentWhiteSquare">
-            <h1>Dashboard</h1>
-            <a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn btnWidth120 topBottomMargin20">Create Test</button></a>
-            <div style="display:inline">
-                @foreach (var test in Model.Tests)
-                {
-                    <div class="whiteSquare">
-                        <p class="pBold onTheLine">@test.Name</p>
-                        <p class="pBold onTheLine rightMargin10">: </p>
-                        <p class="onTheLine">@test.Description</p>
-                        <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id"><button class="orcaBtn topMargin-8" style="float: right;">Manage questions</button></a>
-                        <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><button class="orcaBtn topMargin-8 rightMargin10" style="float: right;">Settings</button></a>
-                    </div>
-                }
-            </div>
 
+<h1>Dashboard</h1>
+<a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn topBottomMargin20"><span class="fa fa-plus rightMargin5"></span>Create Test</button></a>
+<div style="display:inline">
+    @foreach (var test in Model.Tests)
+    {
+        <div class="whiteSquare">
+            <p class="pBold onTheLine">@test.Name</p>
+            <p class="pBold onTheLine rightMargin10">: </p>
+            <p class="onTheLine">@test.Description</p>
+            <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id"><button class="orcaBtn topMargin-8" style="float: right;"><span class="fa fa-cog rightMargin5"></span>Manage questions</button></a>
+            <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><button class="orcaBtn topMargin-8 rightMargin10" style="float: right;"><span class="fa fa-pencil rightMargin5"></span>Settings</button></a>
         </div>
-        <div id="rightColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
-    </div>
+    }
 </div>
 

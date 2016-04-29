@@ -1,26 +1,21 @@
 ﻿@model TestSettingsFormVM
+@{
+    Layout = "_SmallInputLayout";
+}
+<form asp-controller="Admin" asp-action="CreateTest">
+    <h1>Create Test</h1>
+    <label asp-for="TestName"></label>
+    <input asp-for="TestName" class="form-control" />
+    <span asp-validation-for="TestName"></span>
+    <br />
+    <label asp-for="Description"></label>
+    <input asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description"></span>
+    <br />
+    <label asp-for="Tags"></label>
+    <input asp-for="Tags" class="form-control" />
+    <span asp-validation-for="Tags"></span>
+    <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed">Go Back</button>
+    <input type="submit" value="Create Test" class="orcaBtn btnWidth120 TopMargin20 onTheLine" />
+</form>
 
-<div class="container-fluid">
-    <div class="row">
-        <div id="leftColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
-        <div id="mainColumn" class="col-lg-8 col-md-10 col-sm-12 col-xs-12 transparentWhiteSquare">
-            <form asp-controller="Admin" asp-action="CreateTest">
-                <h1>Create Test</h1>
-                <label asp-for="TestName"></label>
-                <input asp-for="TestName" class="form-control" />
-                <span asp-validation-for="TestName"></span>
-                <br />
-                <label asp-for="Description"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description"></span>
-                <br />
-                <label asp-for="Tags"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags"></span>
-                <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed">Go Back</button>
-                <input type="submit" value="Create Test" class="orcaBtn btnWidth120 TopMargin20 onTheLine" />
-            </form>
-        </div>
-        <div id="rightColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
-    </div>
-</div>
