@@ -11,6 +11,7 @@
 <p>@Model.Description</p>
 
 <a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId">Create New Question</a>
+<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId">Import Questions</a>
 
     <table class="table table-responsive">
         <thead>

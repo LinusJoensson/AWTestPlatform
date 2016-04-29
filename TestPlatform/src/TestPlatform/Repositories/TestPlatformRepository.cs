@@ -48,27 +48,6 @@ namespace TestPlatform.Repositories
             _users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
 
-            //#region Add static categories 
-            //_questionCategories.Add(new QuestionCategory()
-            //{
-            //    Id = 1,
-            //    Name = "My First Question Category",
-            //    //Tags = new List<string>() { "first", "good questions" },
-            //    Author = "Linus Joensson",
-            //    Description = "Very good questions",
-            //});
-
-            //_testCategories.Add(new TestCategory()
-            //{
-            //    Id = 1,
-            //    Name = "My First Test Category",
-            //    //Tags = new List<string>() { "first", "good tests" },
-            //    Author = "Linus Joensson",
-            //    Description = "Very good tests",
-            //});
-
-            //#endregion
-
             #region Add static questions 
 
             var answersCount = _answers.Count();
@@ -529,12 +508,7 @@ namespace TestPlatform.Repositories
             };
 
             _questions.Add(newQuestion);
-
-            if(question.TestId != null)
-            { 
-                _tests.SingleOrDefault(o => o.Id == question.TestId)
-                    ?.Questions.Add(newQuestion);
-            }
+            AddQuestionToTest(newQuestion.Id, _tests.SingleOrDefault(o => o.Id == question.TestId).Id);
 
             return newQuestion.Id;
         }
