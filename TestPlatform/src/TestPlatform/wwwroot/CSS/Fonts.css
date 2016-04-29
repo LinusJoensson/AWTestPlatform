@@ -57,3 +57,7 @@ h6 {
 .onTheLine {
     display: inline !important;
 }
+
+.pBold {
+    font-weight: 900;
+}

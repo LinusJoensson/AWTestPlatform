@@ -35,65 +35,60 @@ textarea.tinyMCE {
                               BUTTON
 ---------------------------------------------------------------------------*/
 
-.awesomeQuizzBtn {
+/* General button adjustments */
+.orcaBtn {
     background-color: #337AB7; /* Blue */
+    color: white;
     border: none;
     border-radius: 3px;
-    color: white;
     font-family: Lato !important;
     font-size: 16px !important;
     letter-spacing: 1px !important;
     font-weight: 400 !important;
     text-decoration: none;
-    padding:8px;
-    margin-top:-8px;
-    margin-right:4px;
 }
 
- .OrcaQuizzBtn:hover {
-        opacity: 1;
+/* Button hover effects */
+.orcaBtn:hover {
+    opacity: 1;
     background-color: #2b679b; /* Blue */
-    }
-
-.OrcaQuizzBtn {
-    background-color: #337AB7; /* Blue */
-    border: none;
-    border-radius: 3px;
-    color: white;
-    font-family: Lato !important;
-    font-size: 16px !important;
-    letter-spacing: 1px !important;
-    font-weight: 400 !important;
-    /*padding: 8px 32px;*/
-    width: 118px;
-    height: 40px;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    text-align: center;
-    /*opacity: 0.9;*/
-    margin-top: 20px;
-    /*-webkit-transition: all 0.6s ease;*/
 }
 
-    .awesomeQuizzBtn:hover {
-        opacity: 1;
-        background-color: #2b679b; /* Blue */
-    }
+/* Button sizes */
+.btnSmall {
+    padding: 8px;
+    margin-top: -8px;
+    margin-right: 4px;
+}
 
-    .btnLong {
-width: 200px !important;
+.btnMedium {
+    padding: 12px 8px;
+    margin-top: -8px;
+    margin-right: 4px;
+}
+
+.btnLarge {
+    padding: 16px 8px;
+    margin-top: -8px;
+    margin-right: 4px;
+}
+
+.buttonWidth120 {
+    width: 120px;
 }
 
 /*---------------------------------------------------------------------------
-                            WHITE BACKGROUND 
+                              BOXES
 ---------------------------------------------------------------------------*/
 
-.whiteSquare {
+.transparentWhiteSquare {
     background-color: rgba(255,255,255,0.75);
     border-radius: 3px;
     margin: 20px 20px 20px 20px !important;
     padding: 1px 40px 30px 40px;
+}
+
+.whiteSquare {
+    background-color: white;
+    padding: 20px;
 }
