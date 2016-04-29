@@ -13,23 +13,36 @@
                 alert(allTestsData[0].questionList[0].questionText);
                 savedAllTestData = allTestsData;
 
-                $('#jstree').jstree(allTestsData);
-
-                $(function () {
-                    // 6 create an instance when the DOM is ready
-                    $('#jstree').jstree();
-                    // 7 bind to events triggered on the tree
-                    $('#jstree').on("changed.jstree", function (e, data) {
-                        console.log(data.selected);
-                    });
-                    // 8 interact with the tree - either way is OK
-                    $('button').on('click', function () {
-                        $('#jstree').jstree(true).select_node('child_node_1');
-                        $('#jstree').jstree('select_node', 'child_node_1');
-                        $.jstree.reference('#jstree').select_node('child_node_1');
-                    });
+                $('#jstree').jstree({
+                    "core" : {
+                        "animation" : 0,
+                        "check_callback" : true,
+                        "themes" : { "stripes" : true },
+                        'data' : {allTestsData}
+                    },
+                    "types" : {
+                        "#" : {
+                            "max_children" : 10,
+                            "max_depth" : 10,
+                            "valid_children" : ["root"]
+                        },
+                        "root" : {
+                            //"icon" : "/static/3.3.0/assets/images/tree_icon.png",
+                            "valid_children" : ["default"]
+                        },
+                        "default" : {
+                            "valid_children" : ["default","file"]
+                        },
+                        "file" : {
+                            //"icon" : "glyphicon glyphicon-file",
+                            "valid_children" : []
+                        }
+                    },
+                    "plugins" : [
+                      "contextmenu", "dnd", "search",
+                      "state", "types", "wholerow"
+                    ]
                 });
-
             });
     });
 
@@ -42,7 +55,7 @@
                 alert('unable to retrieve JSON file.');
                 console.log('Unable to retrieve JSON file.');
             });
-        
+
         $scope.delete = function(data) {
             data.nodes = [];
         };
@@ -62,7 +75,7 @@
                 break;
             }
         }
-        
+
         //if (savedAllTestData != null) {
         //    add(savedAllTestData[0].questionList[0].questionText);
         //}
@@ -88,14 +101,11 @@
 
 <div id="allTestsDiv">
     <div id="jstree"></div>
-
 </div>
-
 
 <div id="currentTestDiv">
-
 </div>
- 
+
 <input type="button" value="Copy Selected To Test" id="copySelectedButton" />
 <input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />
 
@@ -113,5 +123,4 @@
                 $("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
             });
     });*@
-
 </script>
