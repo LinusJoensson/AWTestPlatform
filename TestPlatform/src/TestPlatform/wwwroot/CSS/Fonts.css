@@ -2,9 +2,9 @@
                               PARAGRAPH TEXT 
 ---------------------------------------------------------------------------*/
 
-p { 
-    font-family: Lato; 
-    font-size: 16px; 
+p {
+    font-family: Lato;
+    font-size: 16px;
     font-weight: 400;
 }
 
@@ -14,39 +14,39 @@ p {
 ---------------------------------------------------------------------------*/
 
 h1 {
-    font-family: Lora; 
-    font-size: 42px; 
+    font-family: Lora;
+    font-size: 42px;
     font-weight: 700;
 }
 
 h2 {
-    font-family: Lora; 
-    font-size: 28px; 
+    font-family: Lora;
+    font-size: 28px;
     font-weight: 700;
 }
 
 h3 {
-    font-family: Lora; 
-    font-size: 22px; 
+    font-family: Lora;
+    font-size: 22px;
     font-weight: 700;
 }
 
 h4 {
-    font-family: Lora; 
-    font-size: 16px; 
+    font-family: Lora;
+    font-size: 16px;
     font-weight: 700;
 }
 
 h5 {
-    font-family: Lora; 
+    font-family: Lora;
     font-style: italic;
-    font-size: 16px; 
+    font-size: 16px;
     font-weight: 400;
 }
 
 h6 {
-    font-family: Lora; 
-    font-size: 14px; 
+    font-family: Lora;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -60,4 +60,17 @@ h6 {
 
 .pBold {
     font-weight: 900;
+}
+
+
+.red {
+    color: #D03427;
+}
+
+.bgRed {
+    background-color: #D03427;
+}
+
+.bgRed:hover {
+    background-color: #BF332C;
 }
