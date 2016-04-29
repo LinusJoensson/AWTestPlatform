@@ -89,6 +89,7 @@ namespace TestPlatform.Controllers
             thisQuestion.QuestionText = viewModel.QuestionText;
             thisQuestion.QuestionType = viewModel.Type;
             thisQuestion.SortOrder = viewModel.SortOrder;
+            thisQuestion.HasComment = viewModel.HasComment;
             
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
@@ -107,7 +108,20 @@ namespace TestPlatform.Controllers
                     //TimeLimit = o.TimeLimit
                 })
                 .SingleOrDefault();
+
             return View(model);
+        }
+
+        [Route("Admin/Test/{testId}/Settings")]
+        [HttpPost]
+        public IActionResult EditTestSettings(TestSettingsFormVM viewModel)
+        {
+            int testId = (int) viewModel.Id;
+            var thisTest = repository.GetAllTests().SingleOrDefault(o => o.Id == testId);
+            thisTest.Description = viewModel.Description;
+            thisTest.Name = viewModel.TestName;
+
+            return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
         }
 
         [Route("Admin/Test/Create")]
@@ -209,7 +223,7 @@ namespace TestPlatform.Controllers
                 AnswerId = answerId
             };
 
-            //TODO: This updates the whole question (master page) without saving question information
+            //TODO: FIX: This updates the whole question (master page) without saving changed question information
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
