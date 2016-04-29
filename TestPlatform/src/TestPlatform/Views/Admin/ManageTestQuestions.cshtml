@@ -24,15 +24,11 @@
             @foreach (var question in Model.Questions)
             {
                 <tr>
-                    <td></td>
-                </tr>
-
-                <tr>
                     <td>
                         @question.Name
                         <div class="buttons">
-                            <a asp-controller="Admin" asp-action="ManageQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                                <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="EDIT"></span>
+                            <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                                <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="Edit"></span>
                             </a>
                             <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
                                 <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="Remove"></span>

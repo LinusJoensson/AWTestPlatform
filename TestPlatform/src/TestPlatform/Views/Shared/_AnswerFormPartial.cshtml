@@ -4,10 +4,10 @@
 <h2>@Model.AnswerText</h2>
 
 <div>
-    <textarea asp-for="@Model.AnswerText" placeholder="" id="mceAnswerBox" class="mceAnswerBox"></textarea><span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
+    <textarea asp-for="@Model.AnswerText" placeholder="" id="mceAnswerBox" class="mceAnswerBox"></textarea>
+    <span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
     <button value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"> SAVE </button>
 </div>
-
 
 <script>
 
