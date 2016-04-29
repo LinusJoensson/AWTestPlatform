@@ -21,7 +21,8 @@
     "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
     "Microsoft.AspNet.Tooling.Razor": "1.0.0-rc1-final",
     "Microsoft.Extensions.CodeGenerators.Mvc": "1.0.0-rc1-final",
-    "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4"
+    "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
+    "dnx-clr-win-x86": "1.0.0-rc1-update1"
   },
 
   "commands": {
