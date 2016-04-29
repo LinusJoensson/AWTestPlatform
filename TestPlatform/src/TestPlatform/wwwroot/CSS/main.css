@@ -46,31 +46,25 @@ textarea.tinyMCE {
     letter-spacing: 1px !important;
     font-weight: 400 !important;
     text-decoration: none;
+    padding: 8px;
 }
 
 /* Button hover effects */
 .orcaBtn:hover {
-    opacity: 1;
     background-color: #2b679b; /* Blue */
 }
 
 /* Button sizes */
 .btnSmall {
-    padding: 8px;
-    margin-top: -8px;
-    margin-right: 4px;
+    padding: 0 !important;
 }
 
 .btnMedium {
-    padding: 12px 8px;
-    margin-top: -8px;
-    margin-right: 4px;
+    padding: 12px 8px !important;
 }
 
 .btnLarge {
-    padding: 16px 8px;
-    margin-top: -8px;
-    margin-right: 4px;
+    padding: 16px 8px !important; 
 }
 
 .buttonWidth120 {
