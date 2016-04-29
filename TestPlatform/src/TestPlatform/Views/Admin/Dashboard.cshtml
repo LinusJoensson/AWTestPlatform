@@ -1,8 +1,8 @@
 ﻿@model DashboardVM
 <div class="container-fluid">
     <div class="row">
-        <div id="leftColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
-        <div id="mainColumn" class="col-lg-8 col-md-10 col-sm-12 col-xs-12 transparentWhiteSquare">
+        <div id="leftColumn" class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
+        <div id="mainColumn" class="col-lg-8 col-md-8 col-sm-10 col-xs-10 transparentWhiteSquare">
             <h1>Dashboard</h1>
             <a asp-controller="Admin" asp-action="CreateTest"><button class="OrcaQuizzBtn">Create Test</button></a>
             <div style="display:inline">
@@ -12,7 +12,7 @@
                         <p class="pBold onTheLine">@test.Name</p>
                         <p class="pBold onTheLine rightMargin10">: </p>
                         <p class="onTheLine">@test.Description</p>
-                        <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><button class="awesomeQuizzBtn" style="float: right;">Change Quizz Name</button></a>
+                        <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><button class="awesomeQuizzBtn" style="float: right;">Change Quiz Name</button></a>
                         <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id"><button class="awesomeQuizzBtn" style="float: right;">Manage questions</button></a>
                     </div>
                 }
