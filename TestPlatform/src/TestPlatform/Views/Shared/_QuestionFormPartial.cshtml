@@ -6,14 +6,16 @@
     <div class="panel-heading">
         
     </div>
-    <
+
     <div class="panel-body">
-        <h1>@(Html.Raw(Model.TextQuestion))</h1>
+        @(Html.Raw(Model.TextQuestion))
+
+        <hr/>
+
         @if (Model.Answers != null && Model.Answers.Count > 0)
-        {   <p>Answers:</p>
+        {
         @foreach (var answer in Model.Answers)
         {
-
             <div class="form-group">
                 @switch (Model.QuestionType)
                 {
@@ -27,9 +29,10 @@
                                         value="@answer.AnswerId"
                                         @(answer.IsChecked ? "checked=\"checked\"" : "") />
 
-                                @answer.AnswerText
+                                @(Html.Raw(answer.AnswerText))
 
                             </label>
+
                         }
                         break;
                     case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
@@ -50,13 +53,17 @@
                                             name="@nameof(Model.SelectedAnswers)"
                                             value="@answer.AnswerId" />
                                 }
-                                @answer.AnswerText
+                                @(Html.Raw(answer.AnswerText))
+
                             </label>
+
                         }
                         break;
 
 
                 }
+                <hr />
+
             </div>
             }
 

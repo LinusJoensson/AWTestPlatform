@@ -20,11 +20,15 @@
 
     <script>
         var app = angular.module('myApp', []);
+        app.controller('myCtrl', ['$scope', function ($scope) {
+            //$scope.message = 'Hello';
+
+        }]);
     </script>
 
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="myCtrl">
 
     <!-- #region Header -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -42,8 +46,8 @@
             </div>
             <div class="collapse navbar-collapse" id="main-menu">
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="~/Admin/Dashboard">Dashboard</a></li>
                     <li><a href="~/TestSession/Index/1">Testsession</a></li>
-                    <li><a href="~/AdminCreate/EditTestContent/1">Import</a></li>
                     <li><a href="~/User/SelectTest">Take a test</a></li>
                     <li><a href="~/Admin/index">Manage tests</a></li>
                     <li><a href="~/User/Login">Log in</a></li>
