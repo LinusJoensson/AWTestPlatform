@@ -1,31 +1,25 @@
 ﻿@model DashboardVM
-<div class="row">
-    <div id="leftColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
-    <div id="mainColumn" class="col-lg-6 col-md-6 col-sm-10 col-xs-10 whiteSquare">
-        <table class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>
-                        <a asp-controller="Admin" asp-action="CreateTest">Create Test</a>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody class="table">
-                @foreach (var test in Model.Tests)
-                {
-                    <tr class="tableRow">
-                        <td>
-                            @test.Name
-                            @test.Description
-                            <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><span class="glyphicon glyphicon-cog">Settings</span></a>
-                            <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id">Manage questions</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<div class="container-fluid">
+    <div class="row">
+        <div id="leftColumn" class="col-lg-3 col-md-3 col-sm-1 hidden-xs"></div>
+        <div id="mainColumn" class="col-lg-6 col-md-6 col-sm-10 col-xs-12 whiteSquare">
+            <h1>Dashboard</h1>
+            <a asp-controller="Admin" asp-action="CreateTest"><button class="OrcaQuizzBtn">Create Test</button></a>
+
+
+                    @foreach (var test in Model.Tests)
+                    {
+                        <div style="background-color: white; padding: 20px;">
+                            <p class="onTheLine">@test.Name</p>
+                            <p class="onTheLine">@test.Description</p>
+                            <a asp-controller="Admin" asp-action="EditTestSettings" asp-route-TestId="@test.Id"><button class="OrcaQuizzBtn btnLong" style="float: right;">Change Quizz Name</button></a>
+                            <a asp-controller="Admin" asp-action="ManageTestQuestions" asp-route-TestId="@test.Id"><button class="OrcaQuizzBtn btnLong" style="float: right;">Manage questions</button></a>
+                        </div>
+                        <br />
+                    }
+
+        </div>
+        <div id="rightColumn" class="col-lg-3 col-md-3 col-sm-1 hidden-xs"></div>
     </div>
-    <div id="rightColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
 </div>
 
