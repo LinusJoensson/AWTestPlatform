@@ -2,6 +2,60 @@
 <script>
     $(document).ready(function()
     {
+        var myJson = {
+            Name: 'Sebastian',
+            Message: 'Hope this works',
+            Children: {
+                Age: "10",
+                Firstname: "Jakob"            
+            },
+            Name: 'Gustav',
+            Message: 'Hope sss',
+            Children: {
+                Age: "11",
+                Firstname: "Mikael",
+                Children: {
+                    Age: "12",
+                    Firstname: "Jon"            
+                }
+            },
+        };
+
+        var myJson2 = {"Questions":[
+            {"firstName":"John", "lastName":"Doe"},
+            {"firstName":"Anna", "lastName":"Smith"},
+            {"firstName":"Peter", "lastName":"Jones"}
+        ]};
+
+        console.log(myJson);
+        console.log(myJson2);
+
+        $('#jstree').jstree({
+            "core" : {
+                "animation" : 0,
+                "check_callback" : true,
+                "themes" : { "stripes" : true },
+                'data' : {myJson2}
+            },
+            "types" : {
+                "root" : {
+                    "icon" : "glyphicon glyphicon-folder-open",
+                    "valid_children" : ["default"]
+                },
+                "default" : {
+                    "valid_children" : ["default","file"]
+                },
+                "file" : {
+                    "icon" : "glyphicon glyphicon-question-sign",
+                    "valid_children" : []
+                }
+            },
+            "plugins" : [
+              "contextmenu", "dnd", "search",
+              "state", "types", "wholerow"
+            ]
+        });
+
         $.get("/Admin/GetImportData",
             { id: @Model.TestId },
             function(data) {
@@ -10,39 +64,10 @@
 
                 //Example
                 //$("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
+                console.log(allTestsData);
                 alert(allTestsData[0].questionList[0].questionText);
                 savedAllTestData = allTestsData;
 
-                $('#jstree').jstree({
-                    "core" : {
-                        "animation" : 0,
-                        "check_callback" : true,
-                        "themes" : { "stripes" : true },
-                        'data' : {allTestsData}
-                    },
-                    "types" : {
-                        "#" : {
-                            "max_children" : 10,
-                            "max_depth" : 10,
-                            "valid_children" : ["root"]
-                        },
-                        "root" : {
-                            "icon" : "glyphicon glyphicon-folder-open",
-                            "valid_children" : ["default"] 
-                        },
-                        "default" : {
-                            "valid_children" : ["default","file"]
-                        },
-                        "file" : {
-                            "icon" : "glyphicon glyphicon-question-sign",
-                            "valid_children" : []
-                        }
-                    },
-                    "plugins" : [
-                      "contextmenu", "dnd", "search",
-                      "state", "types", "wholerow"
-                    ]
-                });
             });
     });
 
@@ -91,20 +116,28 @@
     </ul>
 </script>
 
-<ul ng-controller="TreeController">
-    <li ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
-</ul>
+<h1>Import Questions</h1>
+<div class="row">
+    <div class="col-md-4">
+        <div id="allTestsDiv">
+            <h3>JsTree plugin</h3>
+            <div id="jstree"></div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3>Angular tree</h3>
+        <ul ng-controller="TreeController">
+            <li ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h3>Current test</h3>
+        <div id="currentTestDiv">
+        </div>
+    </div>
+</div>
 
 @*{{AllTestData[0].questionList[0].questionText}}*@
-
-<h1>Import Questions</h1>
-
-<div id="allTestsDiv">
-    <div id="jstree"></div>
-</div>
-
-<div id="currentTestDiv">
-</div>
 
 <input type="button" value="Copy Selected To Test" id="copySelectedButton" />
 <input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />

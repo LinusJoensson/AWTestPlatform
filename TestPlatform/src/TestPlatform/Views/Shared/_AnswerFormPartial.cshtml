@@ -1,14 +1,15 @@
 ﻿@model AnswerDetailVM
-
-<h1>Answer ID: @Model.AnswerId</h1>
-<h2>@Model.AnswerText</h2>
-
+<div ng-app="oneApp">
+    <input type="text" ng-model="answer" placeholder="Write your answer" />
+    {{answer}}
+<h2></h2>
 <div>
-    <textarea asp-for="@Model.AnswerText" placeholder="" id="mceAnswerBox" class="mceAnswerBox"></textarea>
+    <textarea asp-for="@Model.AnswerText" placeholder="@Model.AnswerText" id="mceAnswerBox" class="mceAnswerBox"></textarea>
     <span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
     <button value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"> SAVE </button>
 </div>
 
+</div>
 <script>
 
     function PartialEditAnswer(answerId) {

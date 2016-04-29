@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -17,16 +16,17 @@
     <link href="~/css/heading.css" rel="stylesheet" />
     <link href="~/css/margins.css" rel="stylesheet" />
     <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', ['$scope', function ($scope) {
-
+            $scope.answer = '';
         }]);
     </script>
-
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">
