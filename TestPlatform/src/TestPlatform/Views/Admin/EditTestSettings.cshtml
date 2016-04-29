@@ -1,14 +1,18 @@
 ﻿@model TestSettingsFormVM
-<div class="row">
-    <div id="leftColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
-    <div id="mainColumn" class="col-lg-6 col-md-6 col-sm-10 col-xs-10 transparentWhiteSquare">
-        <form asp-controller="Admin" asp-action="EditTestSettings">
-            <label asp-for="TestName"></label>
-            <input asp-for="TestName" />
-            <span asp-validation-for="TestName"></span>
-            <br />
-            <input type="submit" value="Save" />
-        </form>
+<div class="container-fluid">
+    <div class="row">
+        <div id="leftColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
+        <div id="mainColumn" class="col-lg-8 col-md-10 col-sm-12 col-xs-12 transparentWhiteSquare">
+            <form asp-controller="Admin" asp-action="EditTestSettings">
+                <h2>Settings</h2>
+                <label asp-for="TestName"></label>
+                <input class="input-group form-control" asp-for="TestName" />
+                <span asp-validation-for="TestName"></span>
+                <br />
+                <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20" style="background-color: #D03427;">Go Back</button>
+                <input class="orcaBtn btnWidth120 TopMargin20" type="submit" value="Save" />
+            </form>
+        </div>
+        <div id="rightColumn" class="col-lg-2 col-md-1 hidden-sm hidden-xs"></div>
     </div>
-    <div id="rightColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
 </div>
