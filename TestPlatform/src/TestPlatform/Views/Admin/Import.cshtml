@@ -1,9 +1,76 @@
 ﻿@model ImportVM
+<script>
+    $(document).ready(function()
+    {
+        $.get("/Admin/GetImportData",
+            { id: @Model.TestId },
+            function(data) {
+                var allTestsData = data.allTestsData;
+                var thisTestData = data.thisTestData;
+
+                //Example
+                //$("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
+                alert(allTestsData[0].questionList[0].questionText);
+                savedAllTestData = allTestsData;
+            });
+    });
+
+    app.controller('TreeController', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
+        $http.get("/Admin/GetImportData")
+            .success(function(data){
+                $scope.NGallTestData = getById(@Model.TestId)
+            })
+            .error(function() {
+                alert('unable to retrieve JSON file.');
+                console.log('Unable to retrieve JSON file.');
+            });
+        
+        
+        $scope.delete = function(data) {
+            data.nodes = [];
+        };
+        $scope.add = function(data) {
+            var post = data.nodes.length + 1;
+            var newName = data.name + '-' + post;
+            data.nodes.push({name: newName,nodes: []});
+        };
+        $scope.tree = [{name: "Node", nodes: []}];
+
+        while (true) {
+            $scope.allTestsData = savedAllTestData;
+
+            if ($scope.allTestsData != null)
+            {
+                alert($scope.allTestsData);
+                break;
+            }
+        }
+        
+        //if (savedAllTestData != null) {
+        //    add(savedAllTestData[0].questionList[0].questionText);
+        //}
+    }]);
+</script>
+
+<script type="text/ng-template" id="tree_item_renderer.html">
+    {{data.name}}
+    <button ng-click="add(data)">Add node</button>
+    <button ng-click="delete(data)" ng-show="data.nodes.length > 0">Delete nodes</button>
+    <ul>
+        <li ng-repeat="data in data.nodes" ng-include="'tree_item_renderer.html'"></li>
+    </ul>
+</script>
+
+<ul ng-controller="TreeController">
+    <li ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
+</ul>
+
+@*{{AllTestData[0].questionList[0].questionText}}*@
 
 <h1>Import Questions</h1>
 
 <div id="allTestsDiv">
-    
+
 </div>
 
 
@@ -16,7 +83,7 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function()    
+    @*$(document).ready(function()
     {
         $.get("/Admin/GetImportData",
             { id: @Model.TestId },
@@ -27,6 +94,6 @@
                 //Example
                 $("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
             });
-    });
+    });*@
 
 </script>

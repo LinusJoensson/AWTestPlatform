@@ -1,52 +1,55 @@
 ﻿@model ManageTestQuestionsVM
-<style>
-    .buttons {
-        display: flex;
-        justify-content: flex-end;
-    }
-</style>
-
-<h1>Manage Test Questions</h1>
-<p>@Model.TestName</p>
-<p>@Model.Description</p>
-
-<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId">Create New Question</a>
-
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody class="table">
-            @foreach (var question in Model.Questions)
-            {
-                <tr>
-                    <td>
-                        @question.Name
-                        <div class="buttons">
-                            <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                                <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="Edit"></span>
-                            </a>
-                            <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                                <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="Remove"></span>
-                            </a>
-                            <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
-                            <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>
-
-                        </div>
-
-                        <div id="@("detailsDiv"+question.Id)">
-                        </div>
-                    </td>
-                </tr>
+<div class="row">
+    <div id="leftColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
+    <div id="mainColumn" class="col-lg-6 col-md-6 col-sm-10 col-xs-10 whiteSquare">
+        <style>
+            .buttons {
+                display: flex;
+                justify-content: flex-end;
             }
-        </tbody>
-    </table>
+        </style>
 
-    <script>
+        <h1>Manage Test Questions</h1>
+        <p>@Model.TestName</p>
+        <p>@Model.Description</p>
+
+        <a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId">Create New Question</a>
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody class="table">
+                @foreach (var question in Model.Questions)
+            {
+                    <tr>
+                        <td>
+                            @question.Name
+                            <div class="buttons">
+                                <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                                    <span class="glyphicon glyphicon-menu-hamburger" style="color:yellowgreen; font-size:x-large" title="Edit"></span>
+                                </a>
+                                <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                                    <span class="glyphicon glyphicon-remove" style="color:darkred; font-size:x-large" title="Remove"></span>
+                                </a>
+                                <button onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"> Preview </button>
+                                <button onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"> Hide </button>
+
+                            </div>
+
+                            <div id="@("detailsDiv"+question.Id)">
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>
 
         function PartialPreview(id) {
 
@@ -81,4 +84,9 @@
 
         }
 
-    </script>
+        </script>
+
+    </div>
+    <div id="rightColumn" class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
+</div>
+

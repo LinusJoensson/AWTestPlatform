@@ -20,11 +20,15 @@
 
     <script>
         var app = angular.module('myApp', []);
+        app.controller('myCtrl', ['$scope', function ($scope) {
+            //$scope.message = 'Hello';
+
+        }]);
     </script>
 
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="myCtrl">
 
     <!-- #region Header -->
     <nav class="navbar navbar-default navbar-fixed-top">
