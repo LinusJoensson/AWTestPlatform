@@ -25,7 +25,7 @@ namespace TestPlatform.Repositories
         int CreateAnswer(int questionId, AnswerDetailVM viewModel);
         int CreateTestFromTemplate(int testId);
         QuestionFormVM GetPreviewQuestion(int questionId);
-        int CreateQuestion(Question question);
+        int CreateTestQuestion(int testId);
         Answer[] GetAllAnswers();
     }
 }

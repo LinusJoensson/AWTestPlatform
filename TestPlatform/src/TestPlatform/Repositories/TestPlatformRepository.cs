@@ -492,23 +492,17 @@ namespace TestPlatform.Repositories
             return viewModel;
         }
 
-        public int CreateQuestion(Question question)
+        public int CreateTestQuestion(int testId)
         {
             var newQuestion = new Question()
             {
-                TestId = question.TestId,
-                QuestionText = question.QuestionText,
-                Tags = question.Tags,
-                SortOrder = question.SortOrder,
-
-                //.....
-
+                TestId = testId,
                 Id = _questions.Count + 1,
                 CreatedDate = DateTime.UtcNow,
             };
 
             _questions.Add(newQuestion);
-            AddQuestionToTest(newQuestion.Id, _tests.SingleOrDefault(o => o.Id == question.TestId).Id);
+            _tests.SingleOrDefault(o => o.Id == testId).Questions.Add(newQuestion);
 
             return newQuestion.Id;
         }

@@ -17,8 +17,9 @@
         <div class="whiteSquare BottomMargin20">
 
             @(Html.Raw("<i>"+(question.QuestionText)?
-                        .ToString()
-                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 100)) + "...</i>"))
+                        .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
+                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 100))+ "...</i>"))
+            id: @question.Id
 
             <div class="buttons">
                 <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">

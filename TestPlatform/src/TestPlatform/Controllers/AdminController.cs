@@ -34,12 +34,8 @@ namespace TestPlatform.Controllers
         [Route("Admin/Test/{testId}/Question/Create")]
         public IActionResult CreateQuestion(int testId)
         {
-            int questionId = repository.CreateQuestion(new Question()
-            {
-                TestId = testId,
-                CreatedDate = DateTime.UtcNow,
-            });
-
+            int questionId = repository.CreateTestQuestion(testId);
+            
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId } );
         }
 
@@ -47,6 +43,8 @@ namespace TestPlatform.Controllers
         public IActionResult UpdateQuestion(int testId, int questionId)
         {
             var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+
+            Debug.WriteLine(thisQuestion.QuestionText);
             
             var viewModel = new EditQuestionFormVM()
             {
