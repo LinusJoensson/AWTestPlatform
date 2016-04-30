@@ -15,7 +15,11 @@
     @foreach (var question in Model.Questions)
             {
         <div class="whiteSquare BottomMargin20">
-            @question.Name
+
+            @(Html.Raw((question.QuestionText)?
+                        .ToString()
+                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 100)) + "..."))
+
             <div class="buttons">
                 <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
                     <button class="orcaBtn rightMargin10"><span class="fa fa-pencil rightMargin5" title="Edit"></span>Edit</button>
