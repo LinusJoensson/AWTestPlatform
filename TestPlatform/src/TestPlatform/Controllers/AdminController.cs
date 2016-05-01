@@ -231,7 +231,7 @@ namespace TestPlatform.Controllers
 
             var viewModelPartial = new QuestionFormVM()
             {
-                IsInTestSession = true,
+                IsInTestSession = false,
                 Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                 {
                     AnswerId = o.Id,

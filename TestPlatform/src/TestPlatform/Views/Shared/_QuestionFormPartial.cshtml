@@ -1,10 +1,22 @@
 ﻿@model QuestionFormVM
 
+@if (!Model.IsInTestSession)
+{
+    <style>
+        .panel {
+            background-color: rgb(245, 245, 245);
+        }
+    </style>
+}
+
 @if (Model != null)
 {
 <div class="panel panel-primary">
     <div class="panel-heading">
-        
+        @if (!Model.IsInTestSession)
+        {
+            <h2>PREVIEW</h2>
+        }
     </div>
 
     <div class="panel-body">
@@ -87,6 +99,24 @@
                 </div>
             }
         }
+        else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextSingleLine)
+        {
+            @if (!Model.IsInTestSession)
+            {
+                <div class="form-group">
+                    <label>Answer:</label>
+                    <text class="form-control" readonly></text>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label>Answer:</label>
+
+                    <text class="form-control" name="@nameof(Model.SelectedAnswers)"></text>
+                </div>
+            }
+        }
         else
         {
             <p>No answers added</p>
@@ -105,7 +135,7 @@
             {
                 <div class="form-group">
                     <label>Comment:</label>
-                    <textarea class="form-control" rows="5"></textarea>
+                    <textarea class="form-control" rows="5" readonly></textarea>
                 </div>
             }
         }
