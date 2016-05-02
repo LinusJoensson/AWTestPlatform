@@ -51,18 +51,26 @@ h6 {
 }
 
 /*---------------------------------------------------------------------------
-                                 Settings 
+                                 SETTINGS 
 ---------------------------------------------------------------------------*/
 
 .onTheLine {
     display: inline !important;
 }
 
+/*---------------------------------------------------------------------------
+                               FONT STYLE 
+---------------------------------------------------------------------------*/
+
 .pBold {
     font-weight: 900;
 }
 
+/*---------------------------------------------------------------------------
+                                 COLOR 
+---------------------------------------------------------------------------*/
 
+/* RED */
 .red {
     color: #D03427;
 }
@@ -73,4 +81,44 @@ h6 {
 
 .bgRed:hover {
     background-color: #BF332C;
+}
+
+/* LIGHT BLUE */
+.lightBlue {
+    color: #597ba9;
+}
+
+.bgLightBlue {
+    background-color: #597ba9;
+}
+
+.bgLightBlue:hover {
+    background-color: #597ba9;
+}
+
+
+/* YELLOW */
+.yellow {
+    color: #b38e2f;
+}
+
+.bgYellow {
+    background-color: #b38e2f;
+}
+
+.bgYellow:hover {
+    background-color: #b38e2f;
+}
+
+/* GREEN */
+.green {
+    color: #45b449;
+}
+
+.bgGreen {
+    background-color: #45b449;
+}
+
+.bgGreen:hover {
+    background-color: #45b449;
 }
