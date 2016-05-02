@@ -161,7 +161,7 @@ namespace TestPlatform.Repositories
                 Author = "Sebastian Uddén",
                 Answers = new List<Answer>()
                 {
-                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, AnswerText = "G B C" },
+                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, AnswerText = "G B D" },
                     new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, AnswerText = "G E C" }
                 }
             });
@@ -172,6 +172,7 @@ namespace TestPlatform.Repositories
             #endregion
 
             #region Add static tests
+
             _tests.Add(new Test()
             {
                 Id = 1,

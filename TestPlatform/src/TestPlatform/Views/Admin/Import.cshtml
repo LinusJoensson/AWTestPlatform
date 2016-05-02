@@ -1,13 +1,13 @@
 ﻿@model ImportVM
 
 <h1>Import Questions</h1>
-<div class="row">
+<div class="row whiteSquare">
     <div class="col-md-6">
         <h3>All tests</h3>
         <div id="allTestsDiv">
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 ">
         <h3>Current test</h3>
         <div id="currentTestDiv">
         </div>
@@ -29,16 +29,18 @@
 
     <script type="text/javascript">
 
-        //Test 
-        function testTree() 
+        function testTree()
         {
             var selectedElmsIds = [];
-            var selectedElms = $('#allTestsDiv').jstree("get_selected", true);
-            $.each(selectedElms, function() {
-                selectedElmsIds.push(this.Id);
-            });
-
-            alert(selectedElmsIds.join(","));
+            //var selectedElms = $('#allTestsDiv').jstree(true).get_selected('full',true);
+            var selectedElms = $('#allTestsDiv').jstree(true).get_json();
+            alert(JSON.stringify(selectedElms));
+            //$.each(selectedElms, function() {
+            //    selectedElmsIds.push(this.Id);
+            //});
+            //for (var i = 0; i < selectedElms.length; i++) {
+            //    alert(selectedElms[i].attr('id'));
+            //}
         }
         //----------------------
 
@@ -56,7 +58,8 @@
                         },
                             'plugins' : [
                                     'checkbox'
-                            ]});
+                            ]
+                        });
 
                     $('#currentTestDiv').jstree(
                        { 'core' : {
