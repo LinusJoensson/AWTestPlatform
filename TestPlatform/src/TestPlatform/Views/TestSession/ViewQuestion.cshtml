@@ -2,7 +2,7 @@
 
 <script>
     app.controller('questionController', ['$scope', '$timeout', '$interval', function ($scope, $timeout, $interval) {
-        $scope.counter = @*@Model.TimeLeft*@ 3;
+$scope.counter = @*@Model.TimeLeft*@ 3;
         var counting;
         $scope.timeOutMessage = "Your time is up!";
         $scope.isTimeUp = false;
@@ -17,15 +17,11 @@
                     $scope.counter--;
                     $scope.countdown();
                 }
-
-
-
             }, 1000);
         };
-
     }]);
 </script>
-
+    
 <div ng-controller="questionController" ng-init="countdown();">
     <h1>@Model.TestTitle</h1>
     <h2>@Model.QuestionIndex / @Model.NumOfQuestion</h2>
@@ -35,29 +31,21 @@
         var progressBarProcent = Math.Floor(((double)Model.QuestionIndex / Model.NumOfQuestion) * 100);
     }
     <div>
-
         <div class="progress">
-
             <div class="progress-bar" role="progressbar" aria-valuenow="@progressBarProcent"
                  aria-valuemin="0" aria-valuemax="100" style="width:@($"{progressBarProcent}%")">
                 @Model.QuestionIndex of @Model.NumOfQuestion questions
             </div>
-
         </div>
-
         <form asp-controller="TestSession" asp-action="ViewQuestion">
-
             @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
-
             <div ng-show="isTimeUp">
                 <h2 class="red">{{timeOutMessage}}</h2>
             </div>
-
             @if (Model.QuestionIndex > 1)
             {
                 <input type="submit" value="Previous" name="submit" class="btn btn-info" />
             }
-
             @if (Model.QuestionIndex < Model.NumOfQuestion)
             {
                 <button ng-hide="isTimeUp" type="submit" value="Next" name="submit" class="btn btn-primary">Next<span class="LeftMargin5 fa fa-chevron-right"></span></button>
@@ -67,9 +55,7 @@
             {
                 <input type="submit" value="Submit" name="submit" class="btn btn-success" />
             }
-
         </form>
-
     </div>
     <br />
 </div>
