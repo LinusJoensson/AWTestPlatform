@@ -261,7 +261,7 @@ namespace TestPlatform.Controllers
         {
             var allTests = repository.GetAllTests();
             
-            var allTestsData = allTests.Select(o => new
+            var allTestsData = allTests.Where(t => t.Id != id).Select(o => new
             {
                 text = o.Name,
                 children = o.Questions.Select(q => new
@@ -271,27 +271,23 @@ namespace TestPlatform.Controllers
                     children = q.Answers.Select(a => new
                     {
                         text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
-                        state = new { disabled = true },
-                        isCorrect = a.IsCorrect
+                        state = new { disabled = true }
                     })
                 }),
             }).ToArray();
 
             var thisTestData = allTests.Where(o => o.Id == id).Select(o => new
             {
-                title = o.Name,
-                isTestChecked = false,
-                tags = o.Tags,
-                questionList = o.Questions.Select(q => new
+                text = o.Name,
+                children = o.Questions.Select(q => new
                 {
                     questionId = q.Id,
-                    questionText = q.QuestionText,
-                    answerList = q.Answers.Select(a => new
+                    text = q.QuestionText,
+                    children = q.Answers.Select(a => new
                     {
-                        answerText = a.AnswerText,
-                        isCorrect = a.IsCorrect
+                        text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
+                        state = new { disabled = true }
                     })
-
                 }),
 
             }).Single();
@@ -299,7 +295,7 @@ namespace TestPlatform.Controllers
             var viewModel = new
             {
                 allTestsData = allTestsData,
-                thisTestData = thisTestData
+                currentTestData = thisTestData
             };
 
             return Json(viewModel);
