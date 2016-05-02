@@ -261,7 +261,7 @@ namespace TestPlatform.Controllers
         {
             var allTests = repository.GetAllTests();
             
-            var allTestsData = allTests.Select(o => new
+            var allTestsData = allTests.Where(t => t.Id != id).Select(o => new
             {
                 text = o.Name,
                 children = o.Questions.Select(q => new
