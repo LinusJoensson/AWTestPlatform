@@ -156,6 +156,13 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
 
+        public IActionResult RemoveAnswer(int testId, int questionId, int answerId)
+        {
+            //TODO: ARE YOU SURE?
+            repository.RemoveAnswerFromQuestion(testId, questionId, answerId);
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId});
+        }
+
         [Route("Admin/Test/{testId}/Import")]
         public IActionResult Import(int testId)
         {

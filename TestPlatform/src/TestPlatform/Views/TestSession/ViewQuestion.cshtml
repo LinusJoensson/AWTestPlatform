@@ -11,10 +11,11 @@
                 $scope.countdown();
                 
                 if ($scope.counter === 0){
-                    $interval.cancel(stop);
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Your Pizza Is Ready!',
-                        template: 'Bon Appétit!'});
+                    alert('hello');
+                    //$interval.cancel(stop);
+                    //var alertPopup = $ionicPopup.alert({
+                    //    title: 'Your Pizza Is Ready!',
+                    //    template: 'Bon Appétit!'});
                 }
             }, 1000);
         };

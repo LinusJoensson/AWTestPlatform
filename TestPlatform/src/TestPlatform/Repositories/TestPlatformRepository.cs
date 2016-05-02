@@ -537,7 +537,14 @@ namespace TestPlatform.Repositories
                 .Answers.Add(answer);
 
             return answer.Id;
-            
+        }
+
+        public void RemoveAnswerFromQuestion(int testId, int questionId, int answerId)
+        {
+            var thisQuestion = _tests.Single(o => o.Id == testId).Questions.Single(q => q.Id == questionId);
+            thisQuestion.Answers.RemoveAll(a => a.Id == answerId);
+
+            _answers.RemoveAll(a => a.Id == answerId);
         }
 
         public Answer[] GetAllAnswers()
