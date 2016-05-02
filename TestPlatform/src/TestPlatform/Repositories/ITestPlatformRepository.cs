@@ -27,5 +27,6 @@ namespace TestPlatform.Repositories
         QuestionFormVM GetPreviewQuestion(int questionId);
         int CreateTestQuestion(int testId);
         Answer[] GetAllAnswers();
+        void RemoveAnswerFromQuestion(int testId, int questionId, int answerId);
     }
 }
