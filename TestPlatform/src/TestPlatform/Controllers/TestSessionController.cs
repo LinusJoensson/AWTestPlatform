@@ -43,7 +43,15 @@ namespace TestPlatform.Controllers
         public IActionResult ViewQuestion(int testSessionId, int questionIndex)
         {
             var viewModel = repository.GetViewQuestion(testSessionId, questionIndex, true);
-            return View(viewModel);
+            if (viewModel.SecondsLeft > 0)
+            {
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(SessionCompleted),
+                    new { TestSessionId = testSessionId, completedReason = (int)SessionCompletedReason.TimedOut });
+            }
         }
 
         [HttpPost]
@@ -60,7 +68,7 @@ namespace TestPlatform.Controllers
             {
                 repository.SubmitTestSession(testSessionId);
                 return RedirectToAction(nameof(SessionCompleted),
-                    new { TestSessionId = testSessionId, completedReason = (int) SessionCompletedReason.Completed });
+                    new { TestSessionId = testSessionId, completedReason = (int)SessionCompletedReason.Completed });
             }
             else
                 throw new Exception("Unknown submit value");
@@ -72,15 +80,15 @@ namespace TestPlatform.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(SessionCompleted), 
-                    new { TestSessionId = testSessionId, completedReason = (int) SessionCompletedReason.TimedOut});
+                return RedirectToAction(nameof(SessionCompleted),
+                    new { TestSessionId = testSessionId, completedReason = (int)SessionCompletedReason.TimedOut });
             }
         }
 
         [Route("SessionCompleted/{testSessionId}/{completedReason}")]
         public IActionResult SessionCompleted(int testSessionId, int completedReason)
         {
-            var viewModel = repository.GetSessionCompletedVM(testSessionId, (SessionCompletedReason) completedReason);
+            var viewModel = repository.GetSessionCompletedVM(testSessionId, (SessionCompletedReason)completedReason);
             return View(viewModel);
         }
 

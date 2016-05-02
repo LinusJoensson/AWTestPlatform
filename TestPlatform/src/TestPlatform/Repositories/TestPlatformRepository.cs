@@ -119,7 +119,7 @@ namespace TestPlatform.Repositories
                 Name = "My First Test",
                 Description = "An eazy test",
                 Questions = new List<Question>(),
-                TimeLimit = new TimeSpan(0, 0, 10)
+                TimeLimit = new TimeSpan(0, 10, 0)
             });
             #endregion
 
@@ -293,17 +293,14 @@ namespace TestPlatform.Repositories
             var thisQuestion = thisTest.Questions.OrderBy(o => o.SortOrder).ElementAt(questionIndex - 1);
             var thisQuestionResult = thisTestSession.QuestionResults.SingleOrDefault(o => o.QuestionId == thisQuestion.Id);
 
-            var timeLeft = thisTest.TimeLimit - (DateTime.UtcNow - thisTestSession.StartTime);
-            if (timeLeft.TotalSeconds < 0)
-            {
+            //var timeLeft = thisTest.TimeLimit - (DateTime.UtcNow - thisTestSession.StartTime);
 
-            }
-
-            var secondsLeft = thisTest.TimeLimit.TotalSeconds;
+            var secondsLeft = TimeUtils.GetSecondsLeft(thisTest.TimeLimit, thisTestSession.StartTime);
             var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
 
             return new ViewQuestionVM()
             {
+                TestId = thisTest.Id,
                 TestTitle = thisTest.Name,
                 NumOfQuestion = thisTest.Questions.Count(),
                 QuestionIndex = questionIndex,
