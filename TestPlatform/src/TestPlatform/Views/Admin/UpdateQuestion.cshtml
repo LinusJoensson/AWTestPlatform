@@ -31,7 +31,7 @@
             {
         @foreach (var answer in Model.Answers)
                 {
-            <div class="whiteSquare BottomMargin20">
+            <div id=@("answerContainerDiv"+answer.AnswerId) class="whiteSquare BottomMargin20">
                 <div id=@("listAnswerDiv"+answer.AnswerId)>
                     <p class="onTheLine pBold">Answer:</p>
                     <p class="onTheLine">@(Html.Raw(answer.AnswerText))</p>
@@ -41,6 +41,9 @@
                             style="float:right">
                         <span class="fa fa-pencil rightMargin5"></span>Edit
                     </button>
+                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine"
+                            onclick="deleteAnswer(@Model.TestId, @Model.Id, @answer.AnswerId)"
+                            style="float:right">Delete</button>
                 </div>
                 <div id=@("editAnswerDiv"+answer.AnswerId) hidden="hidden"></div>
             </div>
@@ -58,6 +61,13 @@
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <script>
+
+    var deleteAnswer = function (testId, questionId, answerId) {
+        $.get("/Admin/RemoveAnswer", {
+            testId: testId, questionId: questionId, answerId: answerId, function (data) {
+                $('#answerContainerDiv' + answerId).hide();
+        }});
+    }
 
     function PartialEditAnswer(id) {
 
