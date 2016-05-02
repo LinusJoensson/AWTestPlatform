@@ -6,16 +6,16 @@
         <h3>All tests</h3>
         <div id="allTestsDiv">
         </div>
+        <button type="button" class="orcaBtn" value="Copy Selected To Test" id="copySelectedButton">Copy Selected To Test<span class="fa fa-arrow-right"></span></button>
     </div>
     <div class="col-md-6 ">
         <h3>Current test</h3>
         <div id="currentTestDiv">
         </div>
+        <button type="button" class="orcaBtn" value="Delete Selected From Test" id="deleteSelectedButton">Delete Selected From Test</button>
     </div>
 </div>
 
-<input type="button" value="Copy Selected To Test" id="copySelectedButton" />
-<input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />
 
 @section script
 {
@@ -78,6 +78,35 @@
                             ]});
                         });
                         });
-                    });
+        });
+
+
+        $("#deleteSelectedButton").click(function()
+        {
+            var selectedElms = $('#currentTestDiv').jstree(true).get_selected('full',true);
+            var idPrefix = "@(AppConstants.Import_QuestionIdPrefix)";
+            var ids = [];
+
+            for (var i = 0; i < selectedElms.length; i++) {
+                var id = selectedElms[i].id;
+                if (id.substring(0, idPrefix.length) == idPrefix)
+                    ids.push(id.substring(idPrefix.length));
+            }
+
+
+            $.post("/Admin/DeleteQuestionsFromTest",
+                { testId: @Model.TestId, questionIds: ids },
+                function(data) {
+                    $('#currentTestDiv').jstree("destroy");
+
+                    $('#currentTestDiv').jstree(
+                    { 'core' : {
+                        'data' : data,
+                    },
+                        'plugins' : [
+                                   'checkbox'
+                        ]});
+                });
+        });
     </script>
 }

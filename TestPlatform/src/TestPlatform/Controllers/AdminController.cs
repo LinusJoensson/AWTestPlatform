@@ -187,6 +187,17 @@ namespace TestPlatform.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult DeleteQuestionsFromTest(int testId, int[] questionIds)
+        {
+            //TODO: review
+            //Add multiple questions in one query (or Json -> Ajax)
+            foreach (var qId in questionIds)
+                repository.RemoveQuestionFromTest(qId, testId);
+
+            return Json(GetCurrentTestImportData(testId));
+        }
+
         public ActionResult ListAnswerPartial(int id)
         {
             var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == id);
@@ -300,7 +311,7 @@ namespace TestPlatform.Controllers
                 text = o.Name,
                 children = o.Questions.Select(q => new
                 {
-                    questionId = q.Id,
+                    id = $"{AppConstants.Import_QuestionIdPrefix}{q.Id}",
                     text = q.QuestionText,
                     children = q.Answers.Select(a => new
                     {
