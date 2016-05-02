@@ -67,9 +67,17 @@
                 $.post("/Admin/CopyQuestionsToTest",
                     { testId: @Model.TestId, questionIds: ids },
                     function(data) {
-                        alert(data);
+                        $('#currentTestDiv').jstree("destroy");
+
+                        $('#currentTestDiv').jstree(
+                        { 'core' : {
+                           'data' : data,
+                        },
+                        'plugins' : [
+                                   'checkbox'
+                            ]});
+                        });
+                        });
                     });
-            });
-        });
     </script>
 }

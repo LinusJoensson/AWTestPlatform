@@ -14,16 +14,22 @@ namespace TestPlatform.Repositories
     {
         public List<Test> _tests { get; set; }
         public List<User> _users { get; set; }
-        public List<Question> _questions { get; set; }
+        //public List<Question> _questions { get; set; }
         public List<Answer> _answers { get; set; }
         public List<TestSession> _testSessions { get; set; }
         public List<QuestionResult> _questionResults { get; set; }
+
+
+        public Question[] GetAllQuestions()
+        {
+            return (_tests.SelectMany(o => o.Questions)).ToArray();
+        }
 
         public TestPlatformRepository()
         {
             _tests = new List<Test>();
             _users = new List<User>();
-            _questions = new List<Question>();
+            //_questions = new List<Question>();
             _answers = new List<Answer>();
             _testSessions = new List<TestSession>();
             _questionResults = new List<QuestionResult>();
@@ -52,126 +58,10 @@ namespace TestPlatform.Repositories
             #region Add static questions 
 
             var answersCount = _answers.Count();
-            _questions.Add(new Question()
-            {
-                Id = 1,
-                Name = "First Question",
-                QuestionText = "Is this the first question?",
-                QuestionType = QuestionType.SingleChoice,
-                Tags = "for lolz" + "," + "eazy",
-                Author = "Linus Joensson",
-                HasComment = true,
-                Answers = new List<Answer>()
-                {
-                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, AnswerText = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, AnswerText = "Yes! ... Uhm I mean no" }
-                }
-            });
-
-            _answers.Add(_questions.Last().Answers.ElementAt(0));
-            _answers.Add(_questions.Last().Answers.ElementAt(1));
-
-            answersCount = _answers.Count();
-            _questions.Add(new Question()
-            {
-                Id = 2,
-                Name = "Second Question",
-                QuestionText = "Is this the third question?",
-                QuestionType = QuestionType.MultipleChoice,
-                Tags = "for lolz" + "," + "eazy",
-                Author = "Linus Joensson",
-                HasComment = true,
-                Answers = new List<Answer>()
-                {
-                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = false, AnswerText = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = true, AnswerText = "Yes! ... Uhm I mean no" }
-                }
-            });
-            _answers.Add(_questions.Last().Answers.ElementAt(0));
-            _answers.Add(_questions.Last().Answers.ElementAt(1));
-
-            answersCount = _answers.Count();
-            _questions.Add(new Question()
-            {
-                Id = 3,
-                Name = "Second Question",
-                QuestionText = "Is THIS the third question?",
-                QuestionType = QuestionType.SingleChoice,
-                Tags = "for lolz" + "," + "hard",
-                Author = "Linus Joensson",
-                Answers = new List<Answer>()
-                {
-                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, AnswerText = "Yes" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, AnswerText = "Yes! ... Uhm I mean no" }
-                }
-            });
-            _answers.Add(_questions.Last().Answers.ElementAt(0));
-            _answers.Add(_questions.Last().Answers.ElementAt(1));
-
-
-            //****************************************************//
-
-            answersCount = _answers.Count();
-            _questions.Add(new Question()
-            {
-                Id = 4,
-                Name = "First Question",
-                QuestionText = "What is music?",
-                QuestionType = QuestionType.SingleChoice,
-                Tags = "Music" + "," + "easy",
-                Author = "Sebastian Uddén",
-                HasComment = true,
-                Answers = new List<Answer>()
-                {
-                    new Answer() { Id = answersCount + 1, QuestionId = 1,  IsCorrect = true, AnswerText = "A collection of sounds with a coherent pattern." },
-                    new Answer() { Id = answersCount + 2, QuestionId = 1,  IsCorrect = false, AnswerText = "Nice beats and melodies." }
-                }
-            });
-
-            _answers.Add(_questions.Last().Answers.ElementAt(0));
-            _answers.Add(_questions.Last().Answers.ElementAt(1));
-
-            answersCount = _answers.Count();
-            _questions.Add(new Question()
-            {
-                Id = 5,
-                Name = "Second Question",
-                QuestionText = "What is Prince?",
-                QuestionType = QuestionType.MultipleChoice,
-                Tags = "Music" + "," + "hard",
-                Author = "Sebastian Uddén",
-                HasComment = true,
-                Answers = new List<Answer>()
-                {
-                    new Answer() { Id = answersCount + 1, QuestionId = 2,  IsCorrect = true, AnswerText = "Alien" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 2,  IsCorrect = false, AnswerText = "Human!" }
-                }
-            });
-            _answers.Add(_questions.Last().Answers.ElementAt(0));
-            _answers.Add(_questions.Last().Answers.ElementAt(1));
-
-            answersCount = _answers.Count();
-            _questions.Add(new Question()
-            {
-                Id = 6,
-                Name = "Third Question",
-                QuestionText = "What notes make up a G major?",
-                QuestionType = QuestionType.SingleChoice,
-                Tags = "Music" + "," + "medium",
-                Author = "Sebastian Uddén",
-                Answers = new List<Answer>()
-                {
-                    new Answer() { Id = answersCount + 1, QuestionId = 3,  IsCorrect = true, AnswerText = "G B D" },
-                    new Answer() { Id = answersCount + 2, QuestionId = 3,  IsCorrect = false, AnswerText = "G E C" }
-                }
-            });
-            _answers.Add(_questions.Last().Answers.ElementAt(0));
-            _answers.Add(_questions.Last().Answers.ElementAt(1));
 
 
             #endregion
 
-            #region Add static tests
 
             _tests.Add(new Test()
             {
@@ -180,211 +70,69 @@ namespace TestPlatform.Repositories
                 Author = "Linus Joensson",
                 Name = "My First Test",
                 Description = "An eazy test",
-                Questions = new List<Question>(),
+                Questions = new List<Question>()
+                {
+                    new Question()
+                    {
+                        Id = GetAllQuestions().Count() + 1,
+                        Name = "Third Question",
+                        QuestionText = "What notes make up a G major?",
+                        QuestionType = QuestionType.SingleChoice,
+                        Tags = "Music" + "," + "medium",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "G B D" },
+                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "G E C" }
+                        }
+                    }
+                },
                 TimeLimit = new TimeSpan(0, 10, 0)
             });
+
+
             _tests.Add(new Test()
             {
                 Id = 2,
                 //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
-                Author = "Sebastian Uddén",
-                Name = "Music Quiz",
-                Description = "Super hard test",
-                Questions = new List<Question>(),
-                TimeLimit = new TimeSpan(0, 20, 0)
+                Author = "Linus Joensson",
+                Name = "My Second Test",
+                Description = "An eazy test",
+                Questions = new List<Question>()
+                {
+                    new Question()
+                    {
+                        Id = GetAllQuestions().Count() + 1,
+                        Name = "First Question",
+                        QuestionText = "C major?",
+                        QuestionType = QuestionType.SingleChoice,
+                        Tags = "Music" + "," + "medium",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Gascascas" },
+                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "asd asd as " }
+                        }
+                    },
+                    new Question()
+                    {
+                        Id = GetAllQuestions().Count() + 2,
+                        Name = "Second Question",
+                        QuestionText = "Q?",
+                        QuestionType = QuestionType.SingleChoice,
+                        Tags = "Music" + "," + "medium",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                            new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Gascascas" },
+                            new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "asd asd as " }
+                        }
+                    },
+
+                },
+                TimeLimit = new TimeSpan(0, 10, 0)
             });
-            #endregion
-
-            #region Add static questions to test
-
-            //  Select and add questions just as would be done in action when a test is created from scratch:
-            //
-            // 1) User selects a question to add to the test
-            // 2) The question is collected from the questions table in the database
-            // 3) The collected question is added to the test as a duplicate object
-            // *  The Duplicated question belongs to the test and may now have test-specific properties such as SortOrder
-            // *  The Original question is left untouched in the questions table 
-
-            var selectedQuestionId = 1;
-            var selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
-            var selectedTest = _tests.ElementAt(0);
-
-            if (selectedQuestion == null)
-                throw new Exception("The question id " + selectedQuestionId + " does not exist in database");
-
-            //Note that C# does not support object duplication so we need to do this manually
-            selectedTest.Questions.Add(new Question()
-            {
-                //Duplication
-                Answers = selectedQuestion.Answers,
-                Tags = selectedQuestion.Tags,
-                Author = selectedQuestion.Author,
-                Name = selectedQuestion.Name,
-                QuestionType = selectedQuestion.QuestionType,
-                QuestionText = selectedQuestion.QuestionText,
-                HasComment = selectedQuestion.HasComment,
-
-                //Test specific properties
-                Id = _questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 100
-            });
-
-            //We use the same database table for questions owned by tests as for questions without owner
-            _questions.Add(selectedTest.Questions.Last());
-
-
-            selectedQuestionId = 2;
-            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
-            selectedTest = _tests.ElementAt(0);
-
-            if (selectedQuestion == null)
-                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
-
-            //Note that C# does not support object duplication so we need to do this manually
-            selectedTest.Questions.Add(new Question()
-            {
-                //Duplication
-                Answers = selectedQuestion.Answers,
-                Tags = selectedQuestion.Tags,
-                Author = selectedQuestion.Author,
-                Name = selectedQuestion.Name,
-                QuestionType = selectedQuestion.QuestionType,
-                QuestionText = selectedQuestion.QuestionText,
-                HasComment = selectedQuestion.HasComment,
-
-                //Test specific properties
-                Id = _questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 200
-            });
-
-            //We use the same database table for questions owned by tests as for questions without owner
-            _questions.Add(selectedTest.Questions.Last());
-
-
-
-            selectedQuestionId = 3;
-            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
-            selectedTest = _tests.ElementAt(0);
-
-            if (selectedQuestion == null)
-                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
-
-            //Note that C# does not support object duplication so we need to do this manually
-            selectedTest.Questions.Add(new Question()
-            {
-                //Duplication
-                Answers = selectedQuestion.Answers,
-                Tags = selectedQuestion.Tags,
-                Author = selectedQuestion.Author,
-                Name = selectedQuestion.Name,
-                QuestionType = selectedQuestion.QuestionType,
-                QuestionText = selectedQuestion.QuestionText,
-                HasComment = selectedQuestion.HasComment,
-
-                //Test specific properties
-                Id = _questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 300
-            });
-
-            //We use the same database table for questions owned by tests as for questions without owner
-            _questions.Add(selectedTest.Questions.Last());
-
-            //**************************************************************
-            //**************************************************************
-            //**************************************************************
-
-            selectedQuestionId = 4;
-            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
-            selectedTest = _tests.ElementAt(1);
-
-            if (selectedQuestion == null)
-                throw new Exception("The question id " + selectedQuestionId + " does not exist in database");
-
-            //Note that C# does not support object duplication so we need to do this manually
-            selectedTest.Questions.Add(new Question()
-            {
-                //Duplication
-                Answers = selectedQuestion.Answers,
-                Tags = selectedQuestion.Tags,
-                Author = selectedQuestion.Author,
-                Name = selectedQuestion.Name,
-                QuestionType = selectedQuestion.QuestionType,
-                QuestionText = selectedQuestion.QuestionText,
-                HasComment = selectedQuestion.HasComment,
-
-                //Test specific properties
-                Id = selectedTest.Questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 100
-            });
-
-            //We use the same database table for questions owned by tests as for questions without owner
-            _questions.Add(selectedTest.Questions.Last());
-
-
-            selectedQuestionId = 5;
-            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
-            selectedTest = _tests.ElementAt(1);
-
-            if (selectedQuestion == null)
-                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
-
-            //Note that C# does not support object duplication so we need to do this manually
-            selectedTest.Questions.Add(new Question()
-            {
-                //Duplication
-                Answers = selectedQuestion.Answers,
-                Tags = selectedQuestion.Tags,
-                Author = selectedQuestion.Author,
-                Name = selectedQuestion.Name,
-                QuestionType = selectedQuestion.QuestionType,
-                QuestionText = selectedQuestion.QuestionText,
-                HasComment = selectedQuestion.HasComment,
-
-                //Test specific properties
-                Id = selectedTest.Questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 200
-            });
-
-            //We use the same database table for questions owned by tests as for questions without owner
-            _questions.Add(selectedTest.Questions.Last());
-
-
-
-            selectedQuestionId = 6;
-            selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
-            selectedTest = _tests.ElementAt(1);
-
-            if (selectedQuestion == null)
-                throw new KeyNotFoundException("The question id " + selectedQuestionId + " does not exist in database");
-
-            //Note that C# does not support object duplication so we need to do this manually
-            selectedTest.Questions.Add(new Question()
-            {
-                //Duplication
-                Answers = selectedQuestion.Answers,
-                Tags = selectedQuestion.Tags,
-                Author = selectedQuestion.Author,
-                Name = selectedQuestion.Name,
-                QuestionType = selectedQuestion.QuestionType,
-                QuestionText = selectedQuestion.QuestionText,
-                HasComment = selectedQuestion.HasComment,
-
-                //Test specific properties
-                Id = selectedTest.Questions.Count() + 1,
-                TestId = _tests.Last().Id,
-                SortOrder = 300
-            });
-
-            //We use the same database table for questions owned by tests as for questions without owner
-            _questions.Add(selectedTest.Questions.Last());
         }
-
-        #endregion
 
         public int CreateTest(Test test)
         {
@@ -408,7 +156,7 @@ namespace TestPlatform.Repositories
         public void AddQuestionToTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);
-            var thisQuestion = _questions.Single(o => o.Id == questionId);
+            var thisQuestion = GetAllQuestions().Single(o => o.Id == questionId);
 
             var defaultSortOrder = thisTest.Questions.Count > 0 ?
                 thisTest.Questions.Max(o => o.SortOrder) + 100 : 100;
@@ -424,7 +172,7 @@ namespace TestPlatform.Repositories
                 HasComment = thisQuestion.HasComment,
 
                 //New question id
-                Id = _questions.Count() + 1,
+                Id = GetAllQuestions().Count() + 1,
 
                 //Add specific properties
                 SortOrder = defaultSortOrder,
@@ -436,17 +184,9 @@ namespace TestPlatform.Repositories
 
             });
 
-            //Add to questions list
-            _questions.Add(thisTest.Questions.Last());
         }
 
-        #region Get All Objects
         public Test[] GetAllTests() { return _tests.ToArray(); }
-        public Question[] GetAllQuestions() { return _questions.ToArray(); }
-
-
-        #endregion
-
 
         public ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession)
         {
@@ -586,59 +326,6 @@ namespace TestPlatform.Repositories
             var thisTest = _tests.Single(o => o.Id == testId);
             thisTest.Questions.RemoveAll(o => o.Id == questionId);
 
-            _questions.RemoveAll(o => o.Id == questionId);
-        }
-
-        //TODO: split into:
-        //- Get test information
-        //- Duplicate all questions
-        public int CreateTestFromTemplate(int testId)
-        {
-            var thisTemplate = _tests.Single(o => o.Id == testId);
-            var thisUser = _users.Single(o => o.Id == 1);
-
-            var thisTest = new Test()
-            {
-                Id = _tests.Count() + 1,
-                Author = thisUser.FirstName,
-                IsPublished = false,
-                Name = "TEMPLATE: " + thisTemplate.Name,
-
-                //Duplicated information
-                Description = thisTemplate.Description,
-                Tags = thisTemplate.Tags,
-                TimeLimit = thisTemplate.TimeLimit
-            };
-
-            var defaultSortOrder = thisTest.Questions.Count > 0 ?
-                thisTest.Questions.Max(o => o.SortOrder) + 100 : 100;
-
-            _tests.Add(thisTest);
-
-            foreach (var templateQuestion in thisTemplate.Questions)
-            {
-                var thisQuestion = new Question()
-                {
-                    Id = _questions.Count + 1,
-                    CreatedDate = DateTime.UtcNow,
-                    TestId = thisTest.Id,
-                    Author = thisUser.FirstName,
-
-                    //Duplicated information
-                    Name = templateQuestion.Name,
-                    Answers = templateQuestion.Answers,
-                    Tags = templateQuestion.Tags,
-                    HasComment = templateQuestion.HasComment,
-                    QuestionType = templateQuestion.QuestionType,
-                    SortOrder = defaultSortOrder,
-                    QuestionText = templateQuestion.QuestionText
-                };
-
-                _questions.Add(thisQuestion);
-                AddQuestionToTest(thisQuestion.Id, thisTest.Id);
-            }
-
-            return thisTest.Id;
         }
 
         public ManageTestQuestionsVM GetManageTestQuestionVM(int testId)
@@ -658,7 +345,7 @@ namespace TestPlatform.Repositories
 
         public QuestionFormVM GetPreviewQuestion(int questionId)
         {
-            var thisQuestion = _questions.Single(o => o.Id == questionId);
+            var thisQuestion = GetAllQuestions().Single(o => o.Id == questionId);
             var viewModel = new QuestionFormVM()
             {
                 TextQuestion = thisQuestion.QuestionText
@@ -672,11 +359,10 @@ namespace TestPlatform.Repositories
             var newQuestion = new Question()
             {
                 TestId = testId,
-                Id = _questions.Count + 1,
+                Id = GetAllQuestions().Count() + 1,
                 CreatedDate = DateTime.UtcNow,
             };
 
-            _questions.Add(newQuestion);
             _tests.SingleOrDefault(o => o.Id == testId).Questions.Add(newQuestion);
 
             return newQuestion.Id;
@@ -693,7 +379,7 @@ namespace TestPlatform.Repositories
             };
 
             _answers.Add(answer);
-            _questions.SingleOrDefault(o => o.Id == questionId)?
+            GetAllQuestions().SingleOrDefault(o => o.Id == questionId)?
                 .Answers.Add(answer);
 
 
@@ -708,7 +394,7 @@ namespace TestPlatform.Repositories
             };
 
             _answers.Add(answer);
-            _questions.SingleOrDefault(o => o.Id == questionId)?
+            GetAllQuestions().SingleOrDefault(o => o.Id == questionId)?
                 .Answers.Add(answer);
 
             return answer.Id;

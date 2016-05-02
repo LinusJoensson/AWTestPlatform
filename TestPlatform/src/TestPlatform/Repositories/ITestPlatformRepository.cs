@@ -25,7 +25,6 @@ namespace TestPlatform.Repositories
         void RemoveQuestionFromTest(int questionId, int testId);
         int CreateAnswer(int questionId);
         int CreateAnswer(int questionId, AnswerDetailVM viewModel);
-        int CreateTestFromTemplate(int testId);
         QuestionFormVM GetPreviewQuestion(int questionId);
         int CreateTestQuestion(int testId);
         Answer[] GetAllAnswers();
