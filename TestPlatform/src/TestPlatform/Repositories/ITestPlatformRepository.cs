@@ -30,5 +30,6 @@ namespace TestPlatform.Repositories
         int CreateTestQuestion(int testId);
         Answer[] GetAllAnswers();
         SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason);
+        void RemoveAnswerFromQuestion(int testId, int questionId, int answerId);
     }
 }
