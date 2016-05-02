@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TestPlatform.Models.Enums;
 using TestPlatform.Repositories;
+using TestPlatform.Utils;
 using TestPlatform.ViewModels;
 
 namespace TestPlatform.Controllers
@@ -48,7 +50,7 @@ namespace TestPlatform.Controllers
         [Route("TestSession/{testSessionId}/{questionIndex}")]
         public IActionResult ViewQuestion(int testSessionId, int questionIndex, QuestionFormVM viewModel, string submit)
         {
-            repository.UpdateSessionAnswers(testSessionId, questionIndex, viewModel.SelectedAnswers, viewModel.Comment);
+            var hasTimeLeft = repository.UpdateSessionAnswers(testSessionId, questionIndex, viewModel.SelectedAnswers, viewModel.Comment);
 
             if (string.Equals("previous", submit, StringComparison.OrdinalIgnoreCase))
                 questionIndex--;
@@ -57,20 +59,30 @@ namespace TestPlatform.Controllers
             else if (string.Equals("submit", submit, StringComparison.OrdinalIgnoreCase))
             {
                 repository.SubmitTestSession(testSessionId);
-                return RedirectToAction(nameof(SubmitSession), new { TestSessionId = testSessionId } );
+                return RedirectToAction(nameof(SessionCompleted),
+                    new { TestSessionId = testSessionId, completedReason = (int) SessionCompletedReason.Completed });
             }
             else
                 throw new Exception("Unknown submit value");
 
-            return RedirectToAction(nameof(ViewQuestion), 
-                new { TestSessionId = testSessionId, QuestionIndex = questionIndex });
+            if (hasTimeLeft)
+            {
+                return RedirectToAction(nameof(ViewQuestion),
+                    new { TestSessionId = testSessionId, QuestionIndex = questionIndex });
+            }
+            else
+            {
+                return RedirectToAction(nameof(SessionCompleted), 
+                    new { TestSessionId = testSessionId, completedReason = (int) SessionCompletedReason.TimedOut});
+            }
         }
 
-        [Route("TestSession/{testSessionId}")]
-        public IActionResult SubmitSession(int testSessionId)
+        [Route("SessionCompleted/{testSessionId}/{completedReason}")]
+        public IActionResult SessionCompleted(int testSessionId, int completedReason)
         {
-            var viewModel = repository.GetTestSessionById(testSessionId);
+            var viewModel = repository.GetSessionCompletedVM(testSessionId, (SessionCompletedReason) completedReason);
             return View(viewModel);
         }
+
     }
 }

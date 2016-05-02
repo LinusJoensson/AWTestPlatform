@@ -12,6 +12,6 @@ namespace TestPlatform.ViewModels
         public string TestName { get; set; }
         public string TestDescription { get; set; }
         public int NumberOfQuestions { get; set; }
-        public DateTime TimeLimit { get; set; }
+        public TimeSpan TimeLimit { get; set; }
     }
 }
