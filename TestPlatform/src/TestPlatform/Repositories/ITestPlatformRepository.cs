@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestPlatform.Controllers;
 using TestPlatform.Models;
+using TestPlatform.Models.Enums;
 using TestPlatform.ViewModels;
 
 namespace TestPlatform.Repositories
@@ -14,7 +16,7 @@ namespace TestPlatform.Repositories
         Question[] GetAllQuestions();
         void AddQuestionToTest(int questionId, int testId);
         ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession);
-        void UpdateSessionAnswers(int testSessionId, int questionIndex, string[] selectedAnswers, string comment);
+        bool UpdateSessionAnswers(int testSessionId, int questionIndex, string[] selectedAnswers, string comment);
         SessionIndexVM GetSessionIndexVM(int testId);
         int StartNewSession(int userId, int testId);
         void SubmitTestSession(int testSessionId);
@@ -27,5 +29,6 @@ namespace TestPlatform.Repositories
         QuestionFormVM GetPreviewQuestion(int questionId);
         int CreateTestQuestion(int testId);
         Answer[] GetAllAnswers();
+        SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason);
     }
 }

@@ -1,0 +1,26 @@
+﻿@model SessionCompletedVM
+
+<h1>Test Completed</h1>
+
+@if (Model.SessionCompletedReason == TestPlatform.Models.Enums.SessionCompletedReason.TimedOut)
+{
+    <h5 class="red">
+        Your test timed out
+    </h5>
+}
+
+@if (Model.IsSuccessfull.HasValue)
+{
+    if(Model.IsSuccessfull.Value)
+    { 
+        <h2>
+            Congratulations, you passed the test
+        </h2>
+    }
+    else
+    {
+        <h2>
+            Sorry, you did not pass the test this time
+        </h2>
+    }
+}

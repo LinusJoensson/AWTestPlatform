@@ -2,7 +2,7 @@
 
 <script>
     app.controller('questionController', ['$scope', '$timeout', '$interval', function ($scope, $timeout, $interval) {
-        $scope.counter = @Model.TimeLeft;
+        $scope.counter = @Model.SecondsLeft;
         var counting;
         $scope.countdown = function() {
             counting = $timeout(function() {

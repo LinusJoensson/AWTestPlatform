@@ -10,7 +10,7 @@ namespace TestPlatform.ViewModels
         public string TestTitle { get; set; }
         public int QuestionIndex { get; set; }
         public int NumOfQuestion { get; set; }
-        public int TimeLeft { get; set; }
+        public int SecondsLeft { get; set; }
         public QuestionFormVM QuestionFormVM { get; set; }
     }
 }

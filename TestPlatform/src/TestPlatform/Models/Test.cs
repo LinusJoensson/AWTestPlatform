@@ -15,7 +15,7 @@ namespace TestPlatform.Models
         public string Tags { get; set; }
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }
-        public DateTime TimeLimit { get; set; }
+        public TimeSpan TimeLimit { get; set; }
 
         public Test()
         {
