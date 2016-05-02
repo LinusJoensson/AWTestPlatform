@@ -111,6 +111,7 @@ namespace TestPlatform.Repositories
             #endregion
 
             #region Add static tests
+
             _tests.Add(new Test()
             {
                 Id = 1,
@@ -121,6 +122,7 @@ namespace TestPlatform.Repositories
                 Questions = new List<Question>(),
                 TimeLimit = new TimeSpan(0, 10, 0)
             });
+            
             #endregion
 
             #region Add static questions to test

@@ -32,12 +32,15 @@
         function testTree() 
         {
             var selectedElmsIds = [];
-            var selectedElms = $('#allTestsDiv').jstree("get_selected", true);
-            $.each(selectedElms, function() {
-                selectedElmsIds.push(this.Id);
-            });
-
-            alert(selectedElmsIds.join(","));
+            //var selectedElms = $('#allTestsDiv').jstree(true).get_selected('full',true);
+            var selectedElms = $('#allTestsDiv').jstree(true).get_json();
+            alert(JSON.stringify(selectedElms));
+            //$.each(selectedElms, function() {
+            //    selectedElmsIds.push(this.Id);
+            //});
+            //for (var i = 0; i < selectedElms.length; i++) {
+            //    alert(selectedElms[i].attr('id'));
+            //}
         }
         //----------------------
 
