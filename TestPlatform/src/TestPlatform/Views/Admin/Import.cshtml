@@ -30,26 +30,7 @@
 
                     $('#allTestsDiv').jstree(
                         { 'core' : {
-                            'data' : [
-                                   {
-                                       'text' : 'Test 1',
-                                       'children' :[
-                                         { 'text' : 'Fråga 1',
-                                             'children' :[
-                                             { 'text' : 'Svar 1', 'state':{'disabled':true} },
-                                             { 'text' : 'Svar 2', 'state':{'disabled':true} },
-                                             ]},
-                                         { 'text' : 'Fråga 2' },
-                                       ]
-                                   },
-                                   {
-                                       'text' : 'Test 2',
-                                       'children' :[
-                                         { 'text' : 'Fråga 1' },
-                                         { 'text' : 'Fråga 2' },
-                                       ]
-                                   }
-                            ],
+                            'data' : allTestsData,
                         },
                             'plugins' : [
                                     'checkbox'

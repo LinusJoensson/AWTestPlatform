@@ -35,8 +35,8 @@ namespace TestPlatform.Controllers
         public IActionResult CreateQuestion(int testId)
         {
             int questionId = repository.CreateTestQuestion(testId);
-            
-            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId } );
+
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
         [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
@@ -45,7 +45,7 @@ namespace TestPlatform.Controllers
             var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
 
             Debug.WriteLine(thisQuestion.QuestionText);
-            
+
             var viewModel = new EditQuestionFormVM()
             {
                 ItemTypes = new SelectListItem[]
@@ -76,9 +76,9 @@ namespace TestPlatform.Controllers
             }
 
             return View(viewModel);
-            
+
         }
-        
+
         [HttpPost]
         [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
         public IActionResult UpdateQuestion(EditQuestionFormVM viewModel, int testId, int questionId)
@@ -88,7 +88,7 @@ namespace TestPlatform.Controllers
             thisQuestion.QuestionType = viewModel.Type;
             thisQuestion.SortOrder = viewModel.SortOrder;
             thisQuestion.HasComment = viewModel.HasComment;
-            
+
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
@@ -114,7 +114,7 @@ namespace TestPlatform.Controllers
         [HttpPost]
         public IActionResult EditTestSettings(TestSettingsFormVM viewModel)
         {
-            int testId = (int) viewModel.Id;
+            int testId = (int)viewModel.Id;
             var thisTest = repository.GetAllTests().SingleOrDefault(o => o.Id == testId);
             thisTest.Description = viewModel.Description;
             thisTest.Name = viewModel.TestName;
@@ -160,7 +160,7 @@ namespace TestPlatform.Controllers
         {
             //TODO: ARE YOU SURE?
             repository.RemoveAnswerFromQuestion(testId, questionId, answerId);
-            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId});
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
         [Route("Admin/Test/{testId}/Import")]
@@ -185,7 +185,7 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(GetImportData), new { id = testId });
         }
 
-        
+
         public ActionResult ListAnswerPartial(int id)
         {
             var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == id);
@@ -260,24 +260,21 @@ namespace TestPlatform.Controllers
         public IActionResult GetImportData(int id)
         {
             var allTests = repository.GetAllTests();
-
+            
             var allTestsData = allTests.Select(o => new
             {
-                title = o.Name,
-                isTestChecked = false,
-                tags = o.Tags,
-                questionList = o.Questions.Select(q => new
+                text = o.Name,
+                children = o.Questions.Select(q => new
                 {
                     questionId = q.Id,
-                    questionText = q.QuestionText,
-                    answerList = q.Answers.Select(a => new
+                    text = q.QuestionText,
+                    children = q.Answers.Select(a => new
                     {
-                        answerText = a.AnswerText,
+                        text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
+                        state = new { disabled = true },
                         isCorrect = a.IsCorrect
                     })
-
                 }),
-
             }).ToArray();
 
             var thisTestData = allTests.Where(o => o.Id == id).Select(o => new
