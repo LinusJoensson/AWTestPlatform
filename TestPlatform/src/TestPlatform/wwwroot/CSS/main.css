@@ -64,7 +64,7 @@ textarea.tinyMCE {
 }
 
 .btnLarge {
-    padding: 16px 8px !important; 
+    width:210px;
 }
 
 .btnWidth120 {
@@ -86,4 +86,8 @@ textarea.tinyMCE {
 .whiteSquare {
     background-color: white;
     padding: 20px;
+}
+
+.rightFloat {
+    float: right;
 }

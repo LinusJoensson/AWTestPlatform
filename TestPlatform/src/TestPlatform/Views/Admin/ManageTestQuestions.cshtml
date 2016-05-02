@@ -9,8 +9,8 @@
 <h3>@Model.TestName</h3>
 <p>@Model.Description</p>
 
-<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
-<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnLarge"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
+<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnLarge"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
 <div>
     @foreach (var question in Model.Questions)
             {
@@ -20,8 +20,9 @@
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 100))+ "...</i>"))
             id: @question.Id
+            <!-- floatat knapparna till höger, bra? in i css isf.-->
 
-            <div class="buttons">
+            <div class="buttons rightFloat">
                 <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
                     <button class="orcaBtn rightMargin10 btnWidth120"><span class="fa fa-pencil rightMargin5" title="Edit"></span>Edit</button>
                 </a>
@@ -38,9 +39,10 @@
         </div>
     }
 </div>
+            <!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
 
-<button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Go Back</button>
-<a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth120 TopMargin20"><span class="fa fa-floppy-o rightMargin5" aria-hidden="true"></span>Save</button></a>
+@*<button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed" style="float:right"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Go Back</button>*@
+<a href="~/Admin/Dashboard"><button class="orcaBtn TopMargin20 btnLarge rightFloat rightMargin15"><span class="fa fa-floppy-o" aria-hidden="true"></span>Return to Dashboard</button></a>
 
 <script>
     function PartialPreview(id) {
