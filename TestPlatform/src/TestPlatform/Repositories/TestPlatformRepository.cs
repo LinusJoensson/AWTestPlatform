@@ -172,6 +172,7 @@ namespace TestPlatform.Repositories
             #endregion
 
             #region Add static tests
+
             _tests.Add(new Test()
             {
                 Id = 1,
