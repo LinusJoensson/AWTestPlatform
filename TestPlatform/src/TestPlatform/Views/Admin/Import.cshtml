@@ -17,10 +17,31 @@
 <input type="button" value="Copy Selected To Test" id="copySelectedButton" />
 <input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />
 
+<button class="orcaBtn topMargin-8 rightMargin10 onTheLine"
+        onclick="testTree()"
+        style="float:right">
+    Test
+</button>
+
 @section script
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
     <script type="text/javascript">
+
+        //Test 
+        function testTree() 
+        {
+            var selectedElmsIds = [];
+            var selectedElms = $('#allTestsDiv').jstree("get_selected", true);
+            $.each(selectedElms, function() {
+                selectedElmsIds.push(this.Id);
+            });
+
+            alert(selectedElmsIds.join(","));
+        }
+        //----------------------
+
         $(document).ready(function()
         {
             $.get("/Admin/GetImportData",

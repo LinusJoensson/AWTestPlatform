@@ -17,6 +17,6 @@ namespace TestPlatform.Utils
         {
             return (GetSecondsLeft(timeLimit, StartTime) > 0);
         }
-
+         
     }
 }
