@@ -15,7 +15,8 @@
     <label asp-for="Tags"></label>
     <input asp-for="Tags" class="form-control" />
     <span asp-validation-for="Tags"></span>
-    <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed">Go Back</button>
-    <input type="submit" value="Create Test" class="orcaBtn btnWidth120 TopMargin20 onTheLine" />
+    <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Go Back</button>
+    <button type="submit" class="orcaBtn TopMargin20 onTheLine"><span class="fa fa-check rightMargin5"></span>Create Test</button>
+    @*<input type="submit" value="Create Test" class="orcaBtn btnWidth120 TopMargin20 onTheLine" />*@
 </form>
 
