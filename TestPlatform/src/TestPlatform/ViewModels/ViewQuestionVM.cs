@@ -7,6 +7,7 @@ namespace TestPlatform.ViewModels
 {
     public class ViewQuestionVM
     {
+        public int TestId { get; set; }
         public string TestTitle { get; set; }
         public int QuestionIndex { get; set; }
         public int NumOfQuestion { get; set; }
