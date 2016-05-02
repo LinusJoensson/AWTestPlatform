@@ -114,7 +114,7 @@ namespace TestPlatform.Repositories
             answersCount = _answers.Count();
             _questions.Add(new Question()
             {
-                Id = 11,
+                Id = 4,
                 Name = "First Question",
                 QuestionText = "What is music?",
                 QuestionType = QuestionType.SingleChoice,
@@ -134,7 +134,7 @@ namespace TestPlatform.Repositories
             answersCount = _answers.Count();
             _questions.Add(new Question()
             {
-                Id = 12,
+                Id = 5,
                 Name = "Second Question",
                 QuestionText = "What is Prince?",
                 QuestionType = QuestionType.MultipleChoice,
@@ -153,7 +153,7 @@ namespace TestPlatform.Repositories
             answersCount = _answers.Count();
             _questions.Add(new Question()
             {
-                Id = 13,
+                Id = 6,
                 Name = "Third Question",
                 QuestionText = "What notes make up a G major?",
                 QuestionType = QuestionType.SingleChoice,
@@ -296,7 +296,7 @@ namespace TestPlatform.Repositories
             //**************************************************************
             //**************************************************************
 
-            selectedQuestionId = 11;
+            selectedQuestionId = 4;
             selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
             selectedTest = _tests.ElementAt(1);
 
@@ -316,7 +316,7 @@ namespace TestPlatform.Repositories
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
-                Id = _questions.Count() + 1,
+                Id = selectedTest.Questions.Count() + 1,
                 TestId = _tests.Last().Id,
                 SortOrder = 100
             });
@@ -325,7 +325,7 @@ namespace TestPlatform.Repositories
             _questions.Add(selectedTest.Questions.Last());
 
 
-            selectedQuestionId = 12;
+            selectedQuestionId = 5;
             selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
             selectedTest = _tests.ElementAt(1);
 
@@ -345,7 +345,7 @@ namespace TestPlatform.Repositories
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
-                Id = _questions.Count() + 1,
+                Id = selectedTest.Questions.Count() + 1,
                 TestId = _tests.Last().Id,
                 SortOrder = 200
             });
@@ -355,7 +355,7 @@ namespace TestPlatform.Repositories
 
 
 
-            selectedQuestionId = 13;
+            selectedQuestionId = 6;
             selectedQuestion = _questions.Find(o => o.Id == selectedQuestionId);
             selectedTest = _tests.ElementAt(1);
 
@@ -375,7 +375,7 @@ namespace TestPlatform.Repositories
                 HasComment = selectedQuestion.HasComment,
 
                 //Test specific properties
-                Id = _questions.Count() + 1,
+                Id = selectedTest.Questions.Count() + 1,
                 TestId = _tests.Last().Id,
                 SortOrder = 300
             });
@@ -729,13 +729,11 @@ namespace TestPlatform.Repositories
 
         public SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason)
         {
-
             return new SessionCompletedVM()
             {
                 IsSuccessfull = true,
                 SessionCompletedReason = sessionCompletedReason
             };
-
         }
     }
 }

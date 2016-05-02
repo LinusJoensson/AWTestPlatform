@@ -17,31 +17,12 @@
 <input type="button" value="Copy Selected To Test" id="copySelectedButton" />
 <input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />
 
-<button class="orcaBtn topMargin-8 rightMargin10 onTheLine"
-        onclick="testTree()"
-        style="float:right">
-    Test
-</button>
-
 @section script
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
     <script type="text/javascript">
 
-        function testTree()
-        {
-            var selectedElmsIds = [];
-            //var selectedElms = $('#allTestsDiv').jstree(true).get_selected('full',true);
-            var selectedElms = $('#allTestsDiv').jstree(true).get_json();
-            alert(JSON.stringify(selectedElms));
-            //$.each(selectedElms, function() {
-            //    selectedElmsIds.push(this.Id);
-            //});
-            //for (var i = 0; i < selectedElms.length; i++) {
-            //    alert(selectedElms[i].attr('id'));
-            //}
-        }
         //----------------------
 
         $(document).ready(function()
@@ -69,6 +50,25 @@
                                    'checkbox'
                            ]});
                 });
+
+            $("#copySelectedButton").click(function()
+            {
+                var selectedElms = $('#allTestsDiv').jstree(true).get_selected('full',true);
+                var idPrefix = "@(AppConstants.Import_QuestionIdPrefix)";
+                var ids = [];
+
+                for (var i = 0; i < selectedElms.length; i++) {
+                    var id = selectedElms[i].id;
+                    if (id.substring(0, idPrefix.length) == idPrefix)
+                        ids.push(id.substring(idPrefix.length));
+                }
+
+                $.post("/Admin/CopyQuestionsToTest",
+                    { testId: @Model.TestId, questionIds: ids },
+                    function(data) {
+                        alert(data);
+                    });
+            });
         });
     </script>
 }

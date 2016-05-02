@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TestPlatform.Models;
 using TestPlatform.Models.Enums;
 using TestPlatform.Repositories;
+using TestPlatform.Utils;
 using TestPlatform.ViewModels;
 
 namespace TestPlatform.Controllers
@@ -175,14 +176,14 @@ namespace TestPlatform.Controllers
         }
 
         [HttpPost]
-        public IActionResult CopyQuestionsToTest(int testId, int[] questionId)
+        public IActionResult CopyQuestionsToTest(int testId, int[] questionIds)
         {
             //TODO: review
             //Add multiple questions in one query (or Json -> Ajax)
-            foreach (var qId in questionId)
+            foreach (var qId in questionIds)
                 repository.AddQuestionToTest(qId, testId);
 
-            return RedirectToAction(nameof(GetImportData), new { id = testId });
+            return Json(GetCurrentTestImportData(testId));
         }
 
 
@@ -259,14 +260,25 @@ namespace TestPlatform.Controllers
 
         public IActionResult GetImportData(int id)
         {
+            var viewModel = new
+            {
+                allTestsData = GetAllTestsImportData(id),
+                currentTestData = GetCurrentTestImportData(id)
+            };
+
+            return Json(viewModel);
+        }
+
+        object GetAllTestsImportData(int currentTestId)
+        {
             var allTests = repository.GetAllTests();
-            
-            var allTestsData = allTests.Where(t => t.Id != id).Select(o => new
+
+            var allTestsData = allTests.Where(t => t.Id != currentTestId).Select(o => new
             {
                 text = o.Name,
                 children = o.Questions.Select(q => new
                 {
-                    questionId = q.Id,
+                    id = $"{AppConstants.Import_QuestionIdPrefix}{q.Id}",
                     text = q.QuestionText,
                     children = q.Answers.Select(a => new
                     {
@@ -275,6 +287,13 @@ namespace TestPlatform.Controllers
                     })
                 }),
             }).ToArray();
+
+            return allTestsData;
+        }
+
+        object GetCurrentTestImportData(int id)
+        {
+            var allTests = repository.GetAllTests();
 
             var thisTestData = allTests.Where(o => o.Id == id).Select(o => new
             {
@@ -291,14 +310,7 @@ namespace TestPlatform.Controllers
                 }),
 
             }).Single();
-
-            var viewModel = new
-            {
-                allTestsData = allTestsData,
-                currentTestData = thisTestData
-            };
-
-            return Json(viewModel);
+            return thisTestData;
         }
     }
 }
