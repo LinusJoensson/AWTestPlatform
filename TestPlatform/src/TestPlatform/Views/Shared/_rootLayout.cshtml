@@ -3,36 +3,34 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="https://code.angularjs.org/1.5.5/angular.min.js"></script>
-    @*<script src="https://raw.githubusercontent.com/siddii/angular-timer/master/dist/angular-timer.min.js"></script>*@
-    <script src="~/scripts/highchecktree.js"></script>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <link href="~/css/highchecktree.css" rel="stylesheet" />
     <link href="~/css/main.css" rel="stylesheet" />
     <link href="~/css/fonts.css" rel="stylesheet" />
     <link href="~/css/images.css" rel="stylesheet" />
     <link href="~/css/heading.css" rel="stylesheet" />
     <link href="~/css/margins.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <link href="~/css/font-awesome.css" rel="stylesheet" />
-    <script src="~/lib/bootstrap-autohidingnavbar/dist/jquery.bootstrap-autohidingnavbar.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://code.angularjs.org/1.5.5/angular.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @*<script src="~/lib/bootstrap-autohidingnavbar/dist/jquery.bootstrap-autohidingnavbar.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', ['$scope', function ($scope) {
-            $scope.answer = '';
         }]);
 
-        $(document).ready(function () {
-            $("div.navbar-fixed-top").autoHidingNavbar({
-            });
-        });
+        //$(document).ready(function () {
+        //    $("div.navbar-fixed-top").autoHidingNavbar({
+        //    });
+        //});
     </script>
+
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">
@@ -66,6 +64,6 @@
 <div class="topBottomMargin80">
     @RenderBody()
 </div>
-    
+    @RenderSection("script", false)
 </body>
 </html>

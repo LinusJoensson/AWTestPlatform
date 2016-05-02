@@ -1,120 +1,4 @@
 ﻿@model ImportVM
-<script>
-    $(document).ready(function()
-    {
-        var myJson = {
-            Name: 'Sebastian',
-            Message: 'Hope this works',
-            Children: {
-                Age: "10",
-                Firstname: "Jakob"            
-            },
-            Name: 'Gustav',
-            Message: 'Hope sss',
-            Children: {
-                Age: "11",
-                Firstname: "Mikael",
-                Children: {
-                    Age: "12",
-                    Firstname: "Jon"            
-                }
-            },
-        };
-
-        var myJson2 = {"Questions":[
-            {"firstName":"John", "lastName":"Doe"},
-            {"firstName":"Anna", "lastName":"Smith"},
-            {"firstName":"Peter", "lastName":"Jones"}
-        ]};
-
-        console.log(myJson);
-        console.log(myJson2);
-
-        $('#jstree').jstree({
-            "core" : {
-                "animation" : 0,
-                "check_callback" : true,
-                "themes" : { "stripes" : true },
-                'data' : {myJson2}
-            },
-            "types" : {
-                "root" : {
-                    "icon" : "glyphicon glyphicon-folder-open",
-                    "valid_children" : ["default"]
-                },
-                "default" : {
-                    "valid_children" : ["default","file"]
-                },
-                "file" : {
-                    "icon" : "glyphicon glyphicon-question-sign",
-                    "valid_children" : []
-                }
-            },
-            "plugins" : [
-              "contextmenu", "dnd", "search",
-              "state", "types", "wholerow"
-            ]
-        });
-
-        $.get("/Admin/GetImportData",
-            { id: @Model.TestId },
-            function(data) {
-                var allTestsData = data.allTestsData;
-                var thisTestData = data.thisTestData;
-
-                //Example
-                //$("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
-                console.log(allTestsData);
-                alert(allTestsData[0].questionList[0].questionText);
-                savedAllTestData = allTestsData;
-
-            });
-    });
-
-    app.controller('TreeController', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
-        $http.get("/Admin/GetImportData")
-            .success(function(data){
-                $scope.NGallTestData = getById(@Model.TestId)
-            })
-            .error(function() {
-                alert('unable to retrieve JSON file.');
-                console.log('Unable to retrieve JSON file.');
-            });
-
-        $scope.delete = function(data) {
-            data.nodes = [];
-        };
-        $scope.add = function(data) {
-            var post = data.nodes.length + 1;
-            var newName = data.name + '-' + post;
-            data.nodes.push({name: newName,nodes: []});
-        };
-        $scope.tree = [{name: "Node", nodes: []}];
-
-        while (true) {
-            $scope.allTestsData = savedAllTestData;
-
-            if ($scope.allTestsData != null)
-            {
-                alert($scope.allTestsData);
-                break;
-            }
-        }
-
-        //if (savedAllTestData != null) {
-        //    add(savedAllTestData[0].questionList[0].questionText);
-        //}
-    }]);
-</script>
-
-<script type="text/ng-template" id="tree_item_renderer.html">
-    {{data.name}}
-    <button ng-click="add(data)">Add node</button>
-    <button ng-click="delete(data)" ng-show="data.nodes.length > 0">Delete nodes</button>
-    <ul>
-        <li ng-repeat="data in data.nodes" ng-include="'tree_item_renderer.html'"></li>
-    </ul>
-</script>
 
 <h1>Import Questions</h1>
 <div class="row">
@@ -124,12 +8,12 @@
             <div id="jstree"></div>
         </div>
     </div>
-    <div class="col-md-4">
-        <h3>Angular tree</h3>
-        <ul ng-controller="TreeController">
-            <li ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
-        </ul>
-    </div>
+    @*<div class="col-md-4">
+            <h3>Angular tree</h3>
+            <ul ng-controller="TreeController">
+                <li ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
+            </ul>
+        </div>*@
     <div class="col-md-4">
         <h3>Current test</h3>
         <div id="currentTestDiv">
@@ -137,23 +21,23 @@
     </div>
 </div>
 
-@*{{AllTestData[0].questionList[0].questionText}}*@
-
 <input type="button" value="Copy Selected To Test" id="copySelectedButton" />
 <input type="button" value="Delete Selected From Test" id="deleteSelectedButton" />
 
-<script type="text/javascript">
+@section script
+{
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $.get("/Admin/GetImportData",
+                { id: @Model.TestId },
+                function(data) {
+                    var allTestsData = data.allTestsData;
+                    var thisTestData = data.thisTestData;
 
-    @*$(document).ready(function()
-    {
-        $.get("/Admin/GetImportData",
-            { id: @Model.TestId },
-            function(data) {
-                var allTestsData = data.allTestsData;
-                var thisTestData = data.thisTestData;
-
-                //Example
-                $("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
-            });
-    });*@
-</script>
+                    //Example
+                    $("#allTestsDiv").text(allTestsData[0].questionList[0].questionText);
+                });
+        });
+    </script>
+}
