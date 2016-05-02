@@ -89,11 +89,11 @@ h6 {
 }
 
 .bgLightBlue {
-    background-color: #597ba9;
+    background-color: #b5d1f7;
 }
 
 .bgLightBlue:hover {
-    background-color: #597ba9;
+    background-color: #dbeafe;
 }
 
 
@@ -120,5 +120,5 @@ h6 {
 }
 
 .bgGreen:hover {
-    background-color: #45b449;
+    background-color: #228b26;
 }

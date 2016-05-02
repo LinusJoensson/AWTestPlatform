@@ -63,12 +63,16 @@ textarea.tinyMCE {
     padding: 12px 8px !important;
 }
 
-.btnLarge {
+.btnWidth210 {
     width:210px;
 }
 
 .btnWidth120 {
     width: 120px;
+}
+
+.btnWidth175 {
+    width: 175px;
 }
 
 /*---------------------------------------------------------------------------

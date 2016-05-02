@@ -9,8 +9,8 @@
 <h3>@Model.TestName</h3>
 <p>@Model.Description</p>
 
-<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnLarge"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
-<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnLarge"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
+<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
 <div>
     @foreach (var question in Model.Questions)
             {
@@ -31,7 +31,6 @@
                 </a>
                 <button class="orcaBtn btnWidth120" onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"><span class="fa fa-eye rightMargin5"></span>Preview</button>
                 <button class="orcaBtn btnWidth120" onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"><span class="fa fa-eye-slash rightMargin5"></span>Hide</button>
-
             </div>
 
             <div id="@("detailsDiv"+question.Id)"></div>
@@ -42,7 +41,7 @@
             <!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
 
 @*<button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed" style="float:right"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Go Back</button>*@
-<a href="~/Admin/Dashboard"><button class="orcaBtn TopMargin20 btnLarge rightFloat rightMargin15"><span class="fa fa-floppy-o" aria-hidden="true"></span>Return to Dashboard</button></a>
+<a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth210 rightFloat rightMargin15"><span class="fa fa-chevron-left rightMargin5"></span>Return to Dashboard</button></a>
 
 <script>
     function PartialPreview(id) {
