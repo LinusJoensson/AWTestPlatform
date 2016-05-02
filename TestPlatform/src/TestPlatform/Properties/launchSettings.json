@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Testsession/index/1",
+      "launchUrl": "Admin/test/1/import",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
