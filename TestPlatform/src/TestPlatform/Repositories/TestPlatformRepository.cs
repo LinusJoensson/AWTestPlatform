@@ -60,8 +60,8 @@ namespace TestPlatform.Repositories
             var answersCount = _answers.Count();
 
 
-            #endregion
 
+            #endregion
 
             _tests.Add(new Test()
             {
@@ -111,7 +111,8 @@ namespace TestPlatform.Repositories
                         Answers = new List<Answer>()
                         {
                         new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Gascascas" },
-                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "asd asd as " }
+                        new Answer() { Id = answersCount + 
+                        1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "asd asd as " }
                         }
                     },
                     new Question()
