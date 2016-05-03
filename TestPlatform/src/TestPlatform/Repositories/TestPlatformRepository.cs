@@ -83,7 +83,7 @@ namespace TestPlatform.Repositories
                         Answers = new List<Answer>()
                         {
                         new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "G B D" },
-                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "G E C" }
+                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "G E C" }
                         }
                     }
                 },
@@ -104,28 +104,28 @@ namespace TestPlatform.Repositories
                     {
                         Id = GetAllQuestions().Count() + 1,
                         Name = "First Question",
-                        QuestionText = "C major?",
+                        QuestionText = "Can you answer this?",
                         QuestionType = QuestionType.SingleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
                         new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Gascascas" },
-                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "asd asd as " }
+                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "asd asd as " }
                         }
                     },
                     new Question()
                     {
                         Id = GetAllQuestions().Count() + 2,
                         Name = "Second Question",
-                        QuestionText = "Q?",
+                        QuestionText = "Another brilliant question, how are you?",
                         QuestionType = QuestionType.SingleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
                             new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Gascascas" },
-                            new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "asd asd as " }
+                            new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "asd asd as " }
                         }
                     },
 
