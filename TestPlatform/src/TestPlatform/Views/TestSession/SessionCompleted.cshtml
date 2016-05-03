@@ -45,20 +45,18 @@
         </h5>
     }
 
-    @if (Model.IsSuccessfull.HasValue)
-    {
-        if (Model.IsSuccessfull.Value)
-        {
-            <h2>
-                Congratulations, you passed the test
-            </h2>
-        }
-        else
-        {
-            <h2>
-                Sorry, you did not pass the test this time
-            </h2>
-        }
+@if (Model.IsSuccessfull.HasValue)
+{
+    if(Model.IsSuccessfull.Value)
+    { 
+        <h2>
+            Congratulations @Model.UserName, you passed the test
+        </h2>
     }
-</div>
-
+    else
+    {
+        <h2>
+            Sorry, you did not pass the test this time
+        </h2>
+    }
+}

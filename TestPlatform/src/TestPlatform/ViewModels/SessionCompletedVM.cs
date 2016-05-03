@@ -11,5 +11,7 @@ namespace TestPlatform.ViewModels
     {
         public bool? IsSuccessfull { get; set; }
         public SessionCompletedReason SessionCompletedReason { get; set; }
+        public string UserName { get; set; }
+
     }
 }

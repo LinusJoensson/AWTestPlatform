@@ -76,14 +76,14 @@ namespace TestPlatform.Repositories
                     {
                         Id = GetAllQuestions().Count() + 1,
                         Name = "Third Question",
-                        QuestionText = "What notes make up a G major?",
+                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""560"" height=""314"" allowfullscreen=""allowfullscreen""></iframe>",
                         QuestionType = QuestionType.SingleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "G B D" },
-                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "G E C" }
+                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "ZLATAN" },
+                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "ZLATAN" }
                         }
                     }
                 },
@@ -103,30 +103,30 @@ namespace TestPlatform.Repositories
                     new Question()
                     {
                         Id = GetAllQuestions().Count() + 1,
-                        Name = "First Question",
-                        QuestionText = "Can you answer this?",
-                        QuestionType = QuestionType.SingleChoice,
+                        Name = "<p>What is a variable?</p>",
+                        QuestionText = "What is a variable?",
+                        QuestionType = QuestionType.MultipleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Gascascas" },
-                        new Answer() { Id = answersCount + 
-                        1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "asd asd as " }
+                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "A store of value" },
+                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "A banana " },
+                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "All of the above " },
                         }
                     },
                     new Question()
                     {
                         Id = GetAllQuestions().Count() + 2,
                         Name = "Second Question",
-                        QuestionText = "Another brilliant question, how are you?",
+                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""560"" height=""314"" allowfullscreen=""allowfullscreen""></iframe>",
                         QuestionType = QuestionType.SingleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                            new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Gascascas" },
-                            new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "asd asd as " }
+                            new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Zlatan" },
+                            new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "Zlatan" }
                         }
                     },
 
@@ -416,9 +416,11 @@ namespace TestPlatform.Repositories
 
         public SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason)
         {
+            var user = _users.Single(u => _testSessions.Single(o => o.Id == testSessionId).UserId == u.Id);
             return new SessionCompletedVM()
             {
                 IsSuccessfull = true,
+                UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
             };
         }
