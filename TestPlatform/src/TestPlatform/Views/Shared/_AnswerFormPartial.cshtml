@@ -1,38 +1,50 @@
 ﻿@model AnswerDetailVM
-<div ng-app="oneApp">
-    @*<input type="text" ng-model="answer" placeholder="Write your answer fool!" />
-            {{answer}}
-        <h2></h2>*@
-    <div>
-        <textarea asp-for="@Model.AnswerText" placeholder="@Model.AnswerText" id="mceAnswerBox" class="mceAnswerBox"></textarea>
-        <span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
-        <p>Correct answer, and then the little box that you can check!</p>
-        <button class="orcaBtn btnWidth120 TopMargin20" value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span>Save</button>
+
+<div class="modal fade" id="editAnswerModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Answer</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-app="oneApp">
+                    <div>
+                        <textarea asp-for="@Model.AnswerText" placeholder="@Model.AnswerText" id="mceAnswerBox" class="mceAnswerBox"></textarea>
+                        <span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
+                        <p>Correct answer, and then the little box that you can check!</p>
+                        @*<button class="orcaBtn btnWidth120 TopMargin20" value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@(" editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span></button>*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="orcaBtn btnWidth120 leftFloat" value="Save Changes" data-dismiss="modal" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span>Save</button>
+                <button type="button" class="orcaBtn btnWidth120 leftFloat LeftMargin5" data-dismiss="modal"><span class="fa fa-cross"></span>Close</button>
+            </div>
+        </div>
     </div>
-    </div>
+</div>
+
 <script>
+    $(document).ready(function showModal() {
+        $("#editAnswerModal").modal();
+    });
 
     function PartialEditAnswer(answerId) {
-
         var answerText = tinymce.get('mceAnswerBox').getContent();
-
         $.post("/Admin/EditAnswerPartial",
             { answerId: answerId, answerText: answerText },
             function (data) {
-
                 var listAnswerDiv = "#listAnswerDiv" + answerId;
                 var editAnswerDiv = "#editAnswerDiv" + answerId;
-
                 $(editAnswerDiv).hide();
-                $(listAnswerDiv).show();
-
+                $(listAnswerDiv).show()
             });
     }
 
     //----------------------------------------------------------------//
     //                          TINY MCE                              //
     //----------------------------------------------------------------//
-
     tinymce.init({
         selector: '.mceAnswerBox',
         height: 100,
@@ -49,8 +61,6 @@
             '//www.tinymce.com/css/codepen.min.css'
         ]
     });
-
     //----------------------------------------------------------------//
     //----------------------------------------------------------------//
-
 </script>
