@@ -6,7 +6,7 @@
 <div>
     <textarea asp-for="@Model.AnswerText" placeholder="@Model.AnswerText" id="mceAnswerBox" class="mceAnswerBox"></textarea>
     <span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
-    <button value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"> SAVE </button>
+    <button class="orcaBtn btnWidth120 TopMargin20" value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span>Save</button>
 </div>
 
 </div>
