@@ -10,5 +10,17 @@
     <br />
     <p class="pBold onTheLine">Time Limit: </p><p class="onTheLine"> @Model.TimeLimit</p>
     <br />
+
+    <form novalidate>
+        <input ng-model="name">
+        <!-- The method for submitting the data goes on the button. -->
+        <!-- The name is passed to the method you want to use to store the data, which you make happen when the button is clicked by using the ngClick directive. -->
+        <input type="submit" ng-click="submitForm(name)" value="Click me!">
+    </form>
+    <p>Hello {{name}}!</p>
+    <!-- This bit of code is to display the results of adding names to the array in the browser window: -->
+    <pre>{{ data }}</pre>
+
+    <input ng-model="userName" class="form-control input-group-sm" />
     <a asp-action="StartSession" asp-controller="TestSession" asp-route-testId="@Model.TestId"><button class="orcaBtn btnWidth120 TopMargin20">Start test</button></a>
 </div>
