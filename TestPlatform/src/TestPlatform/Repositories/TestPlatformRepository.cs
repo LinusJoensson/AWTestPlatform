@@ -416,9 +416,11 @@ namespace TestPlatform.Repositories
 
         public SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason)
         {
+            var user = _users.Single(u => _testSessions.Single(o => o.Id == testSessionId).UserId == u.Id);
             return new SessionCompletedVM()
             {
                 IsSuccessfull = true,
+                UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
             };
         }
