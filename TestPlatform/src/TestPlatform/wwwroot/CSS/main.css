@@ -95,3 +95,7 @@ textarea.tinyMCE {
 .rightFloat {
     float: right;
 }
+
+.leftFloat {
+    float: left;
+}
