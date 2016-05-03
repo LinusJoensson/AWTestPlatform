@@ -2,11 +2,12 @@
 <h2>Update Question</h2>
 <form asp-action="UpdateQuestion" asp-controller="Admin" role="form" class="form-inline">
     <div class="whiteSquare">
-        <h3 class="grayText">Question text</h3>
+        <h3 class="grayText topMargin-8">Question</h3>
         <textarea asp-for="QuestionText" placeholder="" class="tinyMCE" id="mceQuestionBox"></textarea>
         <span asp-validation-for="QuestionText" class="text-danger"></span>
-
-        <h3 class="grayText">Settings</h3>
+        <br />
+        <h4 class="grayText">Settings</h4>
+        <hr />
         <label asp-for="SortOrder"></label>
         <input asp-for="SortOrder" placeholder="Sort order" />
         <span asp-validation-for="SortOrder" class="text-danger"></span>
@@ -20,8 +21,8 @@
             <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemTypes" onchange="TypeChanged()"></select>
             <span asp-validation-for="Type" class="text-danger"></span>
         </div>
-        <br />
-        <button type="submit" style="justify-content: center" class="orcaBtn TopMargin20 btnWidth175" value="Save Changes"><span class="fa fa-save rightMargin5"></span>Save Changes</button>
+        <hr />
+        <button type="submit" style="justify-content: center" class="orcaBtn btnWidth175" value="Save Changes"><span class="fa fa-save rightMargin5"></span>Save Changes</button>
     </div>
 </form>
 
@@ -43,12 +44,15 @@
                     </button>
                     <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 bgRed"
                             onclick="deleteAnswer(@Model.TestId, @Model.Id, @answer.AnswerId)"
-                            style="float:right"><span class="fa fa-trash rightMargin5"></span>Delete</button>
+                            style="float:right">
+                        <span class="fa fa-trash rightMargin5"></span>Delete
+                    </button>
                 </div>
                 <div id=@("editAnswerDiv"+answer.AnswerId) hidden="hidden"></div>
             </div>
         }
     }
+    <a href="~/Admin/Test/@Model.TestId"><button class="orcaBtn btnWidth175"><span class="fa fa-chevron-left rightMargin5"></span>Return to Test</button></a>
     <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.Id">
         <button type="submit" style="justify-content: center" class="orcaBtn BottomMargin20 btnWidth175" value="Add New Answer"><span class="fa fa-plus rightMargin5"></span>Add New Answer</button>
     </a>
@@ -66,7 +70,8 @@
         $.get("/Admin/RemoveAnswer", {
             testId: testId, questionId: questionId, answerId: answerId, function (data) {
                 $('#answerContainerDiv' + answerId).hide();
-        }});
+            }
+        });
     }
 
     function PartialEditAnswer(id) {
