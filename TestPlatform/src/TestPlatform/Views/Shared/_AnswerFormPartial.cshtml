@@ -12,14 +12,15 @@
                     <div>
                         <textarea asp-for="@Model.AnswerText" placeholder="@Model.AnswerText" id="mceAnswerBox" class="mceAnswerBox"></textarea>
                         <span asp-validation-for="@Model.AnswerText" class="text-danger"></span>
-                        <p>Correct answer, and then the little box that you can check!</p>
+                        <br />
+                        <input type="checkbox" name="vehicle" value="Bike"><p class="onTheLine LeftMargin5 pBold">Correct answer</p>
                         @*<button class="orcaBtn btnWidth120 TopMargin20" value="Save Changes" onclick="PartialEditAnswer(@Model.AnswerId)" id="@(" editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span></button>*@
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="orcaBtn btnWidth120 leftFloat" value="Save Changes" data-dismiss="modal" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span>Save</button>
-                <button type="button" class="orcaBtn btnWidth120 leftFloat LeftMargin5" data-dismiss="modal"><span class="fa fa-cross"></span>Close</button>
+                <button type="button" class="orcaBtn leftFloat LeftMargin5 btnWidth120" data-dismiss="modal"><span class="fa fa-close rightMargin5"></span>Close</button>
+                <button class="orcaBtn btnWidth120 LeftMargin5 leftFloat" value="Save Changes" data-dismiss="modal" onclick="PartialEditAnswer(@Model.AnswerId)" id="@("editAnswerButtonId"+Model.AnswerId)"><span class="fa fa-save rightMargin5"></span>Save</button>
             </div>
         </div>
     </div>

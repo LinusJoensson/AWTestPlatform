@@ -28,6 +28,12 @@
 
 <div id="answers">
     <h3>Answers</h3>
+    <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.Id">
+        <button type="submit" style="justify-content: center"
+                class="orcaBtn BottomMargin20 btnWidth175" value="Add New Answer">
+            <span class="fa fa-plus rightMargin5"></span>Add New Answer
+        </button>
+    </a>
     @if (Model.Answers != null)
             {
         @foreach (var answer in Model.Answers)
@@ -36,10 +42,9 @@
                 <div id=@("listAnswerDiv"+answer.AnswerId)>
                     <p class="onTheLine pBold">Answer:</p>
                     <p class="onTheLine">@(Html.Raw(answer.AnswerText))</p>
-                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120"
+                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 rightFloat"
                             onclick="PartialEditAnswer(@answer.AnswerId)"
-                            id="@("editAnswerButton"+answer.AnswerId)"
-                            style="float:right">
+                            id="@("editAnswerButton"+answer.AnswerId)">
                         <span class="fa fa-pencil rightMargin5"></span>Edit
                     </button>
                     <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 bgRed"
@@ -53,9 +58,6 @@
         }
     }
     <a href="~/Admin/Test/@Model.TestId"><button class="orcaBtn btnWidth175"><span class="fa fa-chevron-left rightMargin5"></span>Return to Test</button></a>
-    <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.Id">
-        <button type="submit" style="justify-content: center" class="orcaBtn BottomMargin20 btnWidth175" value="Add New Answer"><span class="fa fa-plus rightMargin5"></span>Add New Answer</button>
-    </a>
 </div>
 
 

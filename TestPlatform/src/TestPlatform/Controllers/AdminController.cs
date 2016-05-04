@@ -241,6 +241,7 @@ namespace TestPlatform.Controllers
             };
 
             //TODO: FIX: This updates the whole question (master page) without saving changed question information
+            //return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
