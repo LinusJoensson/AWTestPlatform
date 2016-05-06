@@ -291,7 +291,7 @@ namespace TestPlatform.Controllers
                 children = o.Questions.Select(q => new
                 {
                     id = $"{AppConstants.Import_QuestionIdPrefix}{q.Id}",
-                    text = q.QuestionText,
+                    text = q.QuestionText.Replace("<iframe", "|FRAME|").Replace("<img", "|IMAGE|").Replace("src", "|SOURCE|"),
                     children = q.Answers.Select(a => new
                     {
                         text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
@@ -313,7 +313,7 @@ namespace TestPlatform.Controllers
                 children = o.Questions.Select(q => new
                 {
                     id = $"{AppConstants.Import_QuestionIdPrefix}{q.Id}",
-                    text = q.QuestionText,
+                    text = q.QuestionText.Replace("<iframe", "|FRAME|").Replace("<img", "|IMAGE|").Replace("src", "|SOURCE|"),
                     children = q.Answers.Select(a => new
                     {
                         text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
