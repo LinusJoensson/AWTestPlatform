@@ -419,6 +419,7 @@ namespace TestPlatform.Repositories
             var user = _users.Single(u => _testSessions.Single(o => o.Id == testSessionId).UserId == u.Id);
             return new SessionCompletedVM()
             {
+                Date = DateTime.Now.Date.ToString("dd/MM/yyyy"),
                 IsSuccessfull = true,
                 UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
