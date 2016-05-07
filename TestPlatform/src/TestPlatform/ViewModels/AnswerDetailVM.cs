@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestPlatform.Models.Enums;
 
 namespace TestPlatform.ViewModels
 {
@@ -13,5 +14,6 @@ namespace TestPlatform.ViewModels
         public bool ShowAsCorrect { get; set; }
         public bool IsChecked { get; set; }
         public bool IsInPreview { get; set; }
+        public QuestionType QuestionType { get; set; }
     }
 }

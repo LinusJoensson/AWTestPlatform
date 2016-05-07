@@ -26,15 +26,17 @@
 
 @*/// ----------------------- QUESTION ---------------------------////*@
 
-<div id="questionTextDiv">
-    @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM);
-</div>
+<div class="whiteSquare BottomMargin20">
+    <div id="questionTextDiv">
+        @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
 
-<button class="orcaBtn topMargin-8 rightMargin10 onTheLine"
-        onclick="UpdateQuestionText(@Model.QuestionId)"
-        style="float:left">
-    <span class="fa fa-pencil rightMargin5"></span>SAVE CHANGES
-</button>
+        <button onclick="UpdateQuestionText(@Model.QuestionId)"
+                id="@("btnSaveQuestionTxt" + Model.QuestionId)">
+            SAVE CHANGES
+        </button>
+
+    </div>
+</div>
 
 @*/// ------------------------------------------------------------////*@
 
@@ -55,10 +57,10 @@
 
                 <div id=@("editAnswerDiv"+answer.AnswerId) @*hidden="hidden" *@>
 
-                    @Html.Partial("_EditAnswerPartial", answer);
+                    @Html.Partial("_EditAnswerPartial", answer)
 
                     <button value="Save Changes" onclick="UpdateAnswer(@answer.AnswerId)"
-                            id="@("updateAnswerButtonId"+answer.AnswerId)">
+                            id="@("btnSaveAnswerTxt"+answer.AnswerId)">
                         SAVE CHANGES
                     </button>
                 </div>
@@ -83,14 +85,13 @@
 
     function ShowEditAnswer(answerId) {
 
-                $("#editAnswerDiv" + answerId).show();
-                $("#listAnswerDiv" + answerId).hide();
+        $("#editAnswerDiv" + answerId).show();
+        $("#listAnswerDiv" + answerId).hide();
 
-                tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
+        tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
     }
 
-    function UpdateQuestionText(id)
-    {
+    function UpdateQuestionText(id) {
         var text = tinymce.get('mceQuestionBox').getContent();
 
         $.post("/Admin/UpdateQuestionText",
@@ -99,7 +100,7 @@
 
     function UpdateAnswer(answerId, answerText, IsCorrect) {
 
-        var answerText = tinymce.get('mceAnswerBox'+answerId).getContent();
+        var answerText = tinymce.get('mceAnswerBox' + answerId).getContent();
 
         alert(answerText);
 
@@ -130,7 +131,7 @@
     //--------------------------QUESTION-------------------------------//
     tinymce.init({
         selector: 'textarea#mceQuestionBox',
-        height: 100,
+        height: 400,
         width: 970,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -154,7 +155,7 @@
     tinymce.init({
         selector: '.mceAnswerBox',
         height: 100,
-        width: 800,
+        width: 970,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',

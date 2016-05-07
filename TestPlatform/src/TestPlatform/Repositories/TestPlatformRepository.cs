@@ -386,7 +386,7 @@ namespace TestPlatform.Repositories
         {
             var answer = new Answer()
             {
-                Id = _answers.Count() + 1
+                Id = GetAllAnswers().Count() + 1
             };
 
             _answers.Add(answer);

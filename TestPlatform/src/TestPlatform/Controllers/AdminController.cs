@@ -105,6 +105,8 @@ namespace TestPlatform.Controllers
                 AnswerDetailVMs = new List<AnswerDetailVM>()
             };
 
+            var type = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId).QuestionType;
+
             foreach (var answer in thisQuestion.Answers)
             {
                 viewModel.AnswerDetailVMs.Add(new AnswerDetailVM()
@@ -112,7 +114,9 @@ namespace TestPlatform.Controllers
                     AnswerId = answer.Id,
                     AnswerText = answer.AnswerText,
                     ShowAsCorrect = answer.IsCorrect,
-                    IsChecked = answer.IsCorrect
+                    IsChecked = answer.IsCorrect,
+                    QuestionType  = thisQuestion.QuestionType,
+                    IsInPreview = true
                 });
             }
 
@@ -179,14 +183,12 @@ namespace TestPlatform.Controllers
 
         public IActionResult RemoveQuestion(int testId, int questionId)
         {
-            //TODO: ARE YOU SURE?
             repository.RemoveQuestionFromTest(questionId, testId);
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
 
         public IActionResult RemoveAnswer(int testId, int questionId, int answerId)
         {
-            //TODO: ARE YOU SURE?
             repository.RemoveAnswerFromQuestion(testId, questionId, answerId);
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
@@ -229,11 +231,6 @@ namespace TestPlatform.Controllers
         public IActionResult CreateAnswer(int testId, int questionId)
         {
             int answerId = repository.CreateAnswer(questionId);
-
-            var viewModelPartial = new AnswerDetailVM()
-            {
-                AnswerId = answerId
-            };
 
             //TODO: FIX: This updates the whole question (master page) without saving changed question information
             //return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
