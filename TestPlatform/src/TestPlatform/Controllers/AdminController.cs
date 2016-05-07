@@ -40,6 +40,41 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
+        public IActionResult UpdateQuestionText(int questionId, string questionText)
+        {
+            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+            thisQuestion.QuestionText = questionText;
+
+            var model = new QuestionFormVM()
+            {
+                QuestionText = questionText,
+            };
+
+            return PartialView("_EditQuestionPartial", model);
+        }
+
+        public IActionResult UpdateAnswer(int answerId, string answerText, bool isCorrect)
+        {
+            Debug.WriteLine("Size: " + repository.GetAllAnswers().Count());
+
+            foreach (var a in repository.GetAllAnswers())
+                Debug.WriteLine("A id: " + a.Id);
+
+            var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == answerId);
+
+            thisAnswer.AnswerText = answerText;
+            thisAnswer.IsCorrect = isCorrect;
+
+            var model = new AnswerDetailVM()
+            {
+                AnswerId = answerId,
+                AnswerText = answerText,
+                IsChecked = isCorrect
+            };
+
+            return PartialView("_EditAnswerPartial", model);
+        }
+
         [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
         public IActionResult UpdateQuestion(int testId, int questionId)
         {
@@ -47,9 +82,10 @@ namespace TestPlatform.Controllers
 
             Debug.WriteLine(thisQuestion.QuestionText);
 
-            var viewModel = new EditQuestionFormVM()
+            var viewModel = new EditQuestionVM()
             {
-                ItemTypes = new SelectListItem[]
+
+                ItemType = new SelectListItem[]
                 {
                     new SelectListItem { Value = ((int)QuestionType.SingleChoice).ToString(), Text="Single Choice"},
                     new SelectListItem { Value = ((int)QuestionType.MultipleChoice).ToString(), Text="Multiple Choice"},
@@ -57,17 +93,21 @@ namespace TestPlatform.Controllers
                     new SelectListItem { Value = ((int)QuestionType.TextMultiLine).ToString(), Text="Multi Line Text"}
                 },
                 TestId = testId,
-                Id = questionId,
-                QuestionText = thisQuestion.QuestionText,
-                Type = thisQuestion.QuestionType,
-                SortOrder = thisQuestion.SortOrder,
-                HasComment = thisQuestion.HasComment,
-                Answers = new List<AnswerDetailVM>()
+                QuestionId = questionId,
+                QuestionFormVM = new QuestionFormVM()
+                {
+                    QuestionText = thisQuestion.QuestionText,
+                    QuestionType = thisQuestion.QuestionType,
+                    SortOrder = thisQuestion.SortOrder,
+                    HasComment = thisQuestion.HasComment,
+                },
+
+                AnswerDetailVMs = new List<AnswerDetailVM>()
             };
 
             foreach (var answer in thisQuestion.Answers)
             {
-                viewModel.Answers.Add(new AnswerDetailVM()
+                viewModel.AnswerDetailVMs.Add(new AnswerDetailVM()
                 {
                     AnswerId = answer.Id,
                     AnswerText = answer.AnswerText,
@@ -78,19 +118,6 @@ namespace TestPlatform.Controllers
 
             return View(viewModel);
 
-        }
-
-        [HttpPost]
-        [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
-        public IActionResult UpdateQuestion(EditQuestionFormVM viewModel, int testId, int questionId)
-        {
-            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
-            thisQuestion.QuestionText = viewModel.QuestionText;
-            thisQuestion.QuestionType = viewModel.Type;
-            thisQuestion.SortOrder = viewModel.SortOrder;
-            thisQuestion.HasComment = viewModel.HasComment;
-
-            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
         [Route("Admin/Test/{testId}/Settings")]
@@ -198,38 +225,6 @@ namespace TestPlatform.Controllers
             return Json(GetCurrentTestImportData(testId));
         }
 
-        public ActionResult ListAnswerPartial(int id)
-        {
-            var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == id);
-
-            var viewModelPartial = new AnswerDetailVM()
-            {
-                AnswerId = thisAnswer.Id,
-                AnswerText = thisAnswer.AnswerText,
-                ShowAsCorrect = thisAnswer.IsCorrect,
-                IsChecked = thisAnswer.IsCorrect
-            };
-
-            return PartialView("_AnswerFormPartial", viewModelPartial);
-        }
-
-        [HttpPost]
-        public ActionResult EditAnswerPartial(int answerId, string answerText, bool isCorrect)
-        {
-            var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == answerId);
-            thisAnswer.AnswerText = answerText;
-
-            var viewModelPartial = new AnswerDetailVM()
-            {
-                AnswerId = thisAnswer.Id,
-                AnswerText = thisAnswer.AnswerText,
-                ShowAsCorrect = thisAnswer.IsCorrect,
-                IsChecked = thisAnswer.IsCorrect
-            };
-
-            return PartialView("_AnswerFormPartial", viewModelPartial);
-        }
-
         [Route("Admin/Test/{testId}/Question/{questionId}/Answer/Create")]
         public IActionResult CreateAnswer(int testId, int questionId)
         {
@@ -259,7 +254,7 @@ namespace TestPlatform.Controllers
                     ShowAsCorrect = o.IsCorrect,
                     IsChecked = o.IsCorrect
                 }).ToList(),
-                TextQuestion = thisQuestion.QuestionText,
+                QuestionText = thisQuestion.QuestionText,
                 HasComment = thisQuestion.HasComment,
                 QuestionType = thisQuestion.QuestionType
             };

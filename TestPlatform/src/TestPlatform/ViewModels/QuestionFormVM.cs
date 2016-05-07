@@ -9,16 +9,14 @@ namespace TestPlatform.ViewModels
 {
     public class QuestionFormVM
     {
-        public string TextQuestion { get; set; }
-        public int MyProperty { get; set; }
+        public string QuestionText { get; set; }
         public bool HasComment { get; set; }
-
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
-
         public string[] SelectedAnswers { get; set; }
-        public bool IsInTestSession { get; set; }
         public QuestionType QuestionType { get; set; }
         public List<AnswerDetailVM> Answers { get; set; }
+        public bool IsInTestSession { get; set; }
+        public int? SortOrder { get; set; }
     }
 }

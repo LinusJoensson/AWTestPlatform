@@ -1,95 +1,110 @@
-﻿@model EditQuestionFormVM
-<h2>Update Question</h2>
-<form asp-action="UpdateQuestion" asp-controller="Admin" role="form" class="form-inline">
-    <div class="whiteSquare">
-        <h3 class="grayText topMargin-8">Question</h3>
-        <textarea asp-for="QuestionText" placeholder="" class="tinyMCE" id="mceQuestionBox"></textarea>
-        <span asp-validation-for="QuestionText" class="text-danger"></span>
-        <br />
-        <h4 class="grayText">Settings</h4>
-        <hr />
-        <label asp-for="SortOrder"></label>
-        <input asp-for="SortOrder" placeholder="Sort order" />
-        <span asp-validation-for="SortOrder" class="text-danger"></span>
-        <br />
-        <label asp-for="HasComment"></label>
-        <input asp-for="HasComment" placeholder="Question" />
-        <span asp-validation-for="HasComment" class="text-danger"></span>
-        <br />
-        <div class="form-group">
-            <label asp-for="Type"></label>
-            <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemTypes" onchange="TypeChanged()"></select>
-            <span asp-validation-for="Type" class="text-danger"></span>
-        </div>
-        <hr />
-        <button type="submit" style="justify-content: center" class="orcaBtn btnWidth175" value="Save Changes"><span class="fa fa-save rightMargin5"></span>Save Changes</button>
-    </div>
-</form>
+﻿@model EditQuestionVM
 
-<div id="answers">
+@*/// ----------------------- TYPE (GLOBAL) ----------------------////*@
+<div class="form-group">
+    <label asp-for="Type"></label>
+    <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemType" onchange="TypeChanged()"></select>
+    <span asp-validation-for="Type" class="text-danger"></span>
+</div>
+@*/// ------------------------------------------------------------////*@
+
+
+@*/// ----------------------- SETTINGS ---------------------------////*@
+<div id="questionSettingsDiv">
+    <h3 class="grayText">Settings</h3>
+    <label asp-for="SortOrder"></label>
+    <input asp-for="SortOrder" placeholder="Sort order" />
+    <span asp-validation-for="SortOrder" class="text-danger"></span>
+    <br />
+    <label asp-for="HasComment"></label>
+    <input asp-for="HasComment" placeholder="Question" />
+    <span asp-validation-for="HasComment" class="text-danger"></span>
+    <br />
+</div>
+@*/// ------------------------------------------------------------////*@
+
+
+@*/// ----------------------- QUESTION ---------------------------////*@
+
+<div id="questionTextDiv">
+    @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM);
+</div>
+
+<button class="orcaBtn topMargin-8 rightMargin10 onTheLine"
+        onclick="UpdateQuestionText(@Model.QuestionId)"
+        style="float:left">
+    <span class="fa fa-pencil rightMargin5"></span>SAVE CHANGES
+</button>
+
+@*/// ------------------------------------------------------------////*@
+
+
+@*/// ----------------------- ANSWERS ----------------------------////*@
+<div id="answersDiv">
     <h3>Answers</h3>
-    <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.Id">
-        <button type="submit" style="justify-content: center"
-                class="orcaBtn BottomMargin20 btnWidth175" value="Add New Answer">
-            <span class="fa fa-plus rightMargin5"></span>Add New Answer
-        </button>
+
+    <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+        <input type="submit" style="justify-content: center" class="orcaBtn BottomMargin20" value="Add New Answer" />
     </a>
-    @if (Model.Answers != null)
+
+    @if (Model.AnswerDetailVMs != null)
             {
-        @foreach (var answer in Model.Answers)
+        @foreach (var answer in Model.AnswerDetailVMs)
                 {
-            <div id=@("answerContainerDiv"+answer.AnswerId) class="whiteSquare BottomMargin20">
-                <div id=@("listAnswerDiv"+answer.AnswerId)>
-                    <p class="onTheLine pBold">Answer:</p>
-                    <p class="onTheLine">@(Html.Raw(answer.AnswerText))</p>
-                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 rightFloat"
-                            onclick="PartialEditAnswer(@answer.AnswerId)"
-                            id="@("editAnswerButton"+answer.AnswerId)">
-                        <span class="fa fa-pencil rightMargin5"></span>Edit
-                    </button>
-                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 bgRed"
-                            onclick="deleteAnswer(@Model.TestId, @Model.Id, @answer.AnswerId)"
-                            style="float:right">
-                        <span class="fa fa-trash rightMargin5"></span>Delete
+            <div class="whiteSquare BottomMargin20">
+
+                <div id=@("editAnswerDiv"+answer.AnswerId) @*hidden="hidden" *@>
+
+                    @Html.Partial("_EditAnswerPartial", answer);
+
+                    <button value="Save Changes" onclick="UpdateAnswer(@answer.AnswerId)"
+                            id="@("updateAnswerButtonId"+answer.AnswerId)">
+                        SAVE CHANGES
                     </button>
                 </div>
-                <div id=@("editAnswerDiv"+answer.AnswerId) hidden="hidden"></div>
+
             </div>
         }
     }
-    <a href="~/Admin/Test/@Model.TestId"><button class="orcaBtn btnWidth175"><span class="fa fa-chevron-left rightMargin5"></span>Return to Test</button></a>
+
 </div>
+@*/// ------------------------------------------------------------////*@
 
-
-@*----------------------------------------------------------------------------------------*@
-@*----------------------------------------------------------------------------------------*@
 
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <script>
 
-    var deleteAnswer = function (testId, questionId, answerId) {
-        $.get("/Admin/RemoveAnswer", {
-            testId: testId, questionId: questionId, answerId: answerId, function (data) {
-                $('#answerContainerDiv' + answerId).hide();
-            }
-        });
+    function CreateAnswer(questionId, testId) {
+
+        $.post("/Admin/CreateAnswer",
+            { testId: testId, questionId: questionId });
     }
 
-    function PartialEditAnswer(id) {
+    function ShowEditAnswer(answerId) {
 
-        $.get("/Admin/ListAnswerPartial",
-            { id: id },
-            function (data) {
+                $("#editAnswerDiv" + answerId).show();
+                $("#listAnswerDiv" + answerId).hide();
 
-                var listAnswerDiv = "#listAnswerDiv" + id;
-                var editAnswerDiv = "#editAnswerDiv" + id;
+                tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
+    }
 
-                $(listAnswerDiv).hide();
+    function UpdateQuestionText(id)
+    {
+        var text = tinymce.get('mceQuestionBox').getContent();
 
-                $(editAnswerDiv).html(data);
-                $(editAnswerDiv).show();
-            });
+        $.post("/Admin/UpdateQuestionText",
+            { questionId: id, questionText: text });
+    }
+
+    function UpdateAnswer(answerId, answerText, IsCorrect) {
+
+        var answerText = tinymce.get('mceAnswerBox'+answerId).getContent();
+
+        alert(answerText);
+
+        $.post("/Admin/UpdateAnswer",
+            { answerId: answerId, answerText: answerText, isCorrect: false });
     }
 
     function TypeChanged() {
@@ -99,19 +114,20 @@
         if (questionTypeToString == "Multiple Choice"
             ||
             questionTypeToString == "Single Choice") {
-            $("#answers").show();
+            $("#answersDiv").show();
         }
         else {
-            $("#answers").hide();
+            $("#answersDiv").hide();
         }
     }
 
+
     //----------------------------------------------------------------//
-    //                          TINY MCE                              //
+    // ************************ TINY MCE **************************** //
     //----------------------------------------------------------------//
 
-    //NOT RESPONSIVE
 
+    //--------------------------QUESTION-------------------------------//
     tinymce.init({
         selector: 'textarea#mceQuestionBox',
         height: 100,
@@ -128,6 +144,32 @@
             '//www.tinymce.com/css/codepen.min.css'
         ]
     });
+
+    //----------------------------------------------------------------//
+    //----------------------------------------------------------------//
+
+
+
+    //--------------------------ANSWERS-------------------------------//
+    tinymce.init({
+        selector: '.mceAnswerBox',
+        height: 100,
+        width: 800,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code',
+            'textcolor colorpicker'
+        ],
+        toolbar: 'media | forecolor backcolor | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        content_css: [
+            '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+            '//www.tinymce.com/css/codepen.min.css'
+        ]
+    });
+
+    //----------------------------------------------------------------//
+    //----------------------------------------------------------------//
 
 
 </script>
