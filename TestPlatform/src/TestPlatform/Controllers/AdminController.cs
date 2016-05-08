@@ -46,6 +46,7 @@ namespace TestPlatform.Controllers
             var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
             thisQuestion.SortOrder = viewModel.SortOrder;
             thisQuestion.QuestionType = viewModel.Type;
+            thisQuestion.HasComment = viewModel.HasComment;
 
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }

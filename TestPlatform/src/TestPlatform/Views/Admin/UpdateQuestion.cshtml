@@ -2,7 +2,7 @@
 
 @*/// ----------------------- SETTINGS ---------------------------////*@
 <div id="questionSettingsDiv">
-
+    <br />
     <div class="whiteSquare BottomMargin20">
 
         <form asp-controller="Admin" asp-action="UpdateQuestionSettings" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
@@ -66,7 +66,7 @@
 
 
 @*/// ----------------------- ANSWERS ----------------------------////*@
-<div id="answersDiv">
+@*<div id="answersDiv">*@
 
     @if (Model.AnswerDetailVMs != null)
     {
@@ -77,47 +77,64 @@
 
         @foreach (var answer in Model.AnswerDetailVMs)
         {
-            <div class="whiteSquare BottomMargin20">
+            <div id="@("answerDiv"+answer.AnswerId)">
+                <div class="whiteSquare BottomMargin20">
 
-                <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
-                        id="@("btnUpdateAnswer" + answer.AnswerId)">
-                    SAVE CHANGES
-                </button>
+                    <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
+                            id="@("btnUpdateAnswer" + answer.AnswerId)">
+                        SAVE CHANGES
+                    </button>
 
-                <button onclick="ShowEditAnswer(@answer.AnswerId)"
-                        id="@("btnShowEditAnswer" + answer.AnswerId)">
-                    Edit Answer
-                </button>
+                    <button onclick="ShowEditAnswer(@answer.AnswerId)"
+                            id="@("btnShowEditAnswer" + answer.AnswerId)">
+                        Edit Answer
+                    </button>
 
-                <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
-                    @Html.Partial("_EditAnswerPartial", answer)
+                    <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
+                            id="@("btnRemoveAnswer" + answer.AnswerId)">
+                        Remove Answer
+                    </button>
 
-                    <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
-                           @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
-                </div>
+                    <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
+                        @Html.Partial("_EditAnswerPartial", answer)
 
-                <div id=@("previewAnswerDiv"+ answer.AnswerId)>
+                        <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
+                               @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
+                    </div>
 
-                    @Html.Partial("_AnswerFormPartial", answer)
+                    <div id=@("previewAnswerDiv"+ answer.AnswerId)>
 
+                        @Html.Partial("_AnswerFormPartial", answer)
+
+                    </div>
                 </div>
             </div>
         }
     }
 
-</div>
+@*</div>*@
 @*/// ------------------------------------------------------------////*@
-
 
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <script>
+
+    function RemoveAnswer(testId, questionId, answerId) {
+
+        var actionUrl = "/Admin/RemoveAnswer";
+
+        $.post(actionUrl, { testId: testId, questionId: questionId, answerId: answerId })
+        .done(function () {
+            $("#answerDiv" + answerId).html("");
+        });
+    }
 
     function ShowEditAnswer(answerId) {
 
         tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
 
         $("#editAnswerDiv" + answerId).show();
+        $("#btnRemoveAnswer" + answerId).show();
         $("#previewAnswerDiv" + answerId).hide();
         $("#btnUpdateAnswer" + answerId).show();
         $("#btnShowEditAnswer" + answerId).hide();
@@ -139,6 +156,7 @@
         $("#btnUpdateAnswer" + answerId).hide();
         $("#btnShowEditAnswer" + answerId).show();
         $("#editAnswerDiv" + answerId).hide();
+        $("#btnRemoveAnswer" + answerId).hide();
         $("#previewAnswerDiv" + answerId).show();
 
     }
