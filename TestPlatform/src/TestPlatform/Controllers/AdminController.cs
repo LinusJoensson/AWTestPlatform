@@ -48,10 +48,31 @@ namespace TestPlatform.Controllers
 
             var model = new QuestionFormVM()
             {
-                QuestionText = questionText
+                QuestionText = questionText,
+                IsInEditQuestion = true,
+                QuestionType = thisQuestion.QuestionType
             };
             
             return PartialView("_QuestionFormPartial", model);
+        }
+
+        public PartialViewResult UpdateAnswer(int questionId, int answerId, string answerText, bool isCorrect)
+        {
+            var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == answerId);
+            var thisQuestionType = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId).QuestionType;
+
+            thisAnswer.AnswerText = answerText;
+            thisAnswer.IsCorrect = isCorrect;
+
+            var model = new AnswerDetailVM()
+            {
+                AnswerId = answerId,
+                AnswerText = answerText,
+                IsChecked = isCorrect,
+                QuestionType = thisQuestionType
+            };
+
+            return PartialView("_AnswerFormPartial", model);
         }
 
         [HttpPost]
@@ -62,26 +83,23 @@ namespace TestPlatform.Controllers
             var model = new QuestionFormVM()
             {
                 QuestionText = thisQuestion.QuestionText,
+                IsInEditQuestion = true,
+                QuestionType = thisQuestion.QuestionType
             };
 
             return PartialView("_EditQuestionPartial");
         }
-
-        public IActionResult UpdateAnswer(int answerId, string answerText, bool isCorrect)
+        
+        public IActionResult CreateAnswer(int testId, int questionId)
         {
-            var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == answerId);
+            int answerId = repository.CreateAnswer(questionId);
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
+        }
 
-            thisAnswer.AnswerText = answerText;
-            thisAnswer.IsCorrect = isCorrect;
-
-            var model = new AnswerDetailVM()
-            {
-                AnswerId = answerId,
-                AnswerText = answerText,
-                IsChecked = isCorrect
-            };
-
-            return PartialView("_EditAnswerPartial", model);
+        public IActionResult RemoveAnswer(int testId, int questionId, int answerId)
+        {
+            repository.RemoveAnswerFromQuestion(testId, questionId, answerId);
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
         [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
@@ -109,28 +127,20 @@ namespace TestPlatform.Controllers
                     QuestionType = thisQuestion.QuestionType,
                     SortOrder = thisQuestion.SortOrder,
                     HasComment = thisQuestion.HasComment,
+                    IsInEditQuestion = true
                 },
 
-                AnswerDetailVMs = new List<AnswerDetailVM>()
-            };
-
-            var type = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId).QuestionType;
-
-            foreach (var answer in thisQuestion.Answers)
-            {
-                viewModel.AnswerDetailVMs.Add(new AnswerDetailVM()
+                AnswerDetailVMs = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                 {
-                    AnswerId = answer.Id,
-                    AnswerText = answer.AnswerText,
-                    ShowAsCorrect = answer.IsCorrect,
-                    IsChecked = answer.IsCorrect,
-                    QuestionType  = thisQuestion.QuestionType,
-                    IsInPreview = true
-                });
-            }
-
+                    AnswerId = o.Id,
+                    AnswerText = o.AnswerText,
+                    IsChecked = o.IsCorrect,
+                    ShowAsCorrect = o.IsCorrect,
+                    QuestionType = thisQuestion.QuestionType,
+                }).ToArray()
+            };
+            
             return View(viewModel);
-
         }
 
         [Route("Admin/Test/{testId}/Settings")]
@@ -196,12 +206,6 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(ManageTestQuestions), new { testId = testId });
         }
 
-        public IActionResult RemoveAnswer(int testId, int questionId, int answerId)
-        {
-            repository.RemoveAnswerFromQuestion(testId, questionId, answerId);
-            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
-        }
-
         [Route("Admin/Test/{testId}/Import")]
         public IActionResult Import(int testId)
         {
@@ -224,7 +228,6 @@ namespace TestPlatform.Controllers
             return Json(GetCurrentTestImportData(testId));
         }
 
-
         [HttpPost]
         public IActionResult DeleteQuestionsFromTest(int testId, int[] questionIds)
         {
@@ -234,16 +237,6 @@ namespace TestPlatform.Controllers
                 repository.RemoveQuestionFromTest(qId, testId);
 
             return Json(GetCurrentTestImportData(testId));
-        }
-
-        [Route("Admin/Test/{testId}/Question/{questionId}/Answer/Create")]
-        public IActionResult CreateAnswer(int testId, int questionId)
-        {
-            int answerId = repository.CreateAnswer(questionId);
-
-            //TODO: FIX: This updates the whole question (master page) without saving changed question information
-            //return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
-            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
         public ActionResult PreviewQuestionPartial(int id)

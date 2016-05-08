@@ -1,0 +1,28 @@
+﻿@model AnswerDetailVM
+
+    <div class="panel panel-primary">
+        <div class="panel-body">
+
+            @switch (Model.QuestionType)
+            {
+                case TestPlatform.Models.Enums.QuestionType.SingleChoice:
+                    {
+                        <input type="radio" @(Model.IsChecked ? "checked=\"checked\"" : "") />
+
+                            @(Html.Raw(Model.AnswerText))
+                    }
+
+                    break;
+
+                case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
+                    {
+
+                        <input type="checkbox" @(Model.IsChecked ? "checked=\"checked\"" : "") disabled="disabled" />
+
+                            @(Html.Raw(Model.AnswerText))
+
+                    }
+                    break;
+            }
+        </div>
+    </div>

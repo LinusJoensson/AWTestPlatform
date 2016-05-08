@@ -17,6 +17,7 @@ namespace TestPlatform.ViewModels
         public QuestionType QuestionType { get; set; }
         public List<AnswerDetailVM> Answers { get; set; }
         public bool IsInTestSession { get; set; }
+        public bool IsInEditQuestion { get; set; }
         public int? SortOrder { get; set; }
     }
 }

@@ -17,9 +17,8 @@ namespace TestPlatform.ViewModels
         public bool HasComment { get; set; }
         //Dropdown menu item types
         public SelectListItem[] ItemType { get; set; }
-
         public QuestionFormVM QuestionFormVM { get; set; }
-        public List<AnswerDetailVM> AnswerDetailVMs { get; set; }
+        public AnswerDetailVM[] AnswerDetailVMs { get; set; }
         public QuestionType Type { get; set; }
     }
 }

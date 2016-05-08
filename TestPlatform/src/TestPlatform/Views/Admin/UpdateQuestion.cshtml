@@ -23,6 +23,10 @@
 </div>
 @*/// ------------------------------------------------------------////*@
 
+<a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+    Create New Answer
+</a>
+
 
 @*/// ----------------------- QUESTION ---------------------------////*@
 
@@ -32,26 +36,22 @@
 
         <div id="editQuestionTextDiv" hidden="hidden">
 
+            <button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
+                    id="@("btnSaveQuestionTxt" + Model.QuestionId)">
+                SAVE CHANGES
+            </button>
             @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
 
         </div>
 
-        <div id="previewQuestionTextDiv">
-
-            @*//TODO: design this view*@
-            @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
-
-        </div>
-
-        <button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
-                id="@("btnSaveQuestionTxt" + Model.QuestionId)">
-            SAVE CHANGES
-        </button>
-
         <button onclick="ShowEditQuestionText(@Model.QuestionId)"
                 id="@("btnEditQuestionTxt" + Model.QuestionId)">
-            EDIT
+            EDIT QUESTION
         </button>
+
+        <div id="previewQuestionTextDiv">
+            @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+        </div>
 
     </div>
 
@@ -60,32 +60,36 @@
 @*/// ------------------------------------------------------------////*@
 
 
-<a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-    <input type="submit" style="justify-content: center" class="orcaBtn BottomMargin20" value="Add New Answer" />
-</a>
-
 @*/// ----------------------- ANSWERS ----------------------------////*@
 <div id="answersDiv">
-    <h3>Answers</h3>
 
-    @if (Model.AnswerDetailVMs != null)
-            {
-        @foreach (var answer in Model.AnswerDetailVMs)
-                {
-            <div class="whiteSquare BottomMargin20">
+    @foreach (var answer in Model.AnswerDetailVMs)
+    {
+        <div class="whiteSquare BottomMargin20">
 
-                <div id=@("editAnswerDiv"+answer.AnswerId) @*hidden="hidden" *@>
+            <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
+                    id="@("btnUpdateAnswer" + answer.AnswerId)">
+                SAVE CHANGES
+            </button>
 
-                    @Html.Partial("_EditAnswerPartial", answer)
+            <button onclick="ShowEditAnswer(@answer.AnswerId)"
+                    id="@("btnShowEditAnswer" + answer.AnswerId)">
+                Edit Answer
+            </button>
 
-                    <button value="Save Changes" onclick="UpdateAnswer(@answer.AnswerId)"
-                            id="@("btnSaveAnswerTxt"+answer.AnswerId)">
-                        SAVE CHANGES
-                    </button>
-                </div>
+            <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
+                @Html.Partial("_EditAnswerPartial", answer)
+
+                <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
+                       @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
+            </div>
+
+            <div id=@("previewAnswerDiv"+ answer.AnswerId)>
+
+                @Html.Partial("_AnswerFormPartial", answer)
 
             </div>
-        }
+        </div>
     }
 
 </div>
@@ -96,26 +100,34 @@
 
 <script>
 
-    function CreateAnswer(questionId, testId) {
-
-        $.post("/Admin/CreateAnswer", { testId: testId, questionId: questionId });
-    }
-
     function ShowEditAnswer(answerId) {
 
-        $("#editAnswerDiv" + answerId).show();
-        $("#listAnswerDiv" + answerId).hide();
-
         tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
+
+        $("#editAnswerDiv" + answerId).show();
+        $("#previewAnswerDiv" + answerId).hide();
+        $("#btnUpdateAnswer" + answerId).show();
+        $("#btnShowEditAnswer" + answerId).hide();
+
     }
 
-    function UpdateAnswer(answerId, answerText, IsCorrect) {
+    function UpdateAnswer(answerId, questionId) {
 
         var answerText = tinymce.get('mceAnswerBox' + answerId).getContent();
-
         var actionUrl = "/Admin/UpdateAnswer";
 
-        $.post(actionUrl, { answerId: answerId, answerText: answerText, isCorrect: false });
+        var isCorrect = (document.getElementById('answerIsCorrect' + answerId).checked);
+
+        $.post(actionUrl, { questionId: questionId, answerId: answerId, answerText: answerText, isCorrect: isCorrect })
+                .done(function (response) {
+                    $("#previewAnswerDiv" + answerId).html(response);
+                });
+
+        $("#btnUpdateAnswer" + answerId).hide();
+        $("#btnShowEditAnswer" + answerId).show();
+        $("#editAnswerDiv" + answerId).hide();
+        $("#previewAnswerDiv" + answerId).show();
+
     }
 
     function UpdateQuestionText(id) {
@@ -129,8 +141,8 @@
         });
 
         $("#previewQuestionTextDiv").show()
-        $("#btnEditQuestionTxt"+id).show()
-        $("#btnSaveQuestionTxt"+id).hide()
+        $("#btnEditQuestionTxt" + id).show()
+        $("#btnSaveQuestionTxt" + id).hide()
         $("#editQuestionTextDiv").hide()
     }
 
@@ -139,8 +151,8 @@
         $.post("/Admin/EditQuestionText", { questionId: id });
 
         $("#editQuestionTextDiv").show()
-        $("#btnSaveQuestionTxt"+id).show()
-        $("#btnEditQuestionTxt"+id).hide()
+        $("#btnSaveQuestionTxt" + id).show()
+        $("#btnEditQuestionTxt" + id).hide()
         $("#previewQuestionTextDiv").hide()
     }
 
@@ -159,6 +171,16 @@
         }
     }
 
+    //Currently not used----------------------------//
+    function CreateAnswer(questionId, testId) {
+
+        $.post("/Admin/CreateAnswer", { testId: testId, questionId: questionId })
+                .done(function (response) {
+                    $("#answersDiv").html(response);
+                });
+    }
+    //----------------------------------------------//
+
 
     //----------------------------------------------------------------//
     // ************************ TINY MCE **************************** //
@@ -168,8 +190,8 @@
     //--------------------------QUESTION-------------------------------//
     tinymce.init({
         selector: 'textarea#mceQuestionBox',
-        height: 400,
-        width: 970,
+        height: 380,
+        width: 1045,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
@@ -187,12 +209,11 @@
     //----------------------------------------------------------------//
 
 
-
     //--------------------------ANSWERS-------------------------------//
     tinymce.init({
         selector: '.mceAnswerBox',
         height: 100,
-        width: 970,
+        width: 1045,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
