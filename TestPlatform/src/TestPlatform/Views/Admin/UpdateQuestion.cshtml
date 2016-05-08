@@ -27,27 +27,46 @@
 @*/// ----------------------- QUESTION ---------------------------////*@
 
 <div class="whiteSquare BottomMargin20">
-    <div id="questionTextDiv">
-        @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
 
-        <button onclick="UpdateQuestionText(@Model.QuestionId)"
+    <div id="questionTextDiv">
+
+        <div id="editQuestionTextDiv" hidden="hidden">
+
+            @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
+
+        </div>
+
+        <div id="previewQuestionTextDiv">
+
+            @*//TODO: design this view*@
+            @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+
+        </div>
+
+        <button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
                 id="@("btnSaveQuestionTxt" + Model.QuestionId)">
             SAVE CHANGES
         </button>
 
+        <button onclick="ShowEditQuestionText(@Model.QuestionId)"
+                id="@("btnEditQuestionTxt" + Model.QuestionId)">
+            EDIT
+        </button>
+
     </div>
+
 </div>
 
 @*/// ------------------------------------------------------------////*@
 
 
+<a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+    <input type="submit" style="justify-content: center" class="orcaBtn BottomMargin20" value="Add New Answer" />
+</a>
+
 @*/// ----------------------- ANSWERS ----------------------------////*@
 <div id="answersDiv">
     <h3>Answers</h3>
-
-    <a asp-controller="Admin" asp-action="CreateAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-        <input type="submit" style="justify-content: center" class="orcaBtn BottomMargin20" value="Add New Answer" />
-    </a>
 
     @if (Model.AnswerDetailVMs != null)
             {
@@ -79,8 +98,7 @@
 
     function CreateAnswer(questionId, testId) {
 
-        $.post("/Admin/CreateAnswer",
-            { testId: testId, questionId: questionId });
+        $.post("/Admin/CreateAnswer", { testId: testId, questionId: questionId });
     }
 
     function ShowEditAnswer(answerId) {
@@ -91,22 +109,41 @@
         tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
     }
 
-    function UpdateQuestionText(id) {
-        var text = tinymce.get('mceQuestionBox').getContent();
-
-        $.post("/Admin/UpdateQuestionText",
-            { questionId: id, questionText: text });
-    }
-
     function UpdateAnswer(answerId, answerText, IsCorrect) {
 
         var answerText = tinymce.get('mceAnswerBox' + answerId).getContent();
 
-        alert(answerText);
+        var actionUrl = "/Admin/UpdateAnswer";
 
-        $.post("/Admin/UpdateAnswer",
-            { answerId: answerId, answerText: answerText, isCorrect: false });
+        $.post(actionUrl, { answerId: answerId, answerText: answerText, isCorrect: false });
     }
+
+    function UpdateQuestionText(id) {
+
+        var text = tinymce.get('mceQuestionBox').getContent();
+        var actionUrl = "/Admin/UpdateQuestionText";
+
+        $.post(actionUrl, { questionId: id, questionText: text })
+        .done(function (response) {
+            $("#previewQuestionTextDiv").html(response);
+        });
+
+        $("#previewQuestionTextDiv").show()
+        $("#btnEditQuestionTxt"+id).show()
+        $("#btnSaveQuestionTxt"+id).hide()
+        $("#editQuestionTextDiv").hide()
+    }
+
+    function ShowEditQuestionText(id) {
+
+        $.post("/Admin/EditQuestionText", { questionId: id });
+
+        $("#editQuestionTextDiv").show()
+        $("#btnSaveQuestionTxt"+id).show()
+        $("#btnEditQuestionTxt"+id).hide()
+        $("#previewQuestionTextDiv").hide()
+    }
+
 
     function TypeChanged() {
         var questionType = document.getElementById('dropQuestionType');

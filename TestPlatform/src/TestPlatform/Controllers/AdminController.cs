@@ -40,26 +40,35 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
-        public IActionResult UpdateQuestionText(int questionId, string questionText)
+        [HttpPost]
+        public PartialViewResult UpdateQuestionText(int questionId, string questionText)
         {
             var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
             thisQuestion.QuestionText = questionText;
 
             var model = new QuestionFormVM()
             {
-                QuestionText = questionText,
+                QuestionText = questionText
+            };
+            
+            return PartialView("_QuestionFormPartial", model);
+        }
+
+        [HttpPost]
+        public PartialViewResult EditQuestionText(int questionId)
+        {
+            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+
+            var model = new QuestionFormVM()
+            {
+                QuestionText = thisQuestion.QuestionText,
             };
 
-            return PartialView("_EditQuestionPartial", model);
+            return PartialView("_EditQuestionPartial");
         }
 
         public IActionResult UpdateAnswer(int answerId, string answerText, bool isCorrect)
         {
-            Debug.WriteLine("Size: " + repository.GetAllAnswers().Count());
-
-            foreach (var a in repository.GetAllAnswers())
-                Debug.WriteLine("A id: " + a.Id);
-
             var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == answerId);
 
             thisAnswer.AnswerText = answerText;

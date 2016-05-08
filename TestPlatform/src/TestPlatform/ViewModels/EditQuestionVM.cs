@@ -10,7 +10,7 @@ namespace TestPlatform.ViewModels
 {
     public class EditQuestionVM
     {
-
+        public bool IsInEdit { get; set; }
         public int QuestionId { get; set; }
         public int TestId { get; set; }
         public int SortOrder { get; set; }
@@ -21,6 +21,5 @@ namespace TestPlatform.ViewModels
         public QuestionFormVM QuestionFormVM { get; set; }
         public List<AnswerDetailVM> AnswerDetailVMs { get; set; }
         public QuestionType Type { get; set; }
-
     }
 }
