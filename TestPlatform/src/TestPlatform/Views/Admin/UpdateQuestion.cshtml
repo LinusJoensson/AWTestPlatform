@@ -5,6 +5,8 @@
     <br />
     <div class="whiteSquare BottomMargin20">
 
+        <h2 class="grayText">Settings</h2>
+
         <form asp-controller="Admin" asp-action="UpdateQuestionSettings" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
 
             <div class="form-group">
@@ -13,7 +15,6 @@
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
 
-            <h3 class="grayText">Settings</h3>
             <label asp-for="SortOrder"></label>
             <input asp-for="SortOrder" placeholder="Sort order" />
             <span asp-validation-for="SortOrder" class="text-danger"></span>
@@ -71,7 +72,7 @@
     @if (Model.AnswerDetailVMs != null)
     {
         <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-            <button class="orcaBtn rightMargin10 btnWidth200"><span class="fa fa-plus RightMargin20" title="Edit"></span>Add New Answer</button>
+            <button class="orcaBtn rightMargin10 btnWidth200"><span class="fa fa-plus RightMargin20" title="New"></span>Add New Answer</button>
         </a>
         <br />
 
@@ -90,7 +91,7 @@
                         Edit Answer
                     </button>
 
-                    <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
+                    <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)" 
                             id="@("btnRemoveAnswer" + answer.AnswerId)">
                         Remove Answer
                     </button>
@@ -134,7 +135,7 @@
         tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
 
         $("#editAnswerDiv" + answerId).show();
-        $("#btnRemoveAnswer" + answerId).show();
+        $("#btnRemoveAnswer" + answerId).hide();
         $("#previewAnswerDiv" + answerId).hide();
         $("#btnUpdateAnswer" + answerId).show();
         $("#btnShowEditAnswer" + answerId).hide();
@@ -156,7 +157,7 @@
         $("#btnUpdateAnswer" + answerId).hide();
         $("#btnShowEditAnswer" + answerId).show();
         $("#editAnswerDiv" + answerId).hide();
-        $("#btnRemoveAnswer" + answerId).hide();
+        $("#btnRemoveAnswer" + answerId).show();
         $("#previewAnswerDiv" + answerId).show();
 
     }
