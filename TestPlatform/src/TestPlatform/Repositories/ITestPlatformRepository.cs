@@ -31,5 +31,6 @@ namespace TestPlatform.Repositories
         SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason);
         void RemoveAnswerFromQuestion(int testId, int questionId, int answerId);
         EditQuestionVM GetEditQuestionVM(int testId, int questionId);
+        QuestionFormVM GetPreviewQuestionPartial(int questionId);
     }
 }

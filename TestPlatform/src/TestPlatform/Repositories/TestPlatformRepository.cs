@@ -459,5 +459,28 @@ namespace TestPlatform.Repositories
 
             return (viewModel);
         }
+
+        public QuestionFormVM GetPreviewQuestionPartial(int questionId)
+        {
+            var thisQuestion = GetAllQuestions().Single(o => o.Id == questionId);
+
+            var viewModel = new QuestionFormVM()
+            {
+                IsInTestSession = false,
+                Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                {
+                    AnswerId = o.Id,
+                    AnswerText = o.AnswerText,
+                    ShowAsCorrect = o.IsCorrect,
+                    IsChecked = o.IsCorrect
+                }).ToList(),
+                QuestionText = thisQuestion.QuestionText,
+                HasComment = thisQuestion.HasComment,
+                QuestionType = thisQuestion.QuestionType
+            };
+
+            return viewModel;
+
+        }
     }
 }

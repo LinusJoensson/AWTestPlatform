@@ -198,8 +198,7 @@ namespace TestPlatform.Controllers
         [HttpPost]
         public IActionResult CopyQuestionsToTest(int testId, int[] questionIds)
         {
-            //TODO: review
-            //Add multiple questions in one query (or Json -> Ajax)
+            //TODO: multiple questions in one query
             foreach (var qId in questionIds)
                 repository.AddQuestionToTest(qId, testId);
 
@@ -209,8 +208,7 @@ namespace TestPlatform.Controllers
         [HttpPost]
         public IActionResult DeleteQuestionsFromTest(int testId, int[] questionIds)
         {
-            //TODO: review
-            //Add multiple questions in one query (or Json -> Ajax)
+            //TODO: multiple questions in one query
             foreach (var qId in questionIds)
                 repository.RemoveQuestionFromTest(qId, testId);
 
@@ -219,25 +217,7 @@ namespace TestPlatform.Controllers
 
         public ActionResult PreviewQuestionPartial(int id)
         {
-            var thisQuestion = repository.GetAllQuestions().Single(o => o.Id == id);
-
-            var viewModelPartial = new QuestionFormVM()
-            {
-                IsInTestSession = false,
-                Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
-                {
-                    AnswerId = o.Id,
-                    AnswerText = o.AnswerText,
-                    ShowAsCorrect = o.IsCorrect,
-                    IsChecked = o.IsCorrect
-                }).ToList(),
-                QuestionText = thisQuestion.QuestionText,
-                HasComment = thisQuestion.HasComment,
-                QuestionType = thisQuestion.QuestionType
-            };
-
-            if (viewModelPartial == null)
-                throw new Exception();
+            QuestionFormVM viewModelPartial = repository.GetPreviewQuestionPartial(id);
 
             return PartialView("_QuestionFormPartial", viewModelPartial);
         }
