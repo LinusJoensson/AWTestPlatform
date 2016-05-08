@@ -13,12 +13,14 @@ namespace TestPlatform.ViewModels
         public bool IsInEdit { get; set; }
         public int QuestionId { get; set; }
         public int TestId { get; set; }
+        [Display(Name = "Sort Order: ")]
         public int SortOrder { get; set; }
+        public QuestionType Type { get; set; }
+
         public bool HasComment { get; set; }
         //Dropdown menu item types
         public SelectListItem[] ItemType { get; set; }
         public QuestionFormVM QuestionFormVM { get; set; }
         public AnswerDetailVM[] AnswerDetailVMs { get; set; }
-        public QuestionType Type { get; set; }
     }
 }

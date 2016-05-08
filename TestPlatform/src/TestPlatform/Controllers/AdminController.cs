@@ -41,6 +41,16 @@ namespace TestPlatform.Controllers
         }
 
         [HttpPost]
+        public IActionResult UpdateQuestionSettings(int testId, int questionId, EditQuestionVM viewModel)
+        {
+            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+            thisQuestion.SortOrder = viewModel.SortOrder;
+            thisQuestion.QuestionType = viewModel.Type;
+
+            return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
+        }
+
+        [HttpPost]
         public PartialViewResult UpdateQuestionText(int questionId, string questionText)
         {
             var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
@@ -52,7 +62,7 @@ namespace TestPlatform.Controllers
                 IsInEditQuestion = true,
                 QuestionType = thisQuestion.QuestionType
             };
-            
+
             return PartialView("_QuestionFormPartial", model);
         }
 
@@ -121,6 +131,7 @@ namespace TestPlatform.Controllers
                 },
                 TestId = testId,
                 QuestionId = questionId,
+                Type = thisQuestion.QuestionType,
                 QuestionFormVM = new QuestionFormVM()
                 {
                     QuestionText = thisQuestion.QuestionText,
@@ -129,17 +140,21 @@ namespace TestPlatform.Controllers
                     HasComment = thisQuestion.HasComment,
                     IsInEditQuestion = true
                 },
+                HasComment = thisQuestion.HasComment,
+            };
 
-                AnswerDetailVMs = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+            if((viewModel.Type == QuestionType.MultipleChoice) || (viewModel.Type == QuestionType.SingleChoice))
+            {
+                viewModel.AnswerDetailVMs = thisQuestion.Answers.Select(o => new AnswerDetailVM()
                 {
                     AnswerId = o.Id,
                     AnswerText = o.AnswerText,
                     IsChecked = o.IsCorrect,
                     ShowAsCorrect = o.IsCorrect,
                     QuestionType = thisQuestion.QuestionType,
-                }).ToArray()
-            };
-            
+                }).ToArray();
+            }
+
             return View(viewModel);
         }
 

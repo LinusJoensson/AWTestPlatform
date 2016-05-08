@@ -1,31 +1,36 @@
 ﻿@model EditQuestionVM
 
-@*/// ----------------------- TYPE (GLOBAL) ----------------------////*@
-<div class="form-group">
-    <label asp-for="Type"></label>
-    <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemType" onchange="TypeChanged()"></select>
-    <span asp-validation-for="Type" class="text-danger"></span>
-</div>
-@*/// ------------------------------------------------------------////*@
-
-
 @*/// ----------------------- SETTINGS ---------------------------////*@
 <div id="questionSettingsDiv">
-    <h3 class="grayText">Settings</h3>
-    <label asp-for="SortOrder"></label>
-    <input asp-for="SortOrder" placeholder="Sort order" />
-    <span asp-validation-for="SortOrder" class="text-danger"></span>
-    <br />
-    <label asp-for="HasComment"></label>
-    <input asp-for="HasComment" placeholder="Question" />
-    <span asp-validation-for="HasComment" class="text-danger"></span>
-    <br />
+
+    <div class="whiteSquare BottomMargin20">
+
+        <form asp-controller="Admin" asp-action="UpdateQuestionSettings" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+
+            <div class="form-group">
+                <label asp-for="Type"></label>
+                <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemType" onchange="TypeChanged()"></select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <h3 class="grayText">Settings</h3>
+            <label asp-for="SortOrder"></label>
+            <input asp-for="SortOrder" placeholder="Sort order" />
+            <span asp-validation-for="SortOrder" class="text-danger"></span>
+
+            <br />
+
+            <label asp-for="HasComment"></label>
+            <input asp-for="HasComment" placeholder="Question" />
+            <span asp-validation-for="HasComment" class="text-danger"></span>
+            <br />
+
+            <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-check rightMargin5"></span>Apply</button>
+
+        </form>
+    </div>
 </div>
 @*/// ------------------------------------------------------------////*@
-
-<a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-    Create New Answer
-</a>
 
 
 @*/// ----------------------- QUESTION ---------------------------////*@
@@ -63,33 +68,41 @@
 @*/// ----------------------- ANSWERS ----------------------------////*@
 <div id="answersDiv">
 
-    @foreach (var answer in Model.AnswerDetailVMs)
+    @if (Model.AnswerDetailVMs != null)
     {
-        <div class="whiteSquare BottomMargin20">
+        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+            <button class="orcaBtn rightMargin10 btnWidth200"><span class="fa fa-plus RightMargin20" title="Edit"></span>Add New Answer</button>
+        </a>
+        <br />
 
-            <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
-                    id="@("btnUpdateAnswer" + answer.AnswerId)">
-                SAVE CHANGES
-            </button>
+        @foreach (var answer in Model.AnswerDetailVMs)
+        {
+            <div class="whiteSquare BottomMargin20">
 
-            <button onclick="ShowEditAnswer(@answer.AnswerId)"
-                    id="@("btnShowEditAnswer" + answer.AnswerId)">
-                Edit Answer
-            </button>
+                <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
+                        id="@("btnUpdateAnswer" + answer.AnswerId)">
+                    SAVE CHANGES
+                </button>
 
-            <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
-                @Html.Partial("_EditAnswerPartial", answer)
+                <button onclick="ShowEditAnswer(@answer.AnswerId)"
+                        id="@("btnShowEditAnswer" + answer.AnswerId)">
+                    Edit Answer
+                </button>
 
-                <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
-                       @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
+                <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
+                    @Html.Partial("_EditAnswerPartial", answer)
+
+                    <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
+                           @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
+                </div>
+
+                <div id=@("previewAnswerDiv"+ answer.AnswerId)>
+
+                    @Html.Partial("_AnswerFormPartial", answer)
+
+                </div>
             </div>
-
-            <div id=@("previewAnswerDiv"+ answer.AnswerId)>
-
-                @Html.Partial("_AnswerFormPartial", answer)
-
-            </div>
-        </div>
+        }
     }
 
 </div>
@@ -155,32 +168,6 @@
         $("#btnEditQuestionTxt" + id).hide()
         $("#previewQuestionTextDiv").hide()
     }
-
-
-    function TypeChanged() {
-        var questionType = document.getElementById('dropQuestionType');
-        var questionTypeToString = questionType.options[questionType.selectedIndex].text;
-
-        if (questionTypeToString == "Multiple Choice"
-            ||
-            questionTypeToString == "Single Choice") {
-            $("#answersDiv").show();
-        }
-        else {
-            $("#answersDiv").hide();
-        }
-    }
-
-    //Currently not used----------------------------//
-    function CreateAnswer(questionId, testId) {
-
-        $.post("/Admin/CreateAnswer", { testId: testId, questionId: questionId })
-                .done(function (response) {
-                    $("#answersDiv").html(response);
-                });
-    }
-    //----------------------------------------------//
-
 
     //----------------------------------------------------------------//
     // ************************ TINY MCE **************************** //
