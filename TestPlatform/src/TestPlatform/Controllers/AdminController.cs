@@ -116,46 +116,7 @@ namespace TestPlatform.Controllers
         [Route("Admin/Test/{testId}/Question/{questionId}/Update")]
         public IActionResult UpdateQuestion(int testId, int questionId)
         {
-            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
-
-            Debug.WriteLine(thisQuestion.QuestionText);
-
-            var viewModel = new EditQuestionVM()
-            {
-
-                ItemType = new SelectListItem[]
-                {
-                    new SelectListItem { Value = ((int)QuestionType.SingleChoice).ToString(), Text="Single Choice"},
-                    new SelectListItem { Value = ((int)QuestionType.MultipleChoice).ToString(), Text="Multiple Choice"},
-                    new SelectListItem { Value = ((int)QuestionType.TextSingleLine).ToString(), Text="Single Line Text"},
-                    new SelectListItem { Value = ((int)QuestionType.TextMultiLine).ToString(), Text="Multi Line Text"}
-                },
-                TestId = testId,
-                QuestionId = questionId,
-                Type = thisQuestion.QuestionType,
-                SortOrder = thisQuestion.SortOrder,
-                QuestionFormVM = new QuestionFormVM()
-                {
-                    QuestionText = thisQuestion.QuestionText,
-                    QuestionType = thisQuestion.QuestionType,
-                    SortOrder = thisQuestion.SortOrder,
-                    HasComment = thisQuestion.HasComment,
-                    IsInEditQuestion = true
-                },
-                HasComment = thisQuestion.HasComment,
-            };
-
-            if((viewModel.Type == QuestionType.MultipleChoice) || (viewModel.Type == QuestionType.SingleChoice))
-            {
-                viewModel.AnswerDetailVMs = thisQuestion.Answers.Select(o => new AnswerDetailVM()
-                {
-                    AnswerId = o.Id,
-                    AnswerText = o.AnswerText,
-                    IsChecked = o.IsCorrect,
-                    ShowAsCorrect = o.IsCorrect,
-                    QuestionType = thisQuestion.QuestionType,
-                }).ToArray();
-            }
+            var viewModel = repository.GetEditQuestionVM(testId, questionId);
 
             return View(viewModel);
         }
