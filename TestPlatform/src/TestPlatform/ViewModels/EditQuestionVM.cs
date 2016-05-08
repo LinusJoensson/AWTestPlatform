@@ -14,7 +14,7 @@ namespace TestPlatform.ViewModels
         public int QuestionId { get; set; }
         public int TestId { get; set; }
         [Display(Name = "Sort Order: ")]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
         public QuestionType Type { get; set; }
 
         public bool HasComment { get; set; }

@@ -334,7 +334,7 @@ namespace TestPlatform.Repositories
             {
                 TestId = testId,
                 Description = thisTest.Description,
-                Questions = thisTest.Questions,
+                Questions = thisTest.Questions.OrderBy(o => o.SortOrder).ToList(),
                 TestName = thisTest.Name,
             };
 

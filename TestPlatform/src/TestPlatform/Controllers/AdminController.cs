@@ -132,6 +132,7 @@ namespace TestPlatform.Controllers
                 TestId = testId,
                 QuestionId = questionId,
                 Type = thisQuestion.QuestionType,
+                SortOrder = thisQuestion.SortOrder,
                 QuestionFormVM = new QuestionFormVM()
                 {
                     QuestionText = thisQuestion.QuestionText,
