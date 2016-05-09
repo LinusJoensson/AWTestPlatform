@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -485,10 +486,19 @@ namespace TestPlatform.Repositories
         }
 
         public ShowResultsVM GetShowResultsVM(int testId)
-        {            
+        {
+            var result = new
+            {
+                resultData = new
+                {
+                    passResult = 50,
+                    maxScore = 100
+                },
+                students = string.Empty
+            };
             return new ShowResultsVM
             {
-                ResultDataJSON = null
+                ResultDataJSON = JsonConvert.SerializeObject(result)
             };
         }
     }
