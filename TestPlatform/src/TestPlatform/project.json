@@ -22,7 +22,8 @@
     "Microsoft.AspNet.Tooling.Razor": "1.0.0-rc1-final",
     "Microsoft.Extensions.CodeGenerators.Mvc": "1.0.0-rc1-final",
     "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
-    "dnx-clr-win-x86": "1.0.0-rc1-update1"
+    "dnx-clr-win-x86": "1.0.0-rc1-update1",
+    "iTextSharp": "5.5.9"
   },
 
   "commands": {
@@ -30,8 +31,7 @@
   },
 
   "frameworks": {
-    "dnx451": { },
-    "dnxcore50": { }
+    "dnx451": { }
   },
 
   "exclude": [
