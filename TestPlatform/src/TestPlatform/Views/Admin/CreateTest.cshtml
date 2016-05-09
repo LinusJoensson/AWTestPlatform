@@ -15,6 +15,15 @@
     <label asp-for="Tags"></label>
     <input asp-for="Tags" class="form-control" />
     <span asp-validation-for="Tags"></span>
+    <br />
+    <label asp-for="TimeLimitInMinutes"></label>
+    <input asp-for="TimeLimitInMinutes" class="form-control" />
+    <span asp-validation-for="TimeLimitInMinutes"></span>
+    <br />
+    <label asp-for="ShowPassOrFail"></label>
+    <input asp-for="ShowPassOrFail" class="form-control" />
+    <span asp-validation-for="ShowPassOrFail"></span>
+    <br />
     <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 btnWidth120"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Back</button>
     <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-check rightMargin5"></span>Create</button>
 </form>

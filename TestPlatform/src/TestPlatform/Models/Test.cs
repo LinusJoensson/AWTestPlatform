@@ -15,7 +15,7 @@ namespace TestPlatform.Models
         public string Tags { get; set; }
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }
-        public TimeSpan TimeLimit { get; set; }
+        public int? TimeLimitInMinutes { get; set; }
         public bool ShowPassOrFail { get; set; }
         public bool ShowTestScore { get; set; }
         public int? PassPercentage { get; set; }

@@ -3,15 +3,15 @@
     <div class="container row" ng-mousemove="filterSwitch();">
         <h1>Test Results</h1>
         <div class="col-xs-6">
-            <canvas id="testScoreSegments" height="200"></canvas>
-            <div id="bar-legend" ng-hide="true"></div>
-            <div id="showFilter" ng-hide="true"></div>
-        </div>
-        <div class="col-xs-12">
             <canvas id="testScoreTotalAmountPassed" width="600" height="350"></canvas>
             <br />
             <br />
             <p style="color:gray; text-align:center;">Pass ({{studentsResults.resultData.passResult}})<span class="passColor"></span>Fail<span class="failColor"></span></p>
+        </div>
+        <div class="col-xs-6">
+            <canvas id="testScoreSegments" height="200"></canvas>
+            <div id="bar-legend" ng-hide="true"></div>
+            <div id="showFilter" ng-hide="true"></div>
         </div>
     </div>
 
@@ -34,176 +34,6 @@
                 <td>{{student.testscore}}</td>
             </tr>
         </table>
-    </div>
-
-    <div>
-        @*<div class="row">
-                <table id="studentsTakingTest">
-                    <tr>
-                        <th>Student Name</th>
-                        <th>E-mail</th>
-                        <th>Test Score</th>
-                    </tr>
-                    <tr>
-                        <td>Danaereys Targaryen</td>
-                        <td>wherearemydragons@mail.com</td>
-                        <td>99%</td>
-                    </tr>
-                    <tr>
-                        <td>Rhaegar Targaryen</td>
-                        <td>iheartlyanna@mail.com</td>
-                        <td>100%</td>
-                    </tr>
-                    <tr>
-                        <td>Aerys Targaryen</td>
-                        <td>madking@mail.com</td>
-                        <td>91%</td>
-                    </tr>
-                    <tr>
-                        <td>Aemon Targaryen</td>
-                        <td>goodguy@mail.com</td>
-                        <td>92%</td>
-                    </tr>
-                    <tr>
-                        <td>Viserys Targaryen</td>
-                        <td>goldencrow@mail.com</td>
-                        <td>96%</td>
-                    </tr>
-                    <tr>
-                        <td>Robert Baratheon</td>
-                        <td>kingsblood@mail.com</td>
-                        <td>78%</td>
-                    </tr>
-                    <tr>
-                        <td>Stannis Baratheon</td>
-                        <td>rightfulheir@mail.com</td>
-                        <td>80%</td>
-                    </tr>
-                    <tr>
-                        <td>Renly Baratheon</td>
-                        <td>youngandwise@mail.com</td>
-                        <td>85%</td>
-                    </tr>
-                    <tr>
-                        <td>Tywin Lannister</td>
-                        <td>familyname@mail.com</td>
-                        <td>88%</td>
-                    </tr>
-                    <tr>
-                        <td>Tyrion Lannister</td>
-                        <td>drinksandknowthings@mail.com</td>
-                        <td>89%</td>
-                    </tr>
-                    <tr>
-                        <td>Jamie Lannister</td>
-                        <td>givemeahand@mail.com</td>
-                        <td>75%</td>
-                    </tr>
-                    <tr>
-                        <td>Cercei Lannister</td>
-                        <td>givemehair@mail.com</td>
-                        <td>80%</td>
-                    </tr>
-                    <tr>
-                        <td>Eddard Stark</td>
-                        <td>nedshead@mail.com</td>
-                        <td>83%</td>
-                    </tr>
-                    <tr>
-                        <td>Catelyn Stark</td>
-                        <td>stoneheart@mail.com</td>
-                        <td>82%</td>
-                    </tr>
-                    <tr>
-                        <td>Robb Stark</td>
-                        <td>pridebeforethefall@mail.com</td>
-                        <td>88%</td>
-                    </tr>
-                    <tr>
-                        <td>Sansa Stark</td>
-                        <td>queeninthenorth@mail.com</td>
-                        <td>85%</td>
-                    </tr>
-                    <tr>
-                        <td>Arya Stark</td>
-                        <td>blinddate@mail.com</td>
-                        <td>77%</td>
-                    </tr>
-                    <tr>
-                        <td>Bran Stark</td>
-                        <td>visionquest@mail.com</td>
-                        <td>79%</td>
-                    </tr>
-                    <tr>
-                        <td>Rickon Stark</td>
-                        <td>shaggysfriends@mail.com</td>
-                        <td>74%</td>
-                    </tr>
-                    <tr>
-                        <td>Theon Greyjoy</td>
-                        <td>reek@mail.com</td>
-                        <td>71%</td>
-                    </tr>
-                    <tr>
-                        <td>Yara Greyjoy</td>
-                        <td>whatisdeadmayneverdie@mail.com</td>
-                        <td>67%</td>
-                    </tr>
-                    <tr>
-                        <td>Balon Greyjoy</td>
-                        <td>shakylegs@mail.com</td>
-                        <td>51%</td>
-                    </tr>
-                    <tr>
-                        <td>Roose Bolton</td>
-                        <td>ironicdagger@mail.com</td>
-                        <td>60%</td>
-                    </tr>
-                    <tr>
-                        <td>Ramsay Bolton</td>
-                        <td>releasethehounds@mail.com</td>
-                        <td>54%</td>
-                    </tr>
-                    <tr>
-                        <td>Walder Frey</td>
-                        <td>weddingplanner@mail.com</td>
-                        <td>57%</td>
-                    </tr>
-                    <tr>
-                        <td>Walda Frey</td>
-                        <td>gotanychicken@mail.com</td>
-                        <td>64%</td>
-                    </tr>
-                    <tr>
-                        <td>Littlefinger</td>
-                        <td>ladderclimber@mail.com</td>
-                        <td>53%</td>
-                    </tr>
-                    <tr>
-                        <td>Varys</td>
-                        <td>spiderwebs@mail.com</td>
-                        <td>40%</td>
-                    </tr>
-                    <tr>
-                        <td>Gregor Clegane</td>
-                        <td>ridingmountains@mail.com</td>
-                        <td>5%</td>
-                    </tr>
-                    <tr>
-                        <td>Sandor Clegane</td>
-                        <td>houndsonfire@mail.com</td>
-                        <td>15%</td>
-                    </tr>
-                    @foreach (var student in classOfStudents)
-                        {
-                            <tr>
-                                <td>@student.fullName</td>
-                                <td>@student.email</td>
-                                <td>@student.testScore</td>
-                            </tr>
-                        }
-                </table>
-            </div>*@
     </div>
 
     <style>
@@ -603,7 +433,7 @@
         var pieData = [
 	        {
 	            label: "Pass",
-	            value: 20,
+	            value: @Model.ResultDataJSON,
 	            color: "#4383BA",
                 highlightFill: "#356691"
 	        },

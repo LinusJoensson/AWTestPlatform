@@ -168,6 +168,9 @@ namespace TestPlatform.Controllers
         [HttpPost]
         public IActionResult CreateTest(TestSettingsFormVM model)
         {
+            if (!ModelState.IsValid)
+                return View(model);
+
             var testId = repository.CreateTest(new Test()
             {
                 Name = model.TestName,

@@ -59,7 +59,7 @@ namespace TestPlatform.Repositories
             });
             _users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
-            
+
 
             _tests.Add(new Test()
             {
@@ -85,8 +85,9 @@ namespace TestPlatform.Repositories
                         }
                     }
                 },
-                TimeLimit = new TimeSpan(0, 10, 0)
+                TimeLimitInMinutes = 10
             });
+
 
 
             _tests.Add(new Test()
@@ -129,7 +130,7 @@ namespace TestPlatform.Repositories
                     },
 
                 },
-                TimeLimit = new TimeSpan(0, 10, 0)
+                TimeLimitInMinutes = null
             });
         }
 
@@ -196,7 +197,7 @@ namespace TestPlatform.Repositories
 
             //var timeLeft = thisTest.TimeLimit - (DateTime.UtcNow - thisTestSession.StartTime);
 
-            var secondsLeft = TimeUtils.GetSecondsLeft(thisTest.TimeLimit, thisTestSession.StartTime);
+            //var secondsLeft = TimeUtils.GetSecondsLeft(thisTest.TimeLimitInMinutes, thisTestSession.StartTime);
             var selectedAnswers = thisQuestionResult?.SelectedAnswers.Split(',');
 
             return new ViewQuestionVM()
@@ -205,7 +206,7 @@ namespace TestPlatform.Repositories
                 TestTitle = thisTest.Name,
                 NumOfQuestion = thisTest.Questions.Count(),
                 QuestionIndex = questionIndex,
-                SecondsLeft = (int)secondsLeft,
+                SecondsLeft = thisTest.TimeLimitInMinutes.HasValue ? thisTest.TimeLimitInMinutes * 60 : null,
 
                 QuestionFormVM = new QuestionFormVM()
                 {
@@ -240,7 +241,7 @@ namespace TestPlatform.Repositories
                 NumberOfQuestions = thisTest.Questions.Count(),
                 TestDescription = thisTest.Description,
                 TestName = thisTest.Name,
-                TimeLimit = thisTest.TimeLimit
+                TimeLimit = thisTest.TimeLimitInMinutes
             };
 
             return viewModel;
@@ -280,7 +281,7 @@ namespace TestPlatform.Repositories
             var thisQuestion = thisTest.Questions.ElementAt(questionIndex - 1);
             var thisQuestionResult = thisTestSession.QuestionResults.Find(o => o.QuestionId == thisQuestion.Id);
 
-            var hasTimeLeft = TimeUtils.HasTimeLeft(thisTest.TimeLimit, thisTestSession.StartTime);
+            var hasTimeLeft = TimeUtils.HasTimeLeft(thisTest.TimeLimitInMinutes, thisTestSession.StartTime);
 
             if (hasTimeLeft)
             {
@@ -484,7 +485,7 @@ namespace TestPlatform.Repositories
         }
 
         public ShowResultsVM GetShowResultsVM(int testId)
-        {
+        {            
             return new ShowResultsVM
             {
                 ResultDataJSON = null

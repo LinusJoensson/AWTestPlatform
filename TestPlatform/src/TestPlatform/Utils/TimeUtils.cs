@@ -7,15 +7,20 @@ namespace TestPlatform.Utils
 {
     public static class TimeUtils
     {
-        public static int GetSecondsLeft(TimeSpan timeLimit, DateTime StartTime)
+        public static int? GetSecondsLeft(int? timeLimitInMinutes, DateTime StartTime)
         {
+            if (!timeLimitInMinutes.HasValue)
+                return null;
+            var timeLimit = TimeSpan.FromMinutes(timeLimitInMinutes.Value);
             var timeLeft = timeLimit - (DateTime.UtcNow - StartTime);
             return ((int) timeLeft.TotalSeconds);
         }
 
-        public static bool HasTimeLeft(TimeSpan timeLimit, DateTime StartTime)
+        public static bool HasTimeLeft(int? timeLimitInMinutes, DateTime StartTime)
         {
-            return (GetSecondsLeft(timeLimit, StartTime) > 0);
+            if (!timeLimitInMinutes.HasValue)
+                return true;            
+            return (GetSecondsLeft(timeLimitInMinutes, StartTime) > 0);
         }
          
     }
