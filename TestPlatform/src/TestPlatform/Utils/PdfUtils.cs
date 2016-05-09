@@ -11,7 +11,7 @@ namespace TestPlatform.Utils
     public class PdfUtils
     {
         // Example: 
-        // PdfUtils.GenerateCerfificate(env, "test.pdf", "cerBOficat.pdf", new PdfSymbols { FirstName = "BO" });
+        // PdfUtils.GenerateCerfificate(env, "test.pdf", "cerBOficat2.pdf", new PdfSymbols { FirstName = "BO" });
 
         public static void GenerateCerfificate(IHostingEnvironment env, string templateName, string outputName, PdfSymbols pdfSymbols)
         {
@@ -39,6 +39,9 @@ namespace TestPlatform.Utils
 
                 if (form.Fields.Keys.Contains(nameof(pdf.FirstName)) && pdf.FirstName != null)
                     form.SetField(nameof(pdf.FirstName), pdf.FirstName);
+
+                if (form.Fields.Keys.Contains(nameof(pdf.LastName)) && pdf.LastName != null)
+                    form.SetField(nameof(pdf.LastName), pdf.LastName);
 
                 stamper.FormFlattening = true;
             }
