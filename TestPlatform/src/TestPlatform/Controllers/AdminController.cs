@@ -29,11 +29,12 @@ namespace TestPlatform.Controllers
         {
             var root = new Uri(env.WebRootPath);
             var rootParent = root.AbsoluteUri.Remove(root.AbsoluteUri.Length - root.Segments.Last().Length);
-            var path = rootParent + @"PDF/Templates/test.pdf";
-
-            Debug.WriteLine("Path: " + path);
-
-            PdfUtils.GeneratePDF(path.Substring(8, path.Count() - 8), @"C:\temp2\test_changed.pdf"
+            var templatePath = rootParent + @"PDF/Templates/test.pdf";
+            var outputPath = rootParent + @"PDF/OutPut/cerBOficat.pdf";
+            
+            //Substring removes -file:///
+            PdfUtils.GeneratePDF(templatePath.Substring(8, templatePath.Count() - 8)
+                , outputPath.Substring(8, outputPath.Count() - 8)
                 , new PdfSymbols { FirstName = "BO" });
 
             var model = repository.GetAllTests();
