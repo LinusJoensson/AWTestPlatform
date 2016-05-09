@@ -135,11 +135,18 @@ namespace TestPlatform.Controllers
                 .Where(o => o.Id == testId)
                 .Select(o => new TestSettingsFormVM
                 {
-                    Id = o.Id,
                     TestName = o.Name,
                     Description = o.Description,
-                    Tags = o.Tags/*,*/
-                    //TimeLimit = o.TimeLimit
+                    Tags = o.Tags,
+                    ShowPassOrFail = o.ShowPassOrFail,
+                    ShowTestScore = o.ShowTestScore,
+                    CertTemplatePath = o.CertTemplatePath,
+                    CustomCompletionMessage = o.CustomCompletionMessage,
+                    TimeLimitInMinutes = o.TimeLimitInMinutes,
+                    PassPercentage = o.PassPercentage,
+                    EnableCertDownloadOnCompletion = o.EnableCertDownloadOnCompletion,
+                    EnableEmailCertOnCompletion = o.EnableEmailCertOnCompletion
+
                 })
                 .SingleOrDefault();
 
@@ -174,7 +181,16 @@ namespace TestPlatform.Controllers
             var testId = repository.CreateTest(new Test()
             {
                 Name = model.TestName,
-                Description = model.Description
+                Description = model.Description,
+                Tags = model.Tags,
+                ShowPassOrFail = model.ShowPassOrFail,
+                ShowTestScore = model.ShowTestScore,
+                CertTemplatePath = model.CertTemplatePath,
+                CustomCompletionMessage = model.CustomCompletionMessage,
+                TimeLimitInMinutes = model.TimeLimitInMinutes,
+                PassPercentage = model.PassPercentage,
+                EnableCertDownloadOnCompletion = model.EnableCertDownloadOnCompletion,
+                EnableEmailCertOnCompletion = model.EnableEmailCertOnCompletion
             });
 
             return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });

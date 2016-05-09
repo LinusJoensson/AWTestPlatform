@@ -37,7 +37,7 @@ namespace TestPlatform.ViewModels
         [Display(Name = "Custom message")]
         public string CustomCompletionMessage { get; set; }
 
-        [Display(Name = "Certificate PDF template")]
+        [Display(Name = "Name of certificate PDF template (*.pdf)")]
         public string CertTemplatePath { get; set; }
 
         [Display(Name = "Enable certificate download")]

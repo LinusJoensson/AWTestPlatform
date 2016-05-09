@@ -144,6 +144,15 @@ namespace TestPlatform.Repositories
                 Description = test.Description,
                 Questions = new List<Question>(),
                 Name = test.Name,
+                Tags = test.Tags,
+                ShowPassOrFail = test.ShowPassOrFail,
+                ShowTestScore = test.ShowTestScore,
+                CertTemplatePath = test.CertTemplatePath,
+                CustomCompletionMessage = test.CustomCompletionMessage,
+                TimeLimitInMinutes = test.TimeLimitInMinutes,
+                PassPercentage = test.PassPercentage,
+                EnableCertDownloadOnCompletion = test.EnableCertDownloadOnCompletion,
+                EnableEmailCertOnCompletion = test.EnableEmailCertOnCompletion,
 
                 //Static
                 IsPublished = true,
