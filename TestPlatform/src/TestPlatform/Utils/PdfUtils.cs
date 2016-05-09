@@ -31,6 +31,8 @@ namespace TestPlatform.Utils
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        //Add your template fields here
         public string Whatever { get; set; }
     }
 }
