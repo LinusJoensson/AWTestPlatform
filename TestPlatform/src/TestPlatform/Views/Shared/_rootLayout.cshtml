@@ -34,7 +34,8 @@
 
             $scope.gotClass = {
                 resultData: {
-                    passResult: 70
+                    passResult: 70,
+                    maxScore: 100
                 },
                 students: [
                 {
@@ -228,6 +229,32 @@
             $scope.fail = function (student) {
                 return student.testscore < $scope.gotClass.resultData.passResult;
             }
+            $scope.column1 = function (student) {
+                var min = $scope.gotClass.resultData.maxScore * 0.0;
+                var max = $scope.gotClass.resultData.maxScore * 0.2;
+                return student.testscore >= min && student.testscore < max;
+            }
+            $scope.column2 = function (student) {
+                var min = $scope.gotClass.resultData.maxScore * 0.2;
+                var max = $scope.gotClass.resultData.maxScore * 0.4;
+                return student.testscore >= min && student.testscore < max;
+            }
+            $scope.column3 = function (student) {
+                var min = $scope.gotClass.resultData.maxScore * 0.4;
+                var max = $scope.gotClass.resultData.maxScore * 0.6;
+                return student.testscore >= min && student.testscore < max;
+            }
+            $scope.column4 = function (student) {
+                var min = $scope.gotClass.resultData.maxScore * 0.6;
+                var max = $scope.gotClass.resultData.maxScore * 0.8;
+                return student.testscore >= min && student.testscore < max;
+            }
+            $scope.column5 = function (student) {
+                var min = $scope.gotClass.resultData.maxScore * 0.8;
+                var max = $scope.gotClass.resultData.maxScore * 1;
+                return student.testscore >= min && student.testscore <= max;
+            }
+            
             //$scope.over90 = function (student) {
             //    return student.testscore > 90;
             //}
