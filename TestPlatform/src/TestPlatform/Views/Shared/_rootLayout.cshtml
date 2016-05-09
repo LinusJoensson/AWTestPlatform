@@ -32,7 +32,11 @@
                 $scope.data.push(name);
             };
 
-            $scope.gotClass = [
+            $scope.gotClass = {
+                resultData: {
+                    passResult: 70
+                },
+                students: [
                 {
                     name: 'Daenerys Targaryen',
                     email: 'wherearemydragons@mail.com',
@@ -183,7 +187,8 @@
                     email: 'houndsonfire@mail.com',
                     testscore: 15
                 }
-            ]
+                ]
+            }
 
             $scope.filterSwitch = function () {
                 $scope.order = {
@@ -218,26 +223,26 @@
 
             $scope.studentFilter = {};
             $scope.pass = function (student) {
-                return student.testscore > 69;
+                return student.testscore >= $scope.gotClass.resultData.passResult;
             }
             $scope.fail = function (student) {
-                return student.testscore < 70;
+                return student.testscore < $scope.gotClass.resultData.passResult;
             }
-            $scope.over90 = function (student) {
-                return student.testscore > 90;
-            }
-            $scope.between71and90 = function (student) {
-                return student.testscore > 70 && student.testscore < 91;
-            }
-            $scope.between50and70 = function (student) {
-                return student.testscore > 49 && student.testscore < 71;
-            }
-            $scope.below50 = function (student) {
-                return student.testscore < 50;
-            }
-            $scope.showAll = function (student) {
-                return student.testscore >= 0;
-            }
+            //$scope.over90 = function (student) {
+            //    return student.testscore > 90;
+            //}
+            //$scope.between71and90 = function (student) {
+            //    return student.testscore > 70 && student.testscore < 91;
+            //}
+            //$scope.between50and70 = function (student) {
+            //    return student.testscore > 49 && student.testscore < 71;
+            //}
+            //$scope.below50 = function (student) {
+            //    return student.testscore < 50;
+            //}
+            //$scope.showAll = function (student) {
+            //    return student.testscore >= 0;
+            //}
 
             $scope.order = {
                 field: 'testscore',
