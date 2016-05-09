@@ -16,6 +16,13 @@ namespace TestPlatform.Models
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }
         public TimeSpan TimeLimit { get; set; }
+        public bool ShowPassOrFail { get; set; }
+        public bool ShowTestScore { get; set; }
+        public int? PassPercentage { get; set; }
+        public string CustomCompletionMessage { get; set; }
+        public string CertTemplatePath { get; set; }
+        public bool EnableCertDownloadOnCompletion { get; set; }
+        public bool EnableEmailCertOnCompletion { get; set; }
 
         public Test()
         {
