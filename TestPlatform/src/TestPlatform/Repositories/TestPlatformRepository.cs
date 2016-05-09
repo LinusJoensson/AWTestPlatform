@@ -74,7 +74,7 @@ namespace TestPlatform.Repositories
                     {
                         Id = GetAllQuestions().Count() + 1,
                         Name = "Third Question",
-                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""560"" height=""314"" allowfullscreen=""allowfullscreen""></iframe>",
+                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""auto"" height=""auto"" allowfullscreen=""allowfullscreen""></iframe>",
                         QuestionType = QuestionType.SingleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
