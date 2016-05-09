@@ -23,6 +23,7 @@ namespace TestPlatform.Models
         public string CertTemplatePath { get; set; }
         public bool EnableCertDownloadOnCompletion { get; set; }
         public bool EnableEmailCertOnCompletion { get; set; }
+        public virtual ICollection<TestSession> TestSessions { get; set; }
 
         public Test()
         {

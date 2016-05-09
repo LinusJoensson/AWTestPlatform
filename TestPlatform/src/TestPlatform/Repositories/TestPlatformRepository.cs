@@ -387,10 +387,10 @@ namespace TestPlatform.Repositories
                 IsCorrect = viewModel.ShowAsCorrect,
                 QuestionId = questionId,
             };
-            
+
             GetAllQuestions().SingleOrDefault(o => o.Id == questionId)?
                 .Answers.Add(answer);
-            
+
             return answer.Id;
         }
 
@@ -496,14 +496,22 @@ namespace TestPlatform.Repositories
 
         public ShowResultsVM GetShowResultsVM(int testId)
         {
+            var test = _tests.Single(o => o.Id == testId);
+            var maxScore = test.Questions.Count();
             var result = new
             {
                 resultData = new
                 {
-                    passResult = 50,
-                    maxScore = 100
+                    passResult = 1 * maxScore,
+                    maxScore = maxScore
                 },
-                students = string.Empty
+                students = test.TestSessions
+                .Select(ts => new
+                {
+                    name = ts.User.FirstName,
+                    email = ts.User.Email,
+                    testscore = TestSessionUtils.GetScore(ts)
+                }).ToArray()
             };
             return new ShowResultsVM
             {
