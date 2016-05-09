@@ -33,6 +33,7 @@ namespace TestPlatform.Controllers
             var outputPath = rootParent + @"PDF/OutPut/cerBOficat.pdf";
             
             //Substring removes -file:///
+            //(URI not supported)
             PdfUtils.GeneratePDF(templatePath.Substring(8, templatePath.Count() - 8)
                 , outputPath.Substring(8, outputPath.Count() - 8)
                 , new PdfSymbols { FirstName = "BO" });
