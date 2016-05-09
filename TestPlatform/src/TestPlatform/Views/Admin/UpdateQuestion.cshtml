@@ -42,16 +42,18 @@
                 <div id=@("listAnswerDiv"+answer.AnswerId)>
                     <p class="onTheLine pBold">Answer:</p>
                     <p class="onTheLine">@(Html.Raw(answer.AnswerText))</p>
-                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 rightFloat"
-                            onclick="PartialEditAnswer(@answer.AnswerId)"
-                            id="@("editAnswerButton"+answer.AnswerId)">
-                        <span class="fa fa-pencil rightMargin5"></span>Edit
-                    </button>
-                    <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 bgRed"
-                            onclick="deleteAnswer(@Model.TestId, @Model.Id, @answer.AnswerId)"
-                            style="float:right">
-                        <span class="fa fa-trash rightMargin5"></span>Delete
-                    </button>
+                    <div class="topMargin-35">
+                        <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 rightFloat"
+                                onclick="PartialEditAnswer(@answer.AnswerId)"
+                                id="@("editAnswerButton"+answer.AnswerId)">
+                            <span class="fa fa-pencil rightMargin5"></span>Edit
+                        </button>
+                        <button class="orcaBtn topMargin-8 rightMargin10 onTheLine btnWidth120 bgRed"
+                                onclick="deleteAnswer(@Model.TestId, @Model.Id, @answer.AnswerId)"
+                                style="float:right">
+                            <span class="fa fa-trash rightMargin5"></span>Delete
+                        </button>
+                    </div>
                 </div>
                 <div id=@("editAnswerDiv"+answer.AnswerId) hidden="hidden"></div>
             </div>
@@ -67,6 +69,10 @@
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <script>
+    //function openModalEditor() {
+    //    setTimeout(PartialEditAnswer(answerId), 500)
+    //}
+
 
     var deleteAnswer = function (testId, questionId, answerId) {
         $.get("/Admin/RemoveAnswer", {

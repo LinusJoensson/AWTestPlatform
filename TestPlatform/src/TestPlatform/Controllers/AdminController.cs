@@ -241,8 +241,13 @@ namespace TestPlatform.Controllers
             };
 
             //TODO: FIX: This updates the whole question (master page) without saving changed question information
-            //return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
+            //return RedirectToAction(nameof(EditAnswerPartial), new { testId = testId, questionId = questionId });
+
+             // lite försök att ordna upp modalen vid add answer.
+
+            //return RedirectToAction(nameof(EditAnswerPartial), new { answerId = answerId, answerText = "", isCorrect = false });
+
         }
 
         public ActionResult PreviewQuestionPartial(int id)

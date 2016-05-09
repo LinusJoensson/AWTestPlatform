@@ -15,25 +15,25 @@
     @foreach (var question in Model.Questions)
             {
         <div class="whiteSquare BottomMargin20">
-
-            @(Html.Raw("<i>"+(question.QuestionText)?
+            <div class="onTheLine">
+                @(Html.Raw("<i>" + (question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
-                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50))+"...</i>"))
-            <!-- kommenterar ut ID. samt kortar ner maxlängd för att få en cleanare look och bättre beteende på knappar-->
+                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
 
-            <!--i@question.Id-->
+                <!-- kommenterar ut ID. samt kortar ner maxlängd för att få en cleanare look och bättre beteende på knappar-->
+                <!--i@question.Id-->
 
-            <div class="buttons rightFloat">
-                <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <button class="orcaBtn rightMargin10 btnWidth120"><span class="fa fa-pencil rightMargin5" title="Edit"></span>Edit</button>
-                </a>
-                <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <button class="orcaBtn bgRed rightMargin10 btnWidth120"><span class="fa fa-trash rightMargin5" title="Remove"></span>Delete</button>
-                </a>
-                <button class="orcaBtn btnWidth120" onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"><span class="fa fa-eye rightMargin5"></span>Preview</button>
-                <button class="orcaBtn btnWidth120" onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"><span class="fa fa-eye-slash rightMargin5"></span>Hide</button>
+                <div class="buttons topMargin-35 rightFloat">
+                    <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                        <button class="orcaBtn rightMargin10 btnWidth120"><span class="fa fa-pencil rightMargin5" title="Edit"></span>Edit</button>
+                    </a>
+                    <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
+                        <button class="orcaBtn bgRed rightMargin10 btnWidth120"><span class="fa fa-trash rightMargin5" title="Remove"></span>Delete</button>
+                    </a>
+                    <button class="orcaBtn btnWidth120" onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"><span class="fa fa-eye rightMargin5"></span>Preview</button>
+                    <button class="orcaBtn btnWidth120" onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"><span class="fa fa-eye-slash rightMargin5"></span>Hide</button>
+                </div>
             </div>
-
             <div id="@("detailsDiv"+question.Id)"></div>
             <br />
         </div>
