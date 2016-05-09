@@ -1,337 +1,604 @@
-﻿<div class="container row" ng-mousemove="filterSwitch();">
-    <h1>Test Results</h1>
-    <div class="col-xs-6">
-        <canvas id="testScoreSegments" height="200"></canvas>
-        <div id="bar-legend" ng-hide="true"></div>
-        <div id="showFilter" ng-hide="true"></div>
-    </div>
-    <div class="col-xs-6">
-        <canvas id="testScoreTotalAmountPassed" width="600" height="350"></canvas>
-        <br />
-        <br />
-        <p style="color:gray; text-align:center;">Pass<span class="passColor"></span>Fail<span class="failColor"></span></p>
-    </div>
-</div>
-
-<div class="container row">
-    <form role="form" style="width:30%;">
-        <div class="input-group right-inner-addon">
-            <input type="text" class="form-control input-group-sm" style="margin-left:0;background-color:rgba(255, 255, 255, 0.36);font-size:large;" ng-model="search" placeholder="Search Class" />
-            <i class="glyphicon glyphicon-search"></i>           
+﻿@model ShowResultsVM
+<div ng-controller="myCtrl">
+    <div class="container row" ng-mousemove="filterSwitch();">
+        <h1>Test Results</h1>
+        <div class="col-xs-6">
+            <canvas id="testScoreSegments" height="200"></canvas>
+            <div id="bar-legend" ng-hide="true"></div>
+            <div id="showFilter" ng-hide="true"></div>
         </div>
-    </form>
-    <table id="studentsTakingTest">
-        <tr>
-            <th><a href="#" ng-click="order.field = 'name'; order.reverse = !order.reverse">Student Name<span ng-show="order.field == 'name'" class="fa fa-caret-down LeftMargin5"></span></a></th>
-            <th><a href="#" ng-click="order.field = 'email'; order.reverse = !order.reverse">E-mail<span ng-show="order.field == 'email'" class="fa fa-caret-down LeftMargin5"></span></a></th>
-            <th><a href="#" ng-click="order.field = 'testscore'; order.reverse = !order.reverse">Test Score<span ng-show="order.field == 'testscore'" class="fa fa-caret-down LeftMargin5"></span></a></th>
-        </tr>
-        <tr ng-repeat="student in gotClass | orderBy:dynamicOrder:order.reverse | filter:studentFilter | filter:search">
-            <td>{{student.name}}</td>
-            <td>{{student.email}}</td>
-            <td>{{student.testscore}}%</td>
-        </tr>
-    </table>
+        <div class="col-xs-12">
+            <canvas id="testScoreTotalAmountPassed" width="600" height="350"></canvas>
+            <br />
+            <br />
+            <p style="color:gray; text-align:center;">Pass ({{studentsResults.resultData.passResult}})<span class="passColor"></span>Fail<span class="failColor"></span></p>
+        </div>
+    </div>
+
+    <div class="container row">
+        <form role="form" style="width:30%;">
+            <div class="input-group right-inner-addon">
+                <input type="text" class="form-control input-group-sm" style="margin-left:0;background-color:rgba(255, 255, 255, 0.36);font-size:large;" ng-model="search" placeholder="Search Class" />
+                <i class="glyphicon glyphicon-search"></i>
+            </div>
+        </form>
+        <table id="studentsTakingTest">
+            <tr>
+                <th><a href="#" ng-click="order.field = 'name'; order.reverse = !order.reverse">Student Name<span ng-show="order.field == 'name'" class="fa fa-caret-down LeftMargin5"></span></a></th>
+                <th><a href="#" ng-click="order.field = 'email'; order.reverse = !order.reverse">E-mail<span ng-show="order.field == 'email'" class="fa fa-caret-down LeftMargin5"></span></a></th>
+                <th><a href="#" ng-click="order.field = 'testscore'; order.reverse = !order.reverse">Test Score<span ng-show="order.field == 'testscore'" class="fa fa-caret-down LeftMargin5"></span></a></th>
+            </tr>
+            <tr ng-repeat="student in studentsResults.students | orderBy:dynamicOrder:order.reverse | filter:studentFilter | filter:search">
+                <td>{{student.name}}</td>
+                <td>{{student.email}}</td>
+                <td>{{student.testscore}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        @*<div class="row">
+                <table id="studentsTakingTest">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>E-mail</th>
+                        <th>Test Score</th>
+                    </tr>
+                    <tr>
+                        <td>Danaereys Targaryen</td>
+                        <td>wherearemydragons@mail.com</td>
+                        <td>99%</td>
+                    </tr>
+                    <tr>
+                        <td>Rhaegar Targaryen</td>
+                        <td>iheartlyanna@mail.com</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>Aerys Targaryen</td>
+                        <td>madking@mail.com</td>
+                        <td>91%</td>
+                    </tr>
+                    <tr>
+                        <td>Aemon Targaryen</td>
+                        <td>goodguy@mail.com</td>
+                        <td>92%</td>
+                    </tr>
+                    <tr>
+                        <td>Viserys Targaryen</td>
+                        <td>goldencrow@mail.com</td>
+                        <td>96%</td>
+                    </tr>
+                    <tr>
+                        <td>Robert Baratheon</td>
+                        <td>kingsblood@mail.com</td>
+                        <td>78%</td>
+                    </tr>
+                    <tr>
+                        <td>Stannis Baratheon</td>
+                        <td>rightfulheir@mail.com</td>
+                        <td>80%</td>
+                    </tr>
+                    <tr>
+                        <td>Renly Baratheon</td>
+                        <td>youngandwise@mail.com</td>
+                        <td>85%</td>
+                    </tr>
+                    <tr>
+                        <td>Tywin Lannister</td>
+                        <td>familyname@mail.com</td>
+                        <td>88%</td>
+                    </tr>
+                    <tr>
+                        <td>Tyrion Lannister</td>
+                        <td>drinksandknowthings@mail.com</td>
+                        <td>89%</td>
+                    </tr>
+                    <tr>
+                        <td>Jamie Lannister</td>
+                        <td>givemeahand@mail.com</td>
+                        <td>75%</td>
+                    </tr>
+                    <tr>
+                        <td>Cercei Lannister</td>
+                        <td>givemehair@mail.com</td>
+                        <td>80%</td>
+                    </tr>
+                    <tr>
+                        <td>Eddard Stark</td>
+                        <td>nedshead@mail.com</td>
+                        <td>83%</td>
+                    </tr>
+                    <tr>
+                        <td>Catelyn Stark</td>
+                        <td>stoneheart@mail.com</td>
+                        <td>82%</td>
+                    </tr>
+                    <tr>
+                        <td>Robb Stark</td>
+                        <td>pridebeforethefall@mail.com</td>
+                        <td>88%</td>
+                    </tr>
+                    <tr>
+                        <td>Sansa Stark</td>
+                        <td>queeninthenorth@mail.com</td>
+                        <td>85%</td>
+                    </tr>
+                    <tr>
+                        <td>Arya Stark</td>
+                        <td>blinddate@mail.com</td>
+                        <td>77%</td>
+                    </tr>
+                    <tr>
+                        <td>Bran Stark</td>
+                        <td>visionquest@mail.com</td>
+                        <td>79%</td>
+                    </tr>
+                    <tr>
+                        <td>Rickon Stark</td>
+                        <td>shaggysfriends@mail.com</td>
+                        <td>74%</td>
+                    </tr>
+                    <tr>
+                        <td>Theon Greyjoy</td>
+                        <td>reek@mail.com</td>
+                        <td>71%</td>
+                    </tr>
+                    <tr>
+                        <td>Yara Greyjoy</td>
+                        <td>whatisdeadmayneverdie@mail.com</td>
+                        <td>67%</td>
+                    </tr>
+                    <tr>
+                        <td>Balon Greyjoy</td>
+                        <td>shakylegs@mail.com</td>
+                        <td>51%</td>
+                    </tr>
+                    <tr>
+                        <td>Roose Bolton</td>
+                        <td>ironicdagger@mail.com</td>
+                        <td>60%</td>
+                    </tr>
+                    <tr>
+                        <td>Ramsay Bolton</td>
+                        <td>releasethehounds@mail.com</td>
+                        <td>54%</td>
+                    </tr>
+                    <tr>
+                        <td>Walder Frey</td>
+                        <td>weddingplanner@mail.com</td>
+                        <td>57%</td>
+                    </tr>
+                    <tr>
+                        <td>Walda Frey</td>
+                        <td>gotanychicken@mail.com</td>
+                        <td>64%</td>
+                    </tr>
+                    <tr>
+                        <td>Littlefinger</td>
+                        <td>ladderclimber@mail.com</td>
+                        <td>53%</td>
+                    </tr>
+                    <tr>
+                        <td>Varys</td>
+                        <td>spiderwebs@mail.com</td>
+                        <td>40%</td>
+                    </tr>
+                    <tr>
+                        <td>Gregor Clegane</td>
+                        <td>ridingmountains@mail.com</td>
+                        <td>5%</td>
+                    </tr>
+                    <tr>
+                        <td>Sandor Clegane</td>
+                        <td>houndsonfire@mail.com</td>
+                        <td>15%</td>
+                    </tr>
+                    @foreach (var student in classOfStudents)
+                        {
+                            <tr>
+                                <td>@student.fullName</td>
+                                <td>@student.email</td>
+                                <td>@student.testScore</td>
+                            </tr>
+                        }
+                </table>
+            </div>*@
+    </div>
+
+    <style>
+        .right-inner-addon {
+            position: relative;
+        }
+
+            .right-inner-addon input {
+                padding-right: 30px;
+            }
+
+            .right-inner-addon i {
+                position: absolute;
+                right: 0px;
+                padding: 10px 12px;
+                pointer-events: none;
+            }
+
+        a {
+            text-decoration: none !important;
+            color: white;
+        }
+
+            a:hover {
+                color: antiquewhite;
+            }
+
+            a:visited {
+                color: whitesmoke !important;
+            }
+
+        .passColor {
+            background-color: #4383BA;
+            padding-right: 40px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .failColor {
+            background-color: #4BCAB4;
+            padding-right: 40px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 100%;
+            margin-top: 1% !important;
+        }
+
+        th, td {
+            width: 33%;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #bcc5d1 !important;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        th {
+            background-color: #4383BA;
+            color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .p {
+            text-align: center;
+            font-size: 14px;
+            padding-top: 140px;
+        }
+    </style>
+
 </div>
-
-<div>
-    @*<div class="row">
-            <table id="studentsTakingTest">
-                <tr>
-                    <th>Student Name</th>
-                    <th>E-mail</th>
-                    <th>Test Score</th>
-                </tr>
-                <tr>
-                    <td>Danaereys Targaryen</td>
-                    <td>wherearemydragons@mail.com</td>
-                    <td>99%</td>
-                </tr>
-                <tr>
-                    <td>Rhaegar Targaryen</td>
-                    <td>iheartlyanna@mail.com</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>Aerys Targaryen</td>
-                    <td>madking@mail.com</td>
-                    <td>91%</td>
-                </tr>
-                <tr>
-                    <td>Aemon Targaryen</td>
-                    <td>goodguy@mail.com</td>
-                    <td>92%</td>
-                </tr>
-                <tr>
-                    <td>Viserys Targaryen</td>
-                    <td>goldencrow@mail.com</td>
-                    <td>96%</td>
-                </tr>
-                <tr>
-                    <td>Robert Baratheon</td>
-                    <td>kingsblood@mail.com</td>
-                    <td>78%</td>
-                </tr>
-                <tr>
-                    <td>Stannis Baratheon</td>
-                    <td>rightfulheir@mail.com</td>
-                    <td>80%</td>
-                </tr>
-                <tr>
-                    <td>Renly Baratheon</td>
-                    <td>youngandwise@mail.com</td>
-                    <td>85%</td>
-                </tr>
-                <tr>
-                    <td>Tywin Lannister</td>
-                    <td>familyname@mail.com</td>
-                    <td>88%</td>
-                </tr>
-                <tr>
-                    <td>Tyrion Lannister</td>
-                    <td>drinksandknowthings@mail.com</td>
-                    <td>89%</td>
-                </tr>
-                <tr>
-                    <td>Jamie Lannister</td>
-                    <td>givemeahand@mail.com</td>
-                    <td>75%</td>
-                </tr>
-                <tr>
-                    <td>Cercei Lannister</td>
-                    <td>givemehair@mail.com</td>
-                    <td>80%</td>
-                </tr>
-                <tr>
-                    <td>Eddard Stark</td>
-                    <td>nedshead@mail.com</td>
-                    <td>83%</td>
-                </tr>
-                <tr>
-                    <td>Catelyn Stark</td>
-                    <td>stoneheart@mail.com</td>
-                    <td>82%</td>
-                </tr>
-                <tr>
-                    <td>Robb Stark</td>
-                    <td>pridebeforethefall@mail.com</td>
-                    <td>88%</td>
-                </tr>
-                <tr>
-                    <td>Sansa Stark</td>
-                    <td>queeninthenorth@mail.com</td>
-                    <td>85%</td>
-                </tr>
-                <tr>
-                    <td>Arya Stark</td>
-                    <td>blinddate@mail.com</td>
-                    <td>77%</td>
-                </tr>
-                <tr>
-                    <td>Bran Stark</td>
-                    <td>visionquest@mail.com</td>
-                    <td>79%</td>
-                </tr>
-                <tr>
-                    <td>Rickon Stark</td>
-                    <td>shaggysfriends@mail.com</td>
-                    <td>74%</td>
-                </tr>
-                <tr>
-                    <td>Theon Greyjoy</td>
-                    <td>reek@mail.com</td>
-                    <td>71%</td>
-                </tr>
-                <tr>
-                    <td>Yara Greyjoy</td>
-                    <td>whatisdeadmayneverdie@mail.com</td>
-                    <td>67%</td>
-                </tr>
-                <tr>
-                    <td>Balon Greyjoy</td>
-                    <td>shakylegs@mail.com</td>
-                    <td>51%</td>
-                </tr>
-                <tr>
-                    <td>Roose Bolton</td>
-                    <td>ironicdagger@mail.com</td>
-                    <td>60%</td>
-                </tr>
-                <tr>
-                    <td>Ramsay Bolton</td>
-                    <td>releasethehounds@mail.com</td>
-                    <td>54%</td>
-                </tr>
-                <tr>
-                    <td>Walder Frey</td>
-                    <td>weddingplanner@mail.com</td>
-                    <td>57%</td>
-                </tr>
-                <tr>
-                    <td>Walda Frey</td>
-                    <td>gotanychicken@mail.com</td>
-                    <td>64%</td>
-                </tr>
-                <tr>
-                    <td>Littlefinger</td>
-                    <td>ladderclimber@mail.com</td>
-                    <td>53%</td>
-                </tr>
-                <tr>
-                    <td>Varys</td>
-                    <td>spiderwebs@mail.com</td>
-                    <td>40%</td>
-                </tr>
-                <tr>
-                    <td>Gregor Clegane</td>
-                    <td>ridingmountains@mail.com</td>
-                    <td>5%</td>
-                </tr>
-                <tr>
-                    <td>Sandor Clegane</td>
-                    <td>houndsonfire@mail.com</td>
-                    <td>15%</td>
-                </tr>
-                @foreach (var student in classOfStudents)
-                    {
-                        <tr>
-                            <td>@student.fullName</td>
-                            <td>@student.email</td>
-                            <td>@student.testScore</td>
-                        </tr>
-                    }
-            </table>
-        </div>*@
-</div>
-
-<style>
-    .right-inner-addon {
-        position: relative;       
-    }
-
-        .right-inner-addon input {
-            padding-right: 30px;
-        }
-
-        .right-inner-addon i {
-            position: absolute;
-            right: 0px;
-            padding: 10px 12px;
-            pointer-events: none;
-        }
-
-    a {
-        text-decoration: none !important;
-        color: white;
-    }
-
-        a:hover {
-            color: antiquewhite;
-        }
-
-        a:visited {
-            color: whitesmoke !important;
-        }
-
-    .passColor {
-        background-color: #4383BA;
-        padding-right: 40px;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-
-    .failColor {
-        background-color: #4BCAB4;
-        padding-right: 40px;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-
-    table {
-        margin: 0 auto;
-        width: 100%;
-        margin-top: 1% !important;
-    }
-
-    th, td {
-        width: 33%;
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    tr:hover {
-        background-color: #bcc5d1 !important;
-    }
-
-    tr:nth-child(even) {
-        background-color: #e8e8e8;
-    }
-
-    th {
-        background-color: #4383BA;
-        color: white;
-    }
-
-    .container {
-        width: 80%;
-        margin: 20px auto;
-    }
-
-    .p {
-        text-align: center;
-        font-size: 14px;
-        padding-top: 140px;
-    }
-</style>
+@section scripts {
 <script>
-    $(function () {
-        var testScoreSegmentsData = {
-            labels: ["<50%", "50-70%", "71-90%", "90%<", "All Students"],
-            datasets: [
-                {
-                    label: "Testresultat",
-                    fillColor: "#4383BA",
-                    highlightFill: "#356691",
-                    data: [3, 7, 15, 5, 30]
-                },
+    app.controller('myCtrl', ['$scope', '$window', function ($scope, $window) {
+        $scope.data = [];
+        // Now, whenever the button is clicked, this method is run.
+        // It then stores the name in the 'data' array defined above.
+        $scope.submitForm = function (name) {
+            $scope.data.push(name);
+        };
+
+        $scope.studentsResults = {
+            resultData: {
+                passResult: 70,
+                maxScore: 100
+            },
+            students: [
+            {
+                name: 'Daenerys Targaryen',
+                email: 'wherearemydragons@mail.com',
+                testscore: 99
+            },
+            {
+                name: 'Rhaegar Targaryen',
+                email: 'iheartlyanna@mail.com',
+                testscore: 100
+            },
+            {
+                name: 'Aerys Targaryen',
+                email: 'madking@mail.com',
+                testscore: 91
+            },
+            {
+                name: 'Aemon Targaryen',
+                email: 'goodguy@mail.com',
+                testscore: 92
+            },
+            {
+                name: 'Viserys Targaryen',
+                email: 'goldencrown@mail.com',
+                testscore: 96
+            },
+            {
+                name: 'Robert Baratheon',
+                email: 'kingsblood@mail.com',
+                testscore: 78
+            },
+            {
+                name: 'Stannis Baratheon',
+                email: 'rightfulheir@mail.com',
+                testscore: 80
+            },
+            {
+                name: 'Renly Baratheon',
+                email: 'youngandwise@mail.com',
+                testscore: 85
+            },
+            {
+                name: 'Tywin Lannister',
+                email: 'familyiseverything@mail.com',
+                testscore: 88
+            },
+            {
+                name: 'Tyrion Lannister',
+                email: 'drinksandknowthings@mail.com',
+                testscore: 89
+            },
+            {
+                name: 'Jamie Lannister',
+                email: 'givemeahand@mail.com',
+                testscore: 75
+            },
+            {
+                name: 'Cersei Lannister',
+                email: 'givemehair@mail.com',
+                testscore: 80
+            },
+            {
+                name: 'Eddard Stark',
+                email: 'nedshead@mail.com',
+                testscore: 83
+            },
+            {
+                name: 'Catelyn Stark',
+                email: 'stoneheart@mail.com',
+                testscore: 82
+            },
+            {
+                name: 'Robb Stark',
+                email: 'pridebeforethefall@mail.com',
+                testscore: 88
+            },
+            {
+                name: 'Sansa Stark',
+                email: 'queeninthenorth@mail.com',
+                testscore: 85
+            },
+            {
+                name: 'Arya Stark',
+                email: 'blinddate@mail.com',
+                testscore: 77
+            },
+            {
+                name: 'Bran Stark',
+                email: 'visionquest@mail.com',
+                testscore: 79
+            },
+            {
+                name: 'Rickon Stark',
+                email: 'shaggysfriends@mail.com',
+                testscore: 74
+            },
+            {
+                name: 'Theon Greyjoy',
+                email: 'reek@mail.com',
+                testscore: 71
+            },
+            {
+                name: 'Yara Greyjoy',
+                email: 'whatisdeadmayneverdie@mail.com',
+                testscore: 67
+            },
+            {
+                name: 'Balon Greyjoy',
+                email: 'shakylegs@mail.com',
+                testscore: 51
+            },
+            {
+                name: 'Roose Bolton',
+                email: 'ironicdagger@mail.com',
+                testscore: 60
+            },
+            {
+                name: 'Ramsay Bolton',
+                email: 'releasethehounds@mail.com',
+                testscore: 54
+            },
+            {
+                name: 'Walder Frey',
+                email: 'weddingplanner@mail.com',
+                testscore: 57
+            },
+            {
+                name: 'Walda Frey',
+                email: 'gotanychicken@mail.com',
+                testscore: 64
+            },
+            {
+                name: 'Littlefinger',
+                email: 'ladderclimber@mail.com',
+                testscore: 53
+            },
+            {
+                name: 'Varys',
+                email: 'spiderwebs@mail.com',
+                testscore: 40
+            },
+            {
+                name: 'Gregor Clegane',
+                email: 'ridingmountains@mail.com',
+                testscore: 5
+            },
+            {
+                name: 'Sandor Clegane',
+                email: 'houndsonfire@mail.com',
+                testscore: 15
+            }
             ]
         }
 
-        var ctx = document.getElementById("testScoreSegments").getContext("2d");
-        var testChart = new Chart(ctx).Bar(testScoreSegmentsData, {
-            responsive: true,
-            barValueSpacing: 2,
-            animateScale: true,
-        });
-
-        document.getElementById('bar-legend').innerHTML = testChart.generateLegend();
-        var canvas = document.getElementById('testScoreSegments');
-        //var legendHolder = document.getElementById('bar-legend');
-
-        canvas.onclick = function (evt) {
-            var activePoints = testChart.getBarsAtEvent(evt);
-            console.log(activePoints);
-            console.log(activePoints[0].label);
-            switch (activePoints[0].label) {
-                case "<50%":
-                    document.getElementById('showFilter').innerHTML = 'below50';
+        $scope.filterSwitch = function () {
+            $scope.order = {
+                field: 'testscore',
+                reverse: true
+            };
+            switch ($('#showFilter').text()) {
+                case 'below50':
+                    $scope.studentFilter = $scope.below50;
                     break;
-                case "50-70%":
-                    document.getElementById('showFilter').innerHTML = 'between50and70';
+                case 'between50and70':
+                    $scope.studentFilter = $scope.between50and70;
                     break;
-                case "71-90%":
-                    document.getElementById('showFilter').innerHTML = 'between71and90';
+                case 'between71and90':
+                    $scope.studentFilter = $scope.between71and90;
                     break;
-                case "90%<":
-                    document.getElementById('showFilter').innerHTML = 'over90';
+                case 'over90':
+                    $scope.studentFilter = $scope.over90;
                     break;
-                case "All Students":
-                    document.getElementById('showFilter').innerHTML = 'showAll';
+                case 'fail':
+                    $scope.studentFilter = $scope.fail;
                     break;
+                case 'pass':
+                    $scope.studentFilter = $scope.pass;
+                    break;
+                case 'showAll':
+                    $scope.studentFilter = $scope.showAll;
                 default:
             }
+        }
+
+        $scope.studentFilter = {};
+        $scope.pass = function (student) {
+            return student.testscore >= $scope.studentsResults.resultData.passResult;
+        }
+        $scope.fail = function (student) {
+            return student.testscore < $scope.studentsResults.resultData.passResult;
+        }
+        $scope.column1 = function (student) {
+            var min = $scope.studentsResults.resultData.maxScore * 0.0;
+            var max = $scope.studentsResults.resultData.maxScore * 0.2;
+            return student.testscore >= min && student.testscore < max;
+        }
+        $scope.column2 = function (student) {
+            var min = $scope.studentsResults.resultData.maxScore * 0.2;
+            var max = $scope.studentsResults.resultData.maxScore * 0.4;
+            return student.testscore >= min && student.testscore < max;
+        }
+        $scope.column3 = function (student) {
+            var min = $scope.studentsResults.resultData.maxScore * 0.4;
+            var max = $scope.studentsResults.resultData.maxScore * 0.6;
+            return student.testscore >= min && student.testscore < max;
+        }
+        $scope.column4 = function (student) {
+            var min = $scope.studentsResults.resultData.maxScore * 0.6;
+            var max = $scope.studentsResults.resultData.maxScore * 0.8;
+            return student.testscore >= min && student.testscore < max;
+        }
+        $scope.column5 = function (student) {
+            var min = $scope.studentsResults.resultData.maxScore * 0.8;
+            var max = $scope.studentsResults.resultData.maxScore * 1;
+            return student.testscore >= min && student.testscore <= max;
+        }
+
+        //$scope.over90 = function (student) {
+        //    return student.testscore > 90;
+        //}
+        //$scope.between71and90 = function (student) {
+        //    return student.testscore > 70 && student.testscore < 91;
+        //}
+        //$scope.between50and70 = function (student) {
+        //    return student.testscore > 49 && student.testscore < 71;
+        //}
+        //$scope.below50 = function (student) {
+        //    return student.testscore < 50;
+        //}
+        //$scope.showAll = function (student) {
+        //    return student.testscore >= 0;
+        //}
+
+        $scope.order = {
+            field: 'testscore',
+            reverse: true
         };
+
+        $scope.dynamicOrder = function (user) {
+            var order = 0;
+            switch ($scope.order.field) {
+                default:
+                    order = user[$scope.order.field];
+            }
+            return order;
+        }
+
+    }]);
+
+    $(function () {
+        //var testScoreSegmentsData = {
+        //    labels: ["<50%", "50-70%", "71-90%", "90%<", "All Students"],
+        //    datasets: [
+        //        {
+        //            label: "Testresultat",
+        //            fillColor: "#4383BA",
+        //            highlightFill: "#356691",
+        //            data: [3, 7, 15, 5, 30]
+        //        },
+        //    ]
+        //}
+
+        //var ctx = document.getElementById("testScoreSegments").getContext("2d");
+        //var testChart = new Chart(ctx).Bar(testScoreSegmentsData, {
+        //    responsive: true,
+        //    barValueSpacing: 2,
+        //    animateScale: true,
+        //});
+        //var canvas = document.getElementById('testScoreSegments');
+
+        //document.getElementById('bar-legend').innerHTML = testChart.generateLegend();
+        //var legendHolder = document.getElementById('bar-legend');
+
+        //canvas.onclick = function (evt) {
+        //    var activePoints = testChart.getBarsAtEvent(evt);
+        //    console.log(activePoints);
+        //    console.log(activePoints[0].label);
+        //    switch (activePoints[0].label) {
+        //        case "<50%":
+        //            document.getElementById('showFilter').innerHTML = 'below50';
+        //            break;
+        //        case "50-70%":
+        //            document.getElementById('showFilter').innerHTML = 'between50and70';
+        //            break;
+        //        case "71-90%":
+        //            document.getElementById('showFilter').innerHTML = 'between71and90';
+        //            break;
+        //        case "90%<":
+        //            document.getElementById('showFilter').innerHTML = 'over90';
+        //            break;
+        //        case "All Students":
+        //            document.getElementById('showFilter').innerHTML = 'showAll';
+        //            break;
+        //        default:
+        //    }
+        //};
 
         var pieData = [
 	        {
@@ -374,3 +641,5 @@
         };
     })
 </script>
+}
+

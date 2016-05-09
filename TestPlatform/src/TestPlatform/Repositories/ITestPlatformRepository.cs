@@ -23,6 +23,7 @@ namespace TestPlatform.Repositories
         TestSession GetTestSessionById(int testSessionId);
         ManageTestQuestionsVM GetManageTestQuestionVM(int testId);
         void RemoveQuestionFromTest(int questionId, int testId);
+        ShowResultsVM GetShowResultsVM(int testId);
         int CreateAnswer(int questionId);
         int CreateAnswer(int questionId, AnswerDetailVM viewModel);
         QuestionFormVM GetPreviewQuestion(int questionId);
