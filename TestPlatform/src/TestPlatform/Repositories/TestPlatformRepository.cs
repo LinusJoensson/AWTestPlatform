@@ -482,5 +482,13 @@ namespace TestPlatform.Repositories
             return viewModel;
 
         }
+
+        public ShowResultsVM GetShowResultsVM(int testId)
+        {
+            return new ShowResultsVM
+            {
+                ResultDataJSON = null
+            };
+        }
     }
 }

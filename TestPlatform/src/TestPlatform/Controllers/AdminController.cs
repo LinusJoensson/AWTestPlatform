@@ -32,9 +32,11 @@ namespace TestPlatform.Controllers
             return View(viewModel);
         }
 
-        public IActionResult ShowResults()
+        [Route("Admin/ShowResults/{testId}")]
+        public IActionResult ShowResults(int testId)
         {
-            return View();
+            var vm = repository.GetShowResultsVM(testId);
+            return View(vm);
         }
 
         [Route("Admin/Test/{testId}/Question/Create")]

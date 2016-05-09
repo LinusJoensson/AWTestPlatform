@@ -1,4 +1,5 @@
-﻿<div ng-controller="myCtrl">
+﻿@model ShowResultsVM
+<div ng-controller="myCtrl">
     <div class="container row" ng-mousemove="filterSwitch();">
         <h1>Test Results</h1>
         <div class="col-xs-6">
@@ -10,7 +11,7 @@
             <canvas id="testScoreTotalAmountPassed" width="600" height="350"></canvas>
             <br />
             <br />
-            <p style="color:gray; text-align:center;">Pass ({{gotClass.resultData.passResult}})<span class="passColor"></span>Fail<span class="failColor"></span></p>
+            <p style="color:gray; text-align:center;">Pass ({{studentsResults.resultData.passResult}})<span class="passColor"></span>Fail<span class="failColor"></span></p>
         </div>
     </div>
 
@@ -27,7 +28,7 @@
                 <th><a href="#" ng-click="order.field = 'email'; order.reverse = !order.reverse">E-mail<span ng-show="order.field == 'email'" class="fa fa-caret-down LeftMargin5"></span></a></th>
                 <th><a href="#" ng-click="order.field = 'testscore'; order.reverse = !order.reverse">Test Score<span ng-show="order.field == 'testscore'" class="fa fa-caret-down LeftMargin5"></span></a></th>
             </tr>
-            <tr ng-repeat="student in gotClass.students | orderBy:dynamicOrder:order.reverse | filter:studentFilter | filter:search">
+            <tr ng-repeat="student in studentsResults.students | orderBy:dynamicOrder:order.reverse | filter:studentFilter | filter:search">
                 <td>{{student.name}}</td>
                 <td>{{student.email}}</td>
                 <td>{{student.testscore}}</td>
@@ -297,7 +298,7 @@
             $scope.data.push(name);
         };
 
-        $scope.gotClass = {
+        $scope.studentsResults = {
             resultData: {
                 passResult: 70,
                 maxScore: 100
@@ -488,34 +489,34 @@
 
         $scope.studentFilter = {};
         $scope.pass = function (student) {
-            return student.testscore >= $scope.gotClass.resultData.passResult;
+            return student.testscore >= $scope.studentsResults.resultData.passResult;
         }
         $scope.fail = function (student) {
-            return student.testscore < $scope.gotClass.resultData.passResult;
+            return student.testscore < $scope.studentsResults.resultData.passResult;
         }
         $scope.column1 = function (student) {
-            var min = $scope.gotClass.resultData.maxScore * 0.0;
-            var max = $scope.gotClass.resultData.maxScore * 0.2;
+            var min = $scope.studentsResults.resultData.maxScore * 0.0;
+            var max = $scope.studentsResults.resultData.maxScore * 0.2;
             return student.testscore >= min && student.testscore < max;
         }
         $scope.column2 = function (student) {
-            var min = $scope.gotClass.resultData.maxScore * 0.2;
-            var max = $scope.gotClass.resultData.maxScore * 0.4;
+            var min = $scope.studentsResults.resultData.maxScore * 0.2;
+            var max = $scope.studentsResults.resultData.maxScore * 0.4;
             return student.testscore >= min && student.testscore < max;
         }
         $scope.column3 = function (student) {
-            var min = $scope.gotClass.resultData.maxScore * 0.4;
-            var max = $scope.gotClass.resultData.maxScore * 0.6;
+            var min = $scope.studentsResults.resultData.maxScore * 0.4;
+            var max = $scope.studentsResults.resultData.maxScore * 0.6;
             return student.testscore >= min && student.testscore < max;
         }
         $scope.column4 = function (student) {
-            var min = $scope.gotClass.resultData.maxScore * 0.6;
-            var max = $scope.gotClass.resultData.maxScore * 0.8;
+            var min = $scope.studentsResults.resultData.maxScore * 0.6;
+            var max = $scope.studentsResults.resultData.maxScore * 0.8;
             return student.testscore >= min && student.testscore < max;
         }
         $scope.column5 = function (student) {
-            var min = $scope.gotClass.resultData.maxScore * 0.8;
-            var max = $scope.gotClass.resultData.maxScore * 1;
+            var min = $scope.studentsResults.resultData.maxScore * 0.8;
+            var max = $scope.studentsResults.resultData.maxScore * 1;
             return student.testscore >= min && student.testscore <= max;
         }
 
