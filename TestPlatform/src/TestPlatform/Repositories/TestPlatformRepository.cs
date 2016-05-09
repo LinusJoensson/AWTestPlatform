@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,11 +26,15 @@ namespace TestPlatform.Repositories
             return (_tests.SelectMany(o => o.Questions)).ToArray();
         }
 
+        public Answer[] GetAllAnswers()
+        {
+            return (_tests.SelectMany(o => o.Questions).SelectMany(q => q.Answers)).ToArray();
+        }
+
         public TestPlatformRepository()
         {
             _tests = new List<Test>();
             _users = new List<User>();
-            //_questions = new List<Question>();
             _answers = new List<Answer>();
             _testSessions = new List<TestSession>();
             _questionResults = new List<QuestionResult>();
@@ -54,14 +59,7 @@ namespace TestPlatform.Repositories
             });
             _users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
-
-            #region Add static questions 
-
-            var answersCount = _answers.Count();
-
-
-
-            #endregion
+            
 
             _tests.Add(new Test()
             {
@@ -82,8 +80,8 @@ namespace TestPlatform.Repositories
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "ZLATAN" },
-                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "ZLATAN" }
+                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "ZLATAN" },
+                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "ZLATAN" }
                         }
                     }
                 },
@@ -110,9 +108,9 @@ namespace TestPlatform.Repositories
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "A store of value" },
-                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "A banana " },
-                        new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "All of the above " },
+                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "A store of value" },
+                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "A banana " },
+                        new Answer() { Id = GetAllAnswers().Count() + 3, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "All of the above " },
                         }
                     },
                     new Question()
@@ -125,8 +123,8 @@ namespace TestPlatform.Repositories
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                            new Answer() { Id = answersCount + 1, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Zlatan" },
-                            new Answer() { Id = answersCount + 2, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "Zlatan" }
+                            new Answer() { Id = GetAllAnswers().Count() + 4, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Zlatan" },
+                            new Answer() { Id = GetAllAnswers().Count() + 5, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "Zlatan" }
                         }
                     },
 
@@ -213,7 +211,7 @@ namespace TestPlatform.Repositories
                 {
                     IsInTestSession = isInSession,
                     QuestionType = thisQuestion.QuestionType,
-                    TextQuestion = thisQuestion.QuestionText,
+                    QuestionText = thisQuestion.QuestionText,
                     HasComment = thisQuestion.HasComment,
                     Comment = thisQuestionResult?.Comment,
                     SelectedAnswers = selectedAnswers,
@@ -337,7 +335,7 @@ namespace TestPlatform.Repositories
             {
                 TestId = testId,
                 Description = thisTest.Description,
-                Questions = thisTest.Questions,
+                Questions = thisTest.Questions.OrderBy(o => o.SortOrder).ToList(),
                 TestName = thisTest.Name,
             };
 
@@ -349,7 +347,7 @@ namespace TestPlatform.Repositories
             var thisQuestion = GetAllQuestions().Single(o => o.Id == questionId);
             var viewModel = new QuestionFormVM()
             {
-                TextQuestion = thisQuestion.QuestionText
+                QuestionText = thisQuestion.QuestionText
             };
 
             return viewModel;
@@ -373,17 +371,15 @@ namespace TestPlatform.Repositories
         {
             var answer = new Answer()
             {
-                Id = _answers.Count() + 1,
+                Id = GetAllAnswers().Count() + 1,
                 AnswerText = viewModel.AnswerText,
                 IsCorrect = viewModel.ShowAsCorrect,
                 QuestionId = questionId,
             };
-
-            _answers.Add(answer);
+            
             GetAllQuestions().SingleOrDefault(o => o.Id == questionId)?
                 .Answers.Add(answer);
-
-
+            
             return answer.Id;
         }
 
@@ -391,7 +387,7 @@ namespace TestPlatform.Repositories
         {
             var answer = new Answer()
             {
-                Id = _answers.Count() + 1
+                Id = GetAllAnswers().Count() + 1
             };
 
             _answers.Add(answer);
@@ -409,11 +405,6 @@ namespace TestPlatform.Repositories
             _answers.RemoveAll(a => a.Id == answerId);
         }
 
-        public Answer[] GetAllAnswers()
-        {
-            return _answers.ToArray();
-        }
-
         public SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason)
         {
             var user = _users.Single(u => _testSessions.Single(o => o.Id == testSessionId).UserId == u.Id);
@@ -424,6 +415,72 @@ namespace TestPlatform.Repositories
                 UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
             };
+        }
+
+        public EditQuestionVM GetEditQuestionVM(int testId, int questionId)
+        {
+            var thisQuestion = GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+
+            var viewModel = new EditQuestionVM()
+            {
+                ItemType = new SelectListItem[]
+                {
+                    new SelectListItem { Value = ((int)QuestionType.SingleChoice).ToString(), Text="Single Choice"},
+                    new SelectListItem { Value = ((int)QuestionType.MultipleChoice).ToString(), Text="Multiple Choice"},
+                    new SelectListItem { Value = ((int)QuestionType.TextSingleLine).ToString(), Text="Single Line Text"},
+                    new SelectListItem { Value = ((int)QuestionType.TextMultiLine).ToString(), Text="Multi Line Text"}
+                },
+                TestId = testId,
+                QuestionId = questionId,
+                Type = thisQuestion.QuestionType,
+                SortOrder = thisQuestion.SortOrder,
+                QuestionFormVM = new QuestionFormVM()
+                {
+                    QuestionText = thisQuestion.QuestionText,
+                    QuestionType = thisQuestion.QuestionType,
+                    SortOrder = thisQuestion.SortOrder,
+                    HasComment = thisQuestion.HasComment,
+                    IsInEditQuestion = true
+                },
+                HasComment = thisQuestion.HasComment,
+            };
+
+            if ((viewModel.Type == QuestionType.MultipleChoice) || (viewModel.Type == QuestionType.SingleChoice))
+            {
+                viewModel.AnswerDetailVMs = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                {
+                    AnswerId = o.Id,
+                    AnswerText = o.AnswerText,
+                    IsChecked = o.IsCorrect,
+                    ShowAsCorrect = o.IsCorrect,
+                    QuestionType = thisQuestion.QuestionType,
+                }).ToArray();
+            }
+
+            return (viewModel);
+        }
+
+        public QuestionFormVM GetPreviewQuestionPartial(int questionId)
+        {
+            var thisQuestion = GetAllQuestions().Single(o => o.Id == questionId);
+
+            var viewModel = new QuestionFormVM()
+            {
+                IsInTestSession = false,
+                Answers = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                {
+                    AnswerId = o.Id,
+                    AnswerText = o.AnswerText,
+                    ShowAsCorrect = o.IsCorrect,
+                    IsChecked = o.IsCorrect
+                }).ToList(),
+                QuestionText = thisQuestion.QuestionText,
+                HasComment = thisQuestion.HasComment,
+                QuestionType = thisQuestion.QuestionType
+            };
+
+            return viewModel;
+
         }
     }
 }

@@ -15,128 +15,138 @@
     <div class="panel-heading">
         @if (!Model.IsInTestSession)
         {
-            <h3>Preview</h3>
+            @if(!Model.IsInEditQuestion)
+            {
+                <h3>Preview</h3>
+            }
+            else
+            {
+                <h2>Question Type: @Model.QuestionType.ToString()</h2>
+            }
         }
     </div>
 
     <div class="panel-body">
-        @(Html.Raw(Model.TextQuestion))
+        @(Html.Raw(Model.QuestionText))
 
-        <hr/>
-
-        @if (Model.Answers != null && Model.Answers.Count > 0)
+        @if (!Model.IsInEditQuestion)
         {
-        @foreach (var answer in Model.Answers)
-        {
-            <div class="form-group">
-                @switch (Model.QuestionType)
-                {
-                    case TestPlatform.Models.Enums.QuestionType.SingleChoice:
-                        {
-                            <label for="@($"answer{answer.AnswerId}")">
+            <hr/>
 
-                                <input type="radio"
-                                        id="@string.Format("answer{0}", answer.AnswerId)"
-                                        name="@nameof(Model.SelectedAnswers)"
-                                        value="@answer.AnswerId"
-                                        @(answer.IsChecked ? "checked=\"checked\"" : "") />
+            @if (Model.Answers != null && Model.Answers.Count > 0)
+            {
+            @foreach (var answer in Model.Answers)
+            {
+                <div class="form-group">
+                    @switch (Model.QuestionType)
+                    {
+                        case TestPlatform.Models.Enums.QuestionType.SingleChoice:
+                            {
+                                <label for="@($"answer{answer.AnswerId}")">
 
-                                @(Html.Raw(answer.AnswerText))
-
-                            </label>
-
-                        }
-                        break;
-                    case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
-                        {
-                            <label for="@($"answer{answer.AnswerId}")">
-                                @if (answer.IsChecked)
-                                {
-                                    <input type="checkbox"
-                                            id="@($"answer{answer.AnswerId}")"
+                                    <input type="radio"
+                                            id="@string.Format("answer{0}", answer.AnswerId)"
                                             name="@nameof(Model.SelectedAnswers)"
                                             value="@answer.AnswerId"
-                                            checked="checked" />
-                                }
-                                else
-                                {
-                                    <input type="checkbox"
-                                            id="@($"answer{answer.AnswerId}")"
-                                            name="@nameof(Model.SelectedAnswers)"
-                                            value="@answer.AnswerId" />
-                                }
-                                @(Html.Raw(answer.AnswerText))
+                                            @(answer.IsChecked ? "checked=\"checked\"" : "") />
 
-                            </label>
+                                    @(Html.Raw(answer.AnswerText))
 
-                        }
-                        break;
+                                </label>
+
+                            }
+                            break;
+                        case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
+                            {
+                                <label for="@($"answer{answer.AnswerId}")">
+                                    @if (answer.IsChecked)
+                                    {
+                                        <input type="checkbox"
+                                                id="@($"answer{answer.AnswerId}")"
+                                                name="@nameof(Model.SelectedAnswers)"
+                                                value="@answer.AnswerId"
+                                                checked="checked" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox"
+                                                id="@($"answer{answer.AnswerId}")"
+                                                name="@nameof(Model.SelectedAnswers)"
+                                                value="@answer.AnswerId" />
+                                    }
+                                    @(Html.Raw(answer.AnswerText))
+
+                                </label>
+
+                            }
+                            break;
 
 
+                    }
+                    <hr />
+
+                </div>
+            }
+
+            }
+            else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextMultiLine)
+            {
+                @if (!Model.IsInTestSession)
+                {
+                    <div class="form-group">
+                        <label>Answer:</label>
+                        <textarea class="form-control" rows="5" readonly></textarea>
+                    </div>
                 }
-                <hr />
+                else
+                {
+                    <div class="form-group">
+                        <label>Answer:</label>
 
-            </div>
+                        <textarea class="form-control" rows="5"
+                                    name="@nameof(Model.SelectedAnswers)"></textarea>
+                    </div>
+                }
             }
-
-        }
-        else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextMultiLine)
-        {
-            @if (!Model.IsInTestSession)
+            else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextSingleLine)
             {
-                <div class="form-group">
-                    <label>Answer:</label>
-                    <textarea class="form-control" rows="5" readonly></textarea>
-                </div>
+                @if (!Model.IsInTestSession)
+                {
+                    <div class="form-group">
+                        <label>Answer:</label>
+                        <text class="form-control" readonly></text>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label>Answer:</label>
+
+                        <text class="form-control" name="@nameof(Model.SelectedAnswers)"></text>
+                    </div>
+                }
             }
             else
             {
-                <div class="form-group">
-                    <label>Answer:</label>
+                <p>No answers added</p>
+            }
 
-                    <textarea class="form-control" rows="5"
-                                name="@nameof(Model.SelectedAnswers)"></textarea>
-                </div>
-            }
-        }
-        else if (Model.QuestionType == TestPlatform.Models.Enums.QuestionType.TextSingleLine)
-        {
-            @if (!Model.IsInTestSession)
+            @if (Model.HasComment)
             {
-                <div class="form-group">
-                    <label>Answer:</label>
-                    <text class="form-control" readonly></text>
-                </div>
-            }
-            else
-            {
-                <div class="form-group">
-                    <label>Answer:</label>
-
-                    <text class="form-control" name="@nameof(Model.SelectedAnswers)"></text>
-                </div>
-            }
-        }
-        else
-        {
-            <p>No answers added</p>
-        }
-
-        @if (Model.HasComment)
-        {
-            @if (Model.IsInTestSession)
-            {
-                <div class="form-group">
-                    <label>Comment:</label>
-                    <textarea asp-for="Comment" class="form-control" rows="5"></textarea>
-                </div>
-            }
-            else
-            {
-                <div class="form-group">
-                    <label>Comment:</label>
-                    <textarea class="form-control" rows="5" readonly></textarea>
-                </div>
+                @if (Model.IsInTestSession)
+                {
+                    <div class="form-group">
+                        <label>Comment:</label>
+                        <textarea asp-for="Comment" class="form-control" rows="5"></textarea>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label>Comment:</label>
+                        <textarea class="form-control" rows="5" readonly></textarea>
+                    </div>
+                }
             }
         }
     </div>
