@@ -16,32 +16,15 @@
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="https://code.angularjs.org/1.5.5/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="~/scripts/dist/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="~/scripts/dist/jstree.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     @*<script src="~/lib/bootstrap-autohidingnavbar/dist/jquery.bootstrap-autohidingnavbar.js"></script>*@    
 
     <script>
         var app = angular.module('myApp', []);
-        app.factory('myService', function () {
-            var savedData = {}
-            function set(data) {
-                savedData = data;
-            }
-            function get() {
-                return savedData;
-            }
-
-            return {
-                set: set,
-                get: get
-            }
-
-        });
-
         app.controller('myCtrl', ['$scope', function ($scope) {
-            myService.set(yourSharedData);
             $scope.userName = 'Sebastian';
             $scope.data = [];
 

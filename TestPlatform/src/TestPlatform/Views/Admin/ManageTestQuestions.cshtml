@@ -19,9 +19,6 @@
             @(Html.Raw("<i>"+(question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50))+"...</i>"))
-            <!-- kommenterar ut ID. samt kortar ner maxlängd för att få en cleanare look och bättre beteende på knappar-->
-
-            <!--i@question.Id-->
 
             <div class="buttons rightFloat">
                 <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">

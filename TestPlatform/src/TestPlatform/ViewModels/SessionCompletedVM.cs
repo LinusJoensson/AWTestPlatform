@@ -13,5 +13,7 @@ namespace TestPlatform.ViewModels
         public SessionCompletedReason SessionCompletedReason { get; set; }
         public string UserName { get; set; }
 
+        public String Date { get; set; }
+
     }
 }
