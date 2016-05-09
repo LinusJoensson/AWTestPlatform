@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "/TestSession/Index/1",
+      "launchUrl": "admin/showresults",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
