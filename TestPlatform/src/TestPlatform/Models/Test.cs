@@ -15,7 +15,7 @@ namespace TestPlatform.Models
         public string Tags { get; set; }
         public bool IsPublished { get; set; }
         public virtual List<Question> Questions { get; set; }
-        public TimeSpan TimeLimit { get; set; }
+        public int? TimeLimitInMinutes { get; set; }
         public bool ShowPassOrFail { get; set; }
         public bool ShowTestScore { get; set; }
         public int? PassPercentage { get; set; }
@@ -23,6 +23,7 @@ namespace TestPlatform.Models
         public string CertTemplatePath { get; set; }
         public bool EnableCertDownloadOnCompletion { get; set; }
         public bool EnableEmailCertOnCompletion { get; set; }
+        public virtual ICollection<TestSession> TestSessions { get; set; }
 
         public Test()
         {
