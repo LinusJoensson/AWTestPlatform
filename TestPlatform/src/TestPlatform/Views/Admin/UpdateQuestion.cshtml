@@ -5,8 +5,7 @@
     <br />
     <div class="whiteSquare BottomMargin20">
 
-        <h2 class="grayText topMargin-8 hidden-xs">General Settings for the Question</h2>
-        <h2 class="grayText topMargin-8 hidden-lg hidden-md hidden-sm">General Settings</h2>
+        <h2 class="grayText topMargin-8">Question Settings</h2>
 
         <form asp-controller="Admin" asp-action="UpdateQuestionSettings" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
             <div class="row">
@@ -29,18 +28,7 @@
             <br />
 
             <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-check rightMargin5"></span>Apply</button>
-
         </form>
-    </div>
-</div>
-@*/// ------------------------------------------------------------////*@
-
-
-@*/// ----------------------- QUESTION ---------------------------////*@
-
-<div class="whiteSquare BottomMargin20">
-    @*<h2 class="grayText topMargin-8">The Question</h2>*@
-    <div id="questionTextDiv">
 
         <div id="editQuestionTextDiv" hidden="hidden">
             @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
@@ -50,8 +38,8 @@
                 <span class="fa fa-save rightMargin5"></span>
                 Save Changes
             </button>
-
         </div>
+
         <div id="previewQuestionTextDiv">
             @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
         </div>
@@ -60,11 +48,12 @@
             <span class="fa fa-pencil rightMargin5"></span>
             Edit
         </button>
-    </div>
 
+
+    </div>
 </div>
 
-@*/// ------------------------------------------------------------////*@
+
 
 
 @*/// ----------------------- ANSWERS ----------------------------////*@
@@ -72,45 +61,48 @@
 
 @if (Model.AnswerDetailVMs != null)
 {
-    <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-        <button class="orcaBtn rightMargin10 btnWidth200"><span class="fa fa-plus RightMargin20" title="New"></span>Add New Answer</button>
-    </a>
-    <br />
-    //kommentar
-
     <div class="whiteSquare BottomMargin20">
+        <h2 class="topMargin-8">Answer Settings</h2>
+        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+            <button class="orcaBtn rightMargin10 btnWidth200 BottomMargin20"><span class="fa fa-plus rightMargin5" title="New"></span>Add New Answer</button>
+        </a>
+        <hr />
         @foreach (var answer in Model.AnswerDetailVMs)
         {
             <div id="@("answerDiv"+answer.AnswerId)">
 
-
-                <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
-                        id="@("btnUpdateAnswer" + answer.AnswerId)">
-                    SAVE CHANGES
-                </button>
-
-                <button onclick="ShowEditAnswer(@answer.AnswerId)"
-                        id="@("btnShowEditAnswer" + answer.AnswerId)">
-                    Edit Answer
-                </button>
-
-                <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
-                        id="@("btnRemoveAnswer" + answer.AnswerId)">
-                    Remove Answer
-                </button>
-
                 <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
                     @Html.Partial("_EditAnswerPartial", answer)
-
                     <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
                            @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
                 </div>
 
                 <div id=@("previewAnswerDiv"+ answer.AnswerId)>
-
                     @Html.Partial("_AnswerFormPartial", answer)
-
                 </div>
+
+
+                <!-- #region Buttons -->
+                <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
+                        id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth175 topMargin-8">
+                    <span class="fa fa-save rightMargin5"></span>
+                    Save Answer
+                </button>
+
+                <button onclick="ShowEditAnswer(@answer.AnswerId)"
+                        id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth175 topMargin-8">
+                    <span class="fa fa-pencil rightMargin5"></span>
+                    Edit Answer
+                </button>
+
+                <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
+                        id="@("btnRemoveAnswer" + answer.AnswerId)" class="orcaBtn bgRed btnWidth175 topMargin-8">
+                    <span class="fa fa-trash rightMargin5"></span>
+                    Delete Answer
+                </button>
+                <!-- #endregion -->
+                <br />
+                <hr />
             </div>
 
         }
