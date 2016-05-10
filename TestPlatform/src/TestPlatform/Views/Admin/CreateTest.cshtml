@@ -15,6 +15,42 @@
     <label asp-for="Tags"></label>
     <input asp-for="Tags" class="form-control" />
     <span asp-validation-for="Tags"></span>
+    <br />
+    <label asp-for="TimeLimitInMinutes"></label>
+    <input asp-for="TimeLimitInMinutes" class="form-control" />
+    <span asp-validation-for="TimeLimitInMinutes"></span>
+    <br />
+    <h3>Test Completion</h3>
+    <div style="background-color:grey;">
+        <label asp-for="ShowPassOrFail"></label>
+        <input asp-for="ShowPassOrFail" class="form-control" />
+        <span asp-validation-for="ShowPassOrFail"></span>
+        <br />
+        <label asp-for="ShowTestScore"></label>
+        <input asp-for="ShowTestScore" class="form-control" />
+        <span asp-validation-for="ShowTestScore"></span>
+        <br />
+        <label asp-for="PassPercentage"></label>
+        <input asp-for="PassPercentage" class="form-control" />
+        <span asp-validation-for="PassPercentage"></span>
+        <br />
+        <label asp-for="CustomCompletionMessage"></label>
+        <input asp-for="CustomCompletionMessage" class="form-control" />
+        <span asp-validation-for="CustomCompletionMessage"></span>
+        <br />
+        <label asp-for="CertTemplatePath"></label>
+        <input asp-for="CertTemplatePath" class="form-control" />
+        <span asp-validation-for="CertTemplatePath"></span>
+        <br />
+        <label asp-for="EnableCertDownloadOnCompletion"></label>
+        <input asp-for="EnableCertDownloadOnCompletion" class="form-control" />
+        <span asp-validation-for="EnableCertDownloadOnCompletion"></span>
+        <br />
+        <label asp-for="EnableEmailCertOnCompletion"></label>
+        <input asp-for="EnableEmailCertOnCompletion" class="form-control" />
+        <span asp-validation-for="EnableEmailCertOnCompletion"></span>
+        <br />
+    </div>
     <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 btnWidth120"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Back</button>
     <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-check rightMargin5"></span>Create</button>
 </form>

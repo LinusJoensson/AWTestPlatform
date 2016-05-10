@@ -19,9 +19,31 @@ namespace TestPlatform.ViewModels
         public string Description { get; set; }
 
         [Display(Name = "Time Limit")]
-        public TimeSpan TimeLimit { get; set; }
+        [Range(1, 1440, ErrorMessage = "Number must be between 1 and 1440")]
+        public int? TimeLimitInMinutes { get; set; }
 
         [Display(Name = "Tags")]
         public string Tags { get; set; }
+
+        [Display(Name = "Show pass or fail")]
+        public bool ShowPassOrFail { get; set; }
+
+        [Display(Name = "Show test score")]
+        public bool ShowTestScore { get; set; }
+
+        [Display(Name = "Pass threshhold (%)")]
+        public int? PassPercentage { get; set; }
+
+        [Display(Name = "Custom message")]
+        public string CustomCompletionMessage { get; set; }
+
+        [Display(Name = "Name of certificate PDF template (*.pdf)")]
+        public string CertTemplatePath { get; set; }
+
+        [Display(Name = "Enable certificate download")]
+        public bool EnableCertDownloadOnCompletion { get; set; }
+
+        [Display(Name = "Enable certificate by email")]
+        public bool EnableEmailCertOnCompletion { get; set; }
     }
 }

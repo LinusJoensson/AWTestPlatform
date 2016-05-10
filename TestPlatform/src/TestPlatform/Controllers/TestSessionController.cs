@@ -43,15 +43,14 @@ namespace TestPlatform.Controllers
         public IActionResult ViewQuestion(int testSessionId, int questionIndex)
         {
             var viewModel = repository.GetViewQuestion(testSessionId, questionIndex, true);
-            if (viewModel.SecondsLeft > 0)
+            if (viewModel.SecondsLeft.HasValue && viewModel.SecondsLeft <= 0)
             {
-                return View(viewModel);
-            }
-            else
-            {
+                // Timed out
                 return RedirectToAction(nameof(SessionCompleted),
                     new { TestSessionId = testSessionId, completedReason = (int)SessionCompletedReason.TimedOut });
             }
+
+            return View(viewModel);
         }
 
         [HttpPost]
