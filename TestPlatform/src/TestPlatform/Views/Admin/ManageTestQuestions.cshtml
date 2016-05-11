@@ -23,22 +23,20 @@
                     <button class="orcaBtn bgRed rightMargin10 btnWidth40"><span class="fa fa-trash" title="Remove"></span></button>
                 </a>
                 <button class="orcaBtn btnWidth40"><span id="@("btnPreview"+question.Id)" class="fa fa-eye"></span></button>
-                @*<button class="orcaBtn btnWidth40" onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"><span class="fa fa-eye"></span></button>*@
-                @*<button class="orcaBtn btnWidth40" onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"><span class="fa fa-eye-slash "></span></button>*@
             </div>
-
+            
             @(Html.Raw("<i>" + (question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
 
-            <div id="@("detailsDiv"+question.Id)" hidden></div>
             <br />
             <br />
+
+            <div id="@("detailsDiv"+question.Id)" hidden></div>        
         </div>
     }
 </div>
 <!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
-@*<button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed" style="float:right"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Go Back</button>*@
 <a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth210 leftFloat"><span class="fa fa-chevron-left rightMargin5"></span>Return to Dashboard</button></a>
 
 <script>
@@ -62,16 +60,4 @@
                 }
             });
     }
-
-    //function PartialHide(id) {
-
-    //    var buttonPrevId = "#btnPreview" + id;
-    //    var buttonHideId = "#btnHide" + id;
-
-    //    $(buttonPrevId).show();
-    //    $(buttonHideId).hide();
-
-    //    var divId = "#detailsDiv" + id;
-    //    $(divId).hide();
-    //}
 </script>
