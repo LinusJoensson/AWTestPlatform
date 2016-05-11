@@ -10,7 +10,7 @@ namespace TestPlatform.Utils
     {
         internal static int GetScore(TestSession ts)
         {
-            return 90;
+            return 20 * ts.Id;
         }
     }
 }

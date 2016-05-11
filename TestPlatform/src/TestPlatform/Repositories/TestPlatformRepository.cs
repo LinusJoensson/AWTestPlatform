@@ -58,12 +58,37 @@ namespace TestPlatform.Repositories
                 Lastname = "Joensson",
                 TestSessions = new List<TestSession>()
             });
+            _users.Add(new User()
+            {
+                Id = 2,
+                Email = "sebastian.udden@gmail.com",
+                FirstName = "Sebastian",
+                Lastname = "Uddén",
+                TestSessions = new List<TestSession>()
+            });
+            _users.Add(new User()
+            {
+                Id = 3,
+                Email = "mattiashagelin@outlook.com",
+                FirstName = "Mattias",
+                Lastname = "Hagelin",
+                TestSessions = new List<TestSession>()
+            });
+            _users.Add(new User()
+            {
+                Id = 4,
+                Email = "patrikweibus@outlook.com",
+                FirstName = "Patrik",
+                Lastname = "Weibus",
+                TestSessions = new List<TestSession>()
+            });
             _users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
 
-
+            #region Add static tests
             _tests.Add(new Test()
             {
+
                 Id = 1,
                 //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
                 Author = "Linus Joensson",
@@ -86,7 +111,88 @@ namespace TestPlatform.Repositories
                         }
                     }
                 },
-                TimeLimitInMinutes = 10
+                TimeLimitInMinutes = 10,
+                TestSessions = new List<TestSession> {
+                    new TestSession
+                    {
+                        Id = 1,
+                        TestId = 1,
+                        UserId = 1,
+                        QuestionResults = new List<QuestionResult>
+                        {
+                            new QuestionResult
+                            {
+                                Id = 1,
+                                Comment = null,
+                                QuestionId = 1,
+                                SelectedAnswers = "1"
+                            }
+                        },
+                        StartTime = DateTime.Now,
+                        SubmitTime = DateTime.Now.AddMinutes(10),
+                        User = _users.Single(o=>o.Id == 1)
+
+                    },
+                    new TestSession
+                    {
+                        Id = 2,
+                        TestId = 1,
+                        UserId = 2,
+                        QuestionResults = new List<QuestionResult>
+                        {
+                            new QuestionResult
+                            {
+                                Id = 1,
+                                Comment = null,
+                                QuestionId = 1,
+                                SelectedAnswers = "1"
+                            }
+                        },
+                        StartTime = DateTime.Now,
+                        SubmitTime = DateTime.Now.AddMinutes(8),
+                        User = _users.Single(o=>o.Id == 2)
+
+                    },
+                    new TestSession
+                    {
+                        Id = 3,
+                        TestId = 1,
+                        UserId = 3,
+                        QuestionResults = new List<QuestionResult>
+                        {
+                            new QuestionResult
+                            {
+                                Id = 1,
+                                Comment = null,
+                                QuestionId = 1,
+                                SelectedAnswers = "1"
+                            }
+                        },
+                        StartTime = DateTime.Now,
+                        SubmitTime = DateTime.Now.AddMinutes(1),
+                        User = _users.Single(o=>o.Id == 3)
+
+                    },
+                    new TestSession
+                    {
+                        Id = 4,
+                        TestId = 1,
+                        UserId = 4,
+                        QuestionResults = new List<QuestionResult>
+                        {
+                            new QuestionResult
+                            {
+                                Id = 1,
+                                Comment = null,
+                                QuestionId = 1,
+                                SelectedAnswers = "1"
+                            }
+                        },
+                        StartTime = DateTime.Now,
+                        SubmitTime = DateTime.Now.AddMinutes(30),
+                        User = _users.Single(o=>o.Id == 4)
+                    }
+                }
             });
 
 
@@ -133,6 +239,7 @@ namespace TestPlatform.Repositories
                 },
                 TimeLimitInMinutes = null
             });
+            #endregion
         }
 
         public int CreateTest(Test test)
@@ -497,13 +604,13 @@ namespace TestPlatform.Repositories
         public ShowResultsVM GetShowResultsVM(int testId)
         {
             var test = _tests.Single(o => o.Id == testId);
-            var maxScore = test.Questions.Count();
+            var maxScore = test.Questions.Count() * 100;
             var result = new
             {
                 resultData = new
                 {
-                    passResult = 1 * maxScore,
-                    maxScore = maxScore
+                    maxScore = maxScore,
+                    passResult = 0.7 * maxScore
                 },
                 students = test.TestSessions
                 .Select(ts => new
