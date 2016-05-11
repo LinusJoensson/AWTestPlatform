@@ -20,7 +20,7 @@
     <script src="~/scripts/dist/jstree.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    @*<script src="~/lib/bootstrap-autohidingnavbar/dist/jquery.bootstrap-autohidingnavbar.js"></script>*@    
+    @*<script src="~/lib/bootstrap-autohidingnavbar/dist/jquery.bootstrap-autohidingnavbar.js"></script>*@
 
     <script>
         var app = angular.module('myApp', []);
@@ -28,6 +28,12 @@
         //    $("div.navbar-fixed-top").autoHidingNavbar({
         //    });
         //});
+
+        // #region Tooltip
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        // #endregion
     </script>
     @RenderSection("headScripts", false)
 </head>
@@ -53,16 +59,16 @@
                     <li><a href="~/Admin/Dashboard">Dashboard</a></li>
                     <li><a href="~/TestSession/Index/1">Testsession</a></li>
                     @*<li><a href="~/User/SelectTest">Take a test</a></li>
-                    <li><a href="~/Admin/index">Manage tests</a></li>*@
+                        <li><a href="~/Admin/index">Manage tests</a></li>*@
                     <li><a href="~/Home/Login">Log in</a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- #endregion -->
-<div class="topBottomMargin80">
-    @RenderBody()
-</div>
+    <div class="topBottomMargin80">
+        @RenderBody()
+    </div>
     @RenderSection("scripts", false)
 </body>
 </html>
