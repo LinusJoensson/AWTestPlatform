@@ -92,38 +92,38 @@ namespace TestPlatform.Repositories
                 Id = 1,
                 //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
                 Author = "Linus Joensson",
-                Name = "My First Test",
+                Name = "Basic C#",
                 Description = "An eazy test",
                 Questions = new List<Question>()
                 {
                     new Question()
                     {
                         TestId = 1,
-                        Id = GetAllQuestions().Count() + 1,
-                        Name = "Third Question",
-                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""auto"" height=""auto"" allowfullscreen=""allowfullscreen""></iframe>",
+                        Id = 1,
+                        Name = "First Question",
+                        QuestionText = /*@"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""auto"" height=""auto"" allowfullscreen=""allowfullscreen""></iframe>"*/"How do you write into console.",
                         QuestionType = QuestionType.SingleChoice,
-                        Tags = "Football" + "," + "hard",
+                        Tags = "C#" + "," + "hard",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "ZLATAN" },
-                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "Not Zlatan" }
+                        new Answer() { Id = 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Console.WriteLine()" },
+                        new Answer() { Id = 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "Console.ReadLine()" }
                         }
                     },
                     new Question()
                     {
                         TestId = 1,
-                        Id = GetAllQuestions().Count() + 1,
-                        Name = "Fourth Question",
-                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""auto"" height=""auto"" allowfullscreen=""allowfullscreen""></iframe>",
+                        Id = 2,
+                        Name = "Second Question",
+                        QuestionText = "What is the meaning of life?",
                         QuestionType = QuestionType.SingleChoice,
-                        Tags = "Music" + "," + "medium",
+                        Tags = "Life" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "Not Zlatan" },
-                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Maybe Zlatan" }
+                        new Answer() { Id = 3, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "I don't know, death?" },
+                        new Answer() { Id = 4, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "42" }
                         }
                     }
                 },
@@ -153,7 +153,7 @@ namespace TestPlatform.Repositories
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
-                                SelectedAnswers = "1"
+                                SelectedAnswers = "3"
                             }
                         },
                         StartTime = DateTime.Now,
@@ -183,7 +183,7 @@ namespace TestPlatform.Repositories
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
-                                SelectedAnswers = "2"
+                                SelectedAnswers = "4"
                             }
                         },
                     StartTime = DateTime.Now,
@@ -212,7 +212,7 @@ namespace TestPlatform.Repositories
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
-                                SelectedAnswers = "1"
+                                SelectedAnswers = "3"
                             }
                         },
                     StartTime = DateTime.Now,
@@ -233,7 +233,7 @@ namespace TestPlatform.Repositories
                                 Comment = null,
                                 QuestionId = 1,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
-                                SelectedAnswers = "1"
+                                SelectedAnswers = "2"
                             },
                             new QuestionResult
                             {
@@ -241,7 +241,7 @@ namespace TestPlatform.Repositories
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
-                                SelectedAnswers = "2"
+                                SelectedAnswers = "4"
                             }
                         },
                     StartTime = DateTime.Now,
