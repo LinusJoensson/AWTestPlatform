@@ -98,21 +98,40 @@ namespace TestPlatform.Repositories
                 {
                     new Question()
                     {
+                        TestId = 1,
                         Id = GetAllQuestions().Count() + 1,
                         Name = "Third Question",
+                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""auto"" height=""auto"" allowfullscreen=""allowfullscreen""></iframe>",
+                        QuestionType = QuestionType.SingleChoice,
+                        Tags = "Football" + "," + "hard",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "ZLATAN" },
+                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "Not Zlatan" }
+                        }
+                    },
+                    new Question()
+                    {
+                        TestId = 1,
+                        Id = GetAllQuestions().Count() + 1,
+                        Name = "Fourth Question",
                         QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""auto"" height=""auto"" allowfullscreen=""allowfullscreen""></iframe>",
                         QuestionType = QuestionType.SingleChoice,
                         Tags = "Music" + "," + "medium",
                         Author = "Sebastian Uddén",
                         Answers = new List<Answer>()
                         {
-                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "ZLATAN" },
-                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "ZLATAN" }
+                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "Not Zlatan" },
+                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Maybe Zlatan" }
                         }
                     }
                 },
                 TimeLimitInMinutes = 10,
-                TestSessions = new List<TestSession> {
+                TestSessions = new List<TestSession>()
+            });
+
+            _tests[0].TestSessions.Add(
                     new TestSession
                     {
                         Id = 1,
@@ -125,77 +144,110 @@ namespace TestPlatform.Repositories
                                 Id = 1,
                                 Comment = null,
                                 QuestionId = 1,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
+                                SelectedAnswers = "2"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 2,
+                                Comment = null,
+                                QuestionId = 2,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
                                 SelectedAnswers = "1"
                             }
                         },
                         StartTime = DateTime.Now,
                         SubmitTime = DateTime.Now.AddMinutes(10),
-                        User = _users.Single(o=>o.Id == 1)
+                        User = _users.Single(o => o.Id == 1)
+                    });
 
-                    },
-                    new TestSession
-                    {
-                        Id = 2,
-                        TestId = 1,
-                        UserId = 2,
-                        QuestionResults = new List<QuestionResult>
+            _tests[0].TestSessions.Add(
+                new TestSession
+                {
+                    Id = 2,
+                    TestId = 1,
+                    UserId = 2,
+                    QuestionResults = new List<QuestionResult>
                         {
                             new QuestionResult
                             {
-                                Id = 1,
+                                Id = 3,
                                 Comment = null,
                                 QuestionId = 1,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
                                 SelectedAnswers = "1"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 4,
+                                Comment = null,
+                                QuestionId = 2,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
+                                SelectedAnswers = "2"
                             }
                         },
-                        StartTime = DateTime.Now,
-                        SubmitTime = DateTime.Now.AddMinutes(8),
-                        User = _users.Single(o=>o.Id == 2)
-
-                    },
-                    new TestSession
-                    {
-                        Id = 3,
-                        TestId = 1,
-                        UserId = 3,
-                        QuestionResults = new List<QuestionResult>
+                    StartTime = DateTime.Now,
+                    SubmitTime = DateTime.Now.AddMinutes(8),
+                    User = _users.Single(o => o.Id == 2)
+                });
+            _tests[0].TestSessions.Add(
+                new TestSession
+                {
+                    Id = 3,
+                    TestId = 1,
+                    UserId = 3,
+                    QuestionResults = new List<QuestionResult>
                         {
                             new QuestionResult
                             {
-                                Id = 1,
+                                Id = 5,
                                 Comment = null,
                                 QuestionId = 1,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
+                                SelectedAnswers = "1"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 6,
+                                Comment = null,
+                                QuestionId = 2,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
                                 SelectedAnswers = "1"
                             }
                         },
-                        StartTime = DateTime.Now,
-                        SubmitTime = DateTime.Now.AddMinutes(1),
-                        User = _users.Single(o=>o.Id == 3)
-
-                    },
-                    new TestSession
-                    {
-                        Id = 4,
-                        TestId = 1,
-                        UserId = 4,
-                        QuestionResults = new List<QuestionResult>
+                    StartTime = DateTime.Now,
+                    SubmitTime = DateTime.Now.AddMinutes(1),
+                    User = _users.Single(o => o.Id == 3)
+                });
+            _tests[0].TestSessions.Add(
+                new TestSession
+                {
+                    Id = 4,
+                    TestId = 1,
+                    UserId = 4,
+                    QuestionResults = new List<QuestionResult>
                         {
                             new QuestionResult
                             {
-                                Id = 1,
+                                Id = 7,
                                 Comment = null,
                                 QuestionId = 1,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
                                 SelectedAnswers = "1"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 8,
+                                Comment = null,
+                                QuestionId = 2,
+                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
+                                SelectedAnswers = "2"
                             }
                         },
-                        StartTime = DateTime.Now,
-                        SubmitTime = DateTime.Now.AddMinutes(30),
-                        User = _users.Single(o=>o.Id == 4)
-                    }
-                }
-            });
-
-
+                    StartTime = DateTime.Now,
+                    SubmitTime = DateTime.Now.AddMinutes(30),
+                    User = _users.Single(o => o.Id == 4)
+                });
 
             _tests.Add(new Test()
             {
@@ -604,20 +656,20 @@ namespace TestPlatform.Repositories
         public ShowResultsVM GetShowResultsVM(int testId)
         {
             var test = _tests.Single(o => o.Id == testId);
-            var maxScore = test.Questions.Count() * 100;
+            var maxScore = test.Questions.Count();
             var result = new
             {
                 resultData = new
                 {
                     maxScore = maxScore,
-                    passResult = 0.7 * maxScore
+                    passResult = 0.5 * maxScore
                 },
                 students = test.TestSessions
                 .Select(ts => new
                 {
                     name = ts.User.FirstName,
                     email = ts.User.Email,
-                    testscore = TestSessionUtils.GetScore(ts)
+                    testscore = TestSessionUtils.GetScore(ts,GetAllAnswers(), GetAllQuestions())
                 }).ToArray()
             };
             return new ShowResultsVM
