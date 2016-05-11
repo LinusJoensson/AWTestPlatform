@@ -14,31 +14,29 @@
 <div>
     @foreach (var question in Model.Questions)
             {
-        <div class="whiteSquare BottomMargin20">
-
-            @(Html.Raw("<i>"+(question.QuestionText)?
-                        .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
-                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50))+"...</i>"))
-
+        <div class="whiteSquare BottomMargin20" onclick="PartialPreview(@question.Id)">
             <div class="buttons rightFloat">
                 <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <button class="orcaBtn rightMargin10 btnWidth120"><span class="fa fa-pencil rightMargin5" title="Edit"></span>Edit</button>
+                    <button class="orcaBtn rightMargin10 btnWidth40"><span class="fa fa-pencil" title="Edit"></span></button>
                 </a>
                 <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <button class="orcaBtn bgRed rightMargin10 btnWidth120"><span class="fa fa-trash rightMargin5" title="Remove"></span>Delete</button>
+                    <button class="orcaBtn bgRed rightMargin10 btnWidth40"><span class="fa fa-trash" title="Remove"></span></button>
                 </a>
-                <button class="orcaBtn btnWidth120" onclick="PartialPreview(@question.Id)" id="@("btnPreview"+question.Id)"><span class="fa fa-eye rightMargin5"></span>Preview</button>
-                <button class="orcaBtn btnWidth120" onclick="PartialHide(@question.Id)" id="@("btnHide"+question.Id)" hidden="hidden"><span class="fa fa-eye-slash rightMargin5"></span>Hide</button>
+                <button class="orcaBtn btnWidth40"><span id="@("btnPreview"+question.Id)" class="fa fa-eye"></span></button>
             </div>
+            
+            @(Html.Raw("<i>" + (question.QuestionText)?
+                        .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
+                        .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
 
-            <div id="@("detailsDiv"+question.Id)"></div>
             <br />
+            <br />
+
+            <div id="@("detailsDiv"+question.Id)" hidden></div>        
         </div>
     }
 </div>
-            <!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
-
-@*<button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 bgRed" style="float:right"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Go Back</button>*@
+<!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
 <a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth210 leftFloat"><span class="fa fa-chevron-left rightMargin5"></span>Return to Dashboard</button></a>
 
 <script>
@@ -46,31 +44,20 @@
         $.get("/Admin/PreviewQuestionPartial",
             { id: id },
             function (data) {
-
                 var buttonPrevId = "#btnPreview" + id;
-                var buttonHideId = "#btnHide" + id;
-
-                $(buttonPrevId).hide();
-                $(buttonHideId).show();
-
                 var divId = "#detailsDiv" + id;
 
                 $(divId).html("</br>" + data);
-                $(divId).show();
+                $(divId).toggle();
+
+                if($(divId).is(":hidden")){
+                    $(buttonPrevId).removeClass("fa-eye-slash");
+                    $(buttonPrevId).addClass("fa-eye");
+                }
+                else{
+                    $(buttonPrevId).removeClass("fa-eye");
+                    $(buttonPrevId).addClass("fa-eye-slash");
+                }
             });
     }
-
-    function PartialHide(id) {
-
-        var buttonPrevId = "#btnPreview" + id;
-        var buttonHideId = "#btnHide" + id;
-
-        $(buttonPrevId).show();
-        $(buttonHideId).hide();
-
-        var divId = "#detailsDiv" + id;
-        $(divId).hide();
-    }
 </script>
-
-

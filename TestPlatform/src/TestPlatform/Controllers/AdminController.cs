@@ -27,7 +27,7 @@ namespace TestPlatform.Controllers
 
         public IActionResult Dashboard()
         {
-            //PdfUtils.GenerateCerfificate(env, "test.pdf", "cerBOficat2.pdf", new PdfSymbols { FirstName = "BO" });
+            PdfUtils.GenerateCerfificate(env, "test.pdf", "cerBOficat2.pdf", new PdfSymbols { FirstName = "BO" });
 
             var model = repository.GetAllTests();
             var viewModel = new DashboardVM()
