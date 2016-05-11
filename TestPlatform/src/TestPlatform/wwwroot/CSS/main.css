@@ -91,6 +91,10 @@ textarea.tinyMCE {
     background-color: white;
     padding: 20px;
 }
+.offwhiteSquare {
+    background-color: #F4F4F4;
+    padding: 20px;
+}
 
 .rightFloat {
     float: right;
@@ -101,4 +105,11 @@ textarea.tinyMCE {
 }
 .topFloat {
     
+}
+input[type="checkbox"]{
+  width: 20px; /*Desired width*/
+  height: 20px; /*Desired height*/
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
