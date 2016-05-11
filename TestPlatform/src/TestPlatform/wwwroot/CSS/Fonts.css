@@ -14,38 +14,40 @@ p {
 ---------------------------------------------------------------------------*/
 
 h1 {
-    font-family: Lora;
+    font-family: Lato;
     font-size: 42px;
-    font-weight: 700;
+    font-weight: 900;
+    color: #337AB7;
+    /*text-transform: uppercase;*/
 }
 
 h2 {
-    font-family: Lora;
-    font-size: 28px;
-    font-weight: 700;
+    font-family: Lato;
+    font-size: 32px;
+    font-weight: 900;
 }
 
 h3 {
-    font-family: Lora;
+    font-family: Lato;
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 h4 {
-    font-family: Lora;
+    font-family: Lato;
     font-size: 18px;
     font-weight: 700;
 }
 
 h5 {
-    font-family: Lora;
+    font-family: Lato;
     font-style: italic;
     font-size: 16px;
     font-weight: 400;
 }
 
 h6 {
-    font-family: Lora;
+    font-family: Lato;
     font-size: 14px;
     font-weight: 700;
 }
