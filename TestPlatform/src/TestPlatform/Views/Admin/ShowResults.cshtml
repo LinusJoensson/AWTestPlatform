@@ -35,7 +35,6 @@
         </table>
     </div>
 
-    <h1>{{viewModel}}</h1>
     <style>
         .right-inner-addon {
             position: relative;
@@ -121,6 +120,16 @@
 @section scripts {
     <script>
         var model = @Html.Raw(this.Model.ResultDataJSON);
+        var amountOfStudentsWhoPassed = 0;
+        var amountOfStudentsWhoFailed = 0;
+
+        for (var i = 0; i < model.students.length; i++) {
+            if (model.students[i].testscore >= model.resultData.passResult) 
+                amountOfStudentsWhoPassed++;
+            else 
+                amountOfStudentsWhoFailed++;
+        }
+
         app.value("viewModel", model);
 
         app.controller('myCtrl', ['$scope', '$window', 'viewModel', function ($scope, $window, viewModel) {
@@ -439,13 +448,13 @@
             var pieData = [
                 {
                     label: "Pass",
-                    value: model.resultData.maxScore,
+                    value: amountOfStudentsWhoPassed,
                     color: "#4383BA",
                     highlightFill: "#356691"
                 },
                 {
                     label: "Fail",
-                    value: model.resultData.maxScore,
+                    value: amountOfStudentsWhoFailed,
                     color: "#4BCAB4",
                     highlightFill: "#356691"
                 }
