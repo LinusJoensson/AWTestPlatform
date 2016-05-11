@@ -12,20 +12,6 @@
 @if (Model != null)
 {
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        @if (!Model.IsInTestSession)
-        {
-            @if(!Model.IsInEditQuestion)
-            {
-                <h3>Preview</h3>
-            }
-            else
-            {
-                <h3>Question Type: @Model.QuestionType.ToString()</h3>
-            }
-        }
-    </div>
-
     <div class="panel-body">
         @(Html.Raw(Model.QuestionText))
 
@@ -77,14 +63,10 @@
                                     @(Html.Raw(answer.AnswerText))
 
                                 </label>
-
                             }
                             break;
-
-
                     }
                     <hr />
-
                 </div>
             }
 

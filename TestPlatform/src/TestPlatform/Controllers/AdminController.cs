@@ -27,16 +27,7 @@ namespace TestPlatform.Controllers
 
         public IActionResult Dashboard()
         {
-            var root = new Uri(env.WebRootPath);
-            var rootParent = root.AbsoluteUri.Remove(root.AbsoluteUri.Length - root.Segments.Last().Length);
-            var templatePath = rootParent + @"PDF/Templates/test.pdf";
-            var outputPath = rootParent + @"PDF/OutPut/cerBOficat.pdf";
-            
-            //Substring removes -file:///
-            //(URI not supported)
-            PdfUtils.GeneratePDF(templatePath.Substring(8, templatePath.Count() - 8)
-                , outputPath.Substring(8, outputPath.Count() - 8)
-                , new PdfSymbols { FirstName = "BO" });
+            //PdfUtils.GenerateCerfificate(env, "test.pdf", "cerBOficat2.pdf", new PdfSymbols { FirstName = "BO" });
 
             var model = repository.GetAllTests();
             var viewModel = new DashboardVM()
