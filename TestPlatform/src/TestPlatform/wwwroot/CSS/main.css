@@ -54,6 +54,10 @@ textarea.tinyMCE {
     background-color: #2b679b; /* Blue */
 }
 
+.btnWidth40 {
+    width:40px;
+}
+
 /* Button sizes */
 .btnSmall {
     padding: 0 !important;
