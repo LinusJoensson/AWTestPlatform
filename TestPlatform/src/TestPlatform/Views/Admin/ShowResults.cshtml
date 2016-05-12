@@ -3,18 +3,20 @@
     <div class="container">
         <h1>Test Results</h1>
         <p class="pBold onTheLine leftFloat aquaBlue">Pass threshold: </p><p class="orcaBlue onTheLine leftFloat LeftMargin5">{{viewModel.resultData.passPercentage}}%</p>
+        <br /><br />
+        <button class="orcaBtn bgAquaBlue" onclick="showAll();">Show All</button>
     </div>
     <div class="container row" ng-mousemove="filterSwitch();">
         <div class="col-xs-6">
             <canvas id="testScoreTotalAmountPassed" width="600" height="350"></canvas>
             <br />
             <br />
-            <p style="color:gray; text-align:center;">Pass ({{percentageOfStudentsWhoPassed}}%)<span class="passColor"></span>Fail ({{percentageOfStudentsWhoFailed}}%)<span class="failColor"></span></p>
+            <p style="color:gray; text-align:center;">Pass ({{percentageOfStudentsWhoPassed}}%)<span class="passColor" onclick="document.getElementById('showFilter').innerHTML = 'pass';"></span>Fail ({{percentageOfStudentsWhoFailed}}%)<span class="failColor" onclick="document.getElementById('showFilter').innerHTML = 'fail';"></span></p>
         </div>
         <div class="col-xs-6">
             <canvas id="testScoreSegments" height="200"></canvas>
             <div id="bar-legend" ng-hide="true"></div>
-            <div id="showFilter" ng-hide="false"></div>
+            <div id="showFilter" ng-hide="true"></div>
         </div>
     </div>
     <div class="container row">
@@ -73,12 +75,18 @@
             margin-left: 5px;
             margin-right: 5px;
         }
+        .passColor:hover {
+            background-color:#2b679b;
+        }
 
         .failColor {
             background-color: #4BCAB4;
             padding-right: 40px;
             margin-left: 5px;
             margin-right: 5px;
+        }
+        .failColor:hover {
+            background-color:#47bca8;
         }
 
         table {
