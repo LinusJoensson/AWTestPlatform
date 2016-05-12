@@ -37,11 +37,23 @@ namespace TestPlatform.Utils
                 var form = stamper.AcroFields;
                 form.GenerateAppearances = true;
 
-                if (form.Fields.Keys.Contains(nameof(pdf.FirstName)) && pdf.FirstName != null)
-                    form.SetField(nameof(pdf.FirstName), pdf.FirstName);
+                if (form.Fields.Keys.Contains(nameof(pdf.CertificatName)) && pdf.CertificatName != null)
+                    form.SetField(nameof(pdf.CertificatName), pdf.CertificatName);
 
-                if (form.Fields.Keys.Contains(nameof(pdf.LastName)) && pdf.LastName != null)
-                    form.SetField(nameof(pdf.LastName), pdf.LastName);
+                if (form.Fields.Keys.Contains(nameof(pdf.Date)) && pdf.Date != null)
+                    form.SetField(nameof(pdf.Date), pdf.Date);
+
+                if (form.Fields.Keys.Contains(nameof(pdf.Details)) && pdf.Details != null)
+                    form.SetField(nameof(pdf.Details), pdf.Details);
+
+                if (form.Fields.Keys.Contains(nameof(pdf.StudentName)) && pdf.StudentName != null)
+                    form.SetField(nameof(pdf.StudentName), pdf.StudentName);
+
+                if (form.Fields.Keys.Contains(nameof(pdf.Author)) && pdf.Author != null)
+                    form.SetField(nameof(pdf.Author), pdf.Author);
+
+                if (form.Fields.Keys.Contains(nameof(pdf.Company)) && pdf.Company != null)
+                    form.SetField(nameof(pdf.Company), pdf.Company);
 
                 stamper.FormFlattening = true;
             }
@@ -50,10 +62,15 @@ namespace TestPlatform.Utils
 
     public class PdfSymbols
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-
-        //Add your template fields here
-        public string Whatever { get; set; }
+        public PdfSymbols()
+        {
+            Date = DateTime.Now.Date.ToString("dd/MM/yyyy");
+        }
+        public string CertificatName { get; set; }
+        public string Date { get; set; }
+        public string Details { get; set; }
+        public string StudentName { get; set; }
+        public string Author { get; set; }
+        public string Company { get; set; }
     }
 }
