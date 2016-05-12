@@ -9,6 +9,7 @@
             <p style="color:gray; text-align:center;">Pass ({{viewModel.resultData.passResult}})<span class="passColor"></span>Fail<span class="failColor"></span></p>
         </div>
         <div class="col-xs-6">
+            <button class="orcaBtn" onclick="showAll();" style="height:20vh;width:20vh;"><span style="font-size:large;">Show all</span></button>
             <canvas id="testScoreSegments" height="200"></canvas>
             <div id="bar-legend" ng-hide="true"></div>
             <div id="showFilter" ng-hide="true"></div>
@@ -123,19 +124,21 @@
         var amountOfStudentsWhoPassed = 0;
         var amountOfStudentsWhoFailed = 0;
 
+        var showAll = function() {
+            document.getElementById('showFilter').innerHTML = 'showAll';
+        };
+
         for (var i = 0; i < model.students.length; i++) {
-            if (model.students[i].testscore >= model.resultData.passResult) 
+            if (model.students[i].testscore >= model.resultData.passResult)
                 amountOfStudentsWhoPassed++;
-            else 
+            else
                 amountOfStudentsWhoFailed++;
         }
 
         app.value("viewModel", model);
 
         app.controller('myCtrl', ['$scope', '$window', 'viewModel', function ($scope, $window, viewModel) {
-
             $scope.viewModel = viewModel;
-
             $scope.data = [];
             // Now, whenever the button is clicked, this method is run.
             // It then stores the name in the 'data' array defined above.
@@ -338,6 +341,9 @@
             }
             $scope.fail = function (student) {
                 return student.testscore < $scope.viewModel.resultData.passResult;
+            }
+            $scope.showAll = function (student) {
+                return student.testscore >= 0;
             }
             $scope.column1 = function (student) {
                 var min = $scope.studentsResults.resultData.maxScore * 0.0;

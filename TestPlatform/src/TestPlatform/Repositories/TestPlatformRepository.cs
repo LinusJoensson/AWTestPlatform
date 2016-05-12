@@ -125,9 +125,30 @@ namespace TestPlatform.Repositories
                         new Answer() { Id = 3, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "I don't know, death?" },
                         new Answer() { Id = 4, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "42" }
                         }
+                    },
+                    new Question()
+                    {
+                        TestId = 1,
+                        Id = 3,
+                        Name = "Third Question",
+                        QuestionText = "Who can survive an atomic blast?",
+                        QuestionType = QuestionType.MultipleChoice,
+                        Tags = "Life" + "," + "medium",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                            new Answer() { Id = 5, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Arnold Schwarzenegger" },
+                            new Answer() { Id = 6, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "A cockroach"
+                            },
+                            new Answer() { Id = 7, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "Chuck Norris"
+                            },
+                            new Answer() { Id = 8, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "Amy Diamond"
+                            }
+                        }
                     }
                 },
-                TimeLimitInMinutes = 10,
+                TimeLimitInMinutes = 3,
+                PassPercentage = 70,
                 TestSessions = new List<TestSession>()
             });
 
@@ -144,7 +165,6 @@ namespace TestPlatform.Repositories
                                 Id = 1,
                                 Comment = null,
                                 QuestionId = 1,
-                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
                                 SelectedAnswers = "2"
                             },
                             new QuestionResult
@@ -152,8 +172,14 @@ namespace TestPlatform.Repositories
                                 Id = 2,
                                 Comment = null,
                                 QuestionId = 2,
-                                //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
                                 SelectedAnswers = "3"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 3,
+                                Comment = null,
+                                QuestionId = 3,
+                                SelectedAnswers = "8"
                             }
                         },
                         StartTime = DateTime.Now,
@@ -171,7 +197,7 @@ namespace TestPlatform.Repositories
                         {
                             new QuestionResult
                             {
-                                Id = 3,
+                                Id = 4,
                                 Comment = null,
                                 QuestionId = 1,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
@@ -179,11 +205,18 @@ namespace TestPlatform.Repositories
                             },
                             new QuestionResult
                             {
-                                Id = 4,
+                                Id = 5,
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
                                 SelectedAnswers = "4"
+                            },
+                             new QuestionResult
+                            {
+                                Id = 6,
+                                Comment = null,
+                                QuestionId = 3,
+                                SelectedAnswers = "5,6,7"
                             }
                         },
                     StartTime = DateTime.Now,
@@ -200,7 +233,7 @@ namespace TestPlatform.Repositories
                         {
                             new QuestionResult
                             {
-                                Id = 5,
+                                Id = 7,
                                 Comment = null,
                                 QuestionId = 1,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
@@ -208,11 +241,18 @@ namespace TestPlatform.Repositories
                             },
                             new QuestionResult
                             {
-                                Id = 6,
+                                Id = 8,
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
-                                SelectedAnswers = "3"
+                                SelectedAnswers = "4"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 9,
+                                Comment = null,
+                                QuestionId = 3,
+                                SelectedAnswers = "5,6,8"
                             }
                         },
                     StartTime = DateTime.Now,
@@ -229,7 +269,7 @@ namespace TestPlatform.Repositories
                         {
                             new QuestionResult
                             {
-                                Id = 7,
+                                Id = 10,
                                 Comment = null,
                                 QuestionId = 1,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 1),
@@ -237,11 +277,18 @@ namespace TestPlatform.Repositories
                             },
                             new QuestionResult
                             {
-                                Id = 8,
+                                Id = 11,
                                 Comment = null,
                                 QuestionId = 2,
                                 //Question = _tests.Single(o=>o.Id == 1).Questions.Single(o=>o.Id == 2),
                                 SelectedAnswers = "4"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 12,
+                                Comment = null,
+                                QuestionId = 3,
+                                SelectedAnswers = "5,6"
                             }
                         },
                     StartTime = DateTime.Now,
@@ -656,22 +703,27 @@ namespace TestPlatform.Repositories
         public ShowResultsVM GetShowResultsVM(int testId)
         {
             var test = _tests.Single(o => o.Id == testId);
-            var maxScore = test.Questions.Count();
+            
+            int maxScore = test.Questions.Count();
+            double passPercentage = (double)test.PassPercentage/100;
+            System.Diagnostics.Debug.WriteLine(passPercentage);
             var result = new
             {
                 resultData = new
                 {
                     maxScore = maxScore,
-                    passResult = 0.5 * maxScore
+                    passResult = Math.Round(passPercentage * maxScore)
                 },
                 students = test.TestSessions
                 .Select(ts => new
                 {
-                    name = ts.User.FirstName,
+                    name = ts.User.FirstName + " " + ts.User.Lastname,
                     email = ts.User.Email,
-                    testscore = TestSessionUtils.GetScore(ts,GetAllAnswers(), GetAllQuestions())
+                    testscore = TestSessionUtils.GetScore(ts, GetAllAnswers(), GetAllQuestions())
                 }).ToArray()
             };
+            System.Diagnostics.Debug.WriteLine(result.resultData.passResult);
+            System.Diagnostics.Debug.WriteLine(result.resultData.maxScore);
             return new ShowResultsVM
             {
                 ResultDataJSON = JsonConvert.SerializeObject(result)
