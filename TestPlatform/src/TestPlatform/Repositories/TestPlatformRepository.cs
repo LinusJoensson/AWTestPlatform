@@ -16,7 +16,6 @@ namespace TestPlatform.Repositories
     {
         public List<Test> _tests { get; set; }
         public List<User> _users { get; set; }
-        //public List<Question> _questions { get; set; }
         public List<Answer> _answers { get; set; }
         public List<TestSession> _testSessions { get; set; }
         public List<QuestionResult> _questionResults { get; set; }
@@ -40,15 +39,6 @@ namespace TestPlatform.Repositories
             _testSessions = new List<TestSession>();
             _questionResults = new List<QuestionResult>();
 
-            _testSessions.Add(new TestSession()
-            {
-                Id = 1,
-                TestId = 1,
-                UserId = 1,
-                QuestionResults = new List<QuestionResult>(),
-                StartTime = DateTime.UtcNow,
-            });
-
             #region Add static users
             _users.Add(new User()
             {
@@ -56,7 +46,6 @@ namespace TestPlatform.Repositories
                 Email = "linus.joensson.ms@outlook.com",
                 FirstName = "Linus",
                 Lastname = "Joensson",
-                TestSessions = new List<TestSession>()
             });
             _users.Add(new User()
             {
@@ -64,7 +53,6 @@ namespace TestPlatform.Repositories
                 Email = "sebastian.udden@gmail.com",
                 FirstName = "Sebastian",
                 Lastname = "Uddén",
-                TestSessions = new List<TestSession>()
             });
             _users.Add(new User()
             {
@@ -72,7 +60,6 @@ namespace TestPlatform.Repositories
                 Email = "mattiashagelin@outlook.com",
                 FirstName = "Mattias",
                 Lastname = "Hagelin",
-                TestSessions = new List<TestSession>()
             });
             _users.Add(new User()
             {
@@ -80,20 +67,20 @@ namespace TestPlatform.Repositories
                 Email = "patrikweibus@outlook.com",
                 FirstName = "Patrik",
                 Lastname = "Weibus",
-                TestSessions = new List<TestSession>()
             });
-            _users.Last().TestSessions.Add(_testSessions.Last());
+            //_users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
 
             #region Add static tests
+            #region Test 1
             _tests.Add(new Test()
             {
-
                 Id = 1,
                 //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
                 Author = "Linus Joensson",
                 Name = "Basic C#",
                 Description = "An eazy test",
+                #region Questions
                 Questions = new List<Question>()
                 {
                     new Question()
@@ -147,11 +134,66 @@ namespace TestPlatform.Repositories
                         }
                     }
                 },
+                #endregion
                 TimeLimitInMinutes = 3,
                 PassPercentage = 70,
                 TestSessions = new List<TestSession>()
             });
+            #endregion
+            #region Test 2
+            _tests.Add(new Test()
+            {
+                Id = 2,
+                //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
+                Author = "Linus Joensson",
+                Name = "My Second Test",
+                Description = "An eazy test",
+                #region Questions
+                Questions = new List<Question>()
+                {
+                    new Question()
+                    {
+                        TestId = 2,
+                        Id = 4,
+                        Name = "<p>What is a variable?</p>",
+                        QuestionText = "What is a variable?",
+                        QuestionType = QuestionType.MultipleChoice,
+                        Tags = "Music" + "," + "medium",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                        new Answer() { Id = 9, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "A store of value" },
+                        new Answer() { Id = 10, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "A banana " },
+                        new Answer() { Id = 11, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "All of the above " },
+                        }
+                    },
+                    new Question()
+                    {
+                        TestId = 2,
+                        Id = 5,
+                        Name = "Second Question",
+                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""560"" height=""314"" allowfullscreen=""allowfullscreen""></iframe>",
+                        QuestionType = QuestionType.MultipleChoice,
+                        Tags = "Music" + "," + "medium",
+                        Author = "Sebastian Uddén",
+                        Answers = new List<Answer>()
+                        {
+                            new Answer() { Id = 12, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Zlatan" },
+                            new Answer() { Id = 13, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Zlatan" }
+                        }
+                    },
 
+                },
+                #endregion
+                TimeLimitInMinutes = 10,
+                PassPercentage = 50,
+                TestSessions = new List<TestSession>()
+            });
+            #endregion
+            #endregion
+
+            #region Add Testsessions
+            #region Testsession 1
             _tests[0].TestSessions.Add(
                     new TestSession
                     {
@@ -295,49 +337,118 @@ namespace TestPlatform.Repositories
                     SubmitTime = DateTime.Now.AddMinutes(30),
                     User = _users.Single(o => o.Id == 4)
                 });
+            #endregion
+            #region Testsession 2
+            _tests[1].TestSessions.Add(
+                    new TestSession
+                    {
+                        Id = 1,
+                        TestId = 2,
+                        UserId = 1,
+                        QuestionResults = new List<QuestionResult>
+                        {
+                            new QuestionResult
+                            {
+                                Id = 13,
+                                Comment = null,
+                                QuestionId = 4,
+                                SelectedAnswers = "10"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 14,
+                                Comment = null,
+                                QuestionId = 5,
+                                SelectedAnswers = "13"
+                            }
+                        },
+                        StartTime = DateTime.Now,
+                        SubmitTime = DateTime.Now.AddMinutes(10),
+                        User = _users.Single(o => o.Id == 1)
+                    });
 
-            _tests.Add(new Test()
-            {
-                Id = 2,
-                //Tags = new List<string>() { "Eazy", "awesome", "heavy" },
-                Author = "Linus Joensson",
-                Name = "My Second Test",
-                Description = "An eazy test",
-                Questions = new List<Question>()
+            _tests[1].TestSessions.Add(
+                new TestSession
                 {
-                    new Question()
-                    {
-                        Id = GetAllQuestions().Count() + 1,
-                        Name = "<p>What is a variable?</p>",
-                        QuestionText = "What is a variable?",
-                        QuestionType = QuestionType.MultipleChoice,
-                        Tags = "Music" + "," + "medium",
-                        Author = "Sebastian Uddén",
-                        Answers = new List<Answer>()
+                    Id = 2,
+                    TestId = 2,
+                    UserId = 2,
+                    QuestionResults = new List<QuestionResult>
                         {
-                        new Answer() { Id = GetAllAnswers().Count() + 1, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = true, AnswerText = "A store of value" },
-                        new Answer() { Id = GetAllAnswers().Count() + 2, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "A banana " },
-                        new Answer() { Id = GetAllAnswers().Count() + 3, QuestionId = GetAllQuestions().Count() + 1,  IsCorrect = false, AnswerText = "All of the above " },
-                        }
-                    },
-                    new Question()
-                    {
-                        Id = GetAllQuestions().Count() + 2,
-                        Name = "Second Question",
-                        QuestionText = @"<iframe src=""//www.youtube.com/embed/ncclpqQzjY0"" width=""560"" height=""314"" allowfullscreen=""allowfullscreen""></iframe>",
-                        QuestionType = QuestionType.SingleChoice,
-                        Tags = "Music" + "," + "medium",
-                        Author = "Sebastian Uddén",
-                        Answers = new List<Answer>()
+                            new QuestionResult
+                            {
+                                Id = 15,
+                                Comment = null,
+                                QuestionId = 4,
+                                SelectedAnswers = "9"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 16,
+                                Comment = null,
+                                QuestionId = 5,
+                                SelectedAnswers = "12,13"
+                            }
+                        },
+                    StartTime = DateTime.Now,
+                    SubmitTime = DateTime.Now.AddMinutes(8),
+                    User = _users.Single(o => o.Id == 2)
+                });
+            _tests[1].TestSessions.Add(
+                new TestSession
+                {
+                    Id = 3,
+                    TestId = 2,
+                    UserId = 3,
+                    QuestionResults = new List<QuestionResult>
                         {
-                            new Answer() { Id = GetAllAnswers().Count() + 4, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = true, AnswerText = "Zlatan" },
-                            new Answer() { Id = GetAllAnswers().Count() + 5, QuestionId = GetAllQuestions().Count() + 2,  IsCorrect = false, AnswerText = "Zlatan" }
-                        }
-                    },
-
-                },
-                TimeLimitInMinutes = null
-            });
+                            new QuestionResult
+                            {
+                                Id = 17,
+                                Comment = null,
+                                QuestionId = 4,
+                                SelectedAnswers = "9"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 18,
+                                Comment = null,
+                                QuestionId = 5,
+                                SelectedAnswers = "13"
+                            }
+                        },
+                    StartTime = DateTime.Now,
+                    SubmitTime = DateTime.Now.AddMinutes(1),
+                    User = _users.Single(o => o.Id == 3)
+                });
+            _tests[1].TestSessions.Add(
+                new TestSession
+                {
+                    Id = 4,
+                    TestId = 2,
+                    UserId = 4,
+                    QuestionResults = new List<QuestionResult>
+                        {
+                            new QuestionResult
+                            {
+                                Id = 19,
+                                Comment = null,
+                                QuestionId = 4,
+                                SelectedAnswers = "11"
+                            },
+                            new QuestionResult
+                            {
+                                Id = 20,
+                                Comment = null,
+                                QuestionId = 5,
+                                SelectedAnswers = "12,13"
+                            }
+                        },
+                    StartTime = DateTime.Now,
+                    SubmitTime = DateTime.Now.AddMinutes(30),
+                    User = _users.Single(o => o.Id == 4)
+                });
+            #endregion
             #endregion
         }
 
@@ -673,7 +784,6 @@ namespace TestPlatform.Repositories
                     QuestionType = thisQuestion.QuestionType,
                 }).ToArray();
             }
-
             return (viewModel);
         }
 
@@ -697,7 +807,6 @@ namespace TestPlatform.Repositories
             };
 
             return viewModel;
-
         }
 
         public ShowResultsVM GetShowResultsVM(int testId)
@@ -706,12 +815,12 @@ namespace TestPlatform.Repositories
             
             int maxScore = test.Questions.Count();
             double passPercentage = (double)test.PassPercentage/100;
-            System.Diagnostics.Debug.WriteLine(passPercentage);
             var result = new
             {
                 resultData = new
                 {
                     maxScore = maxScore,
+                    passPercentage = test.PassPercentage,
                     passResult = Math.Round(passPercentage * maxScore)
                 },
                 students = test.TestSessions
@@ -722,8 +831,6 @@ namespace TestPlatform.Repositories
                     testscore = TestSessionUtils.GetScore(ts, GetAllAnswers(), GetAllQuestions())
                 }).ToArray()
             };
-            System.Diagnostics.Debug.WriteLine(result.resultData.passResult);
-            System.Diagnostics.Debug.WriteLine(result.resultData.maxScore);
             return new ShowResultsVM
             {
                 ResultDataJSON = JsonConvert.SerializeObject(result)
