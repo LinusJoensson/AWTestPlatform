@@ -9,7 +9,7 @@
 <h3>@Model.TestName</h3>
 <p>@Model.Description</p>
 
-<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-plus rightMargin5"></span>New Question</button></a>
 <a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
 <div>
     @foreach (var question in Model.Questions)
@@ -33,7 +33,6 @@
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
 
             <br />
-            <br />
 
             <div id="@("detailsDiv"+question.Id)" hidden></div>
         </div>
@@ -47,25 +46,25 @@
         $.get("/Admin/PreviewQuestionPartial",
             { id: id },
             function (data) {
-                var buttonPrevId = "#btnPreview" + id;
-                var divId = "#detailsDiv" + id;
+                var showHidePreview = "#btnPreview" + id;
+                var previewContent = "#detailsDiv" + id;
 
-                $(divId).html("</br>" + data);
-                $(divId).toggle();
+                $(previewContent).html("</br>" + data);
+                $(previewContent).toggle();
 
                 if ($(divId).is(":hidden")) {
-                    $(buttonPrevId).removeClass("fa-chevron-up");
-                    $(buttonPrevId).addClass("fa-chevron-down");
+                    $(showHidePreview).removeClass("fa-chevron-up");
+                    $(showHidePreview).addClass("fa-chevron-down");
 
-                    $(buttonPrevId).attr("title", "Show")
+                    $(showHidePreview).attr("title", "Show")
                         .tooltip("fixTitle")
                         .tooltip("hide");
                 }
                 else {
-                    $(buttonPrevId).removeClass("fa-chevron-down");
-                    $(buttonPrevId).addClass("fa-chevron-up");
+                    $(showHidePreview).removeClass("fa-chevron-down");
+                    $(showHidePreview).addClass("fa-chevron-up");
 
-                    $(buttonPrevId).attr("title", "Hide")
+                    $(showHidePreview).attr("title", "Hide")
                         .tooltip("fixTitle")
                         .tooltip("hide");
                 }
