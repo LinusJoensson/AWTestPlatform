@@ -7,13 +7,13 @@
     margin-left: 0;
 }
 
-.answerList li {
-    margin-top: 6px;
-    list-style-type: none;
-    background-color: #909090;
-    border-radius: 5px;
-    padding: 3px;
-}
+    .answerList li {
+        margin-top: 6px;
+        list-style-type: none;
+        background-color: #909090;
+        border-radius: 5px;
+        padding: 3px;
+    }
 
 /*---------------------------------------------------------------------------
                               TABLE STYLE 
@@ -49,17 +49,17 @@ textarea.tinyMCE {
     padding: 8px;
 }
 
-/* Button hover effects */
-.orcaBtn:hover {
-    background-color: #2b679b; /* Blue */
-}
+    /* Button hover effects */
+    .orcaBtn:hover {
+        background-color: #2b679b; /* Blue */
+    }
 
 .orcaBtn:active {
     background-color: #193d5c;
 }
 
 .btnWidth40 {
-    width:40px;
+    width: 40px;
 }
 
 /* Button sizes */
@@ -72,7 +72,7 @@ textarea.tinyMCE {
 }
 
 .btnWidth210 {
-    width:210px;
+    width: 210px;
 }
 
 .btnWidth120 {
@@ -81,6 +81,35 @@ textarea.tinyMCE {
 
 .btnWidth175 {
     width: 175px;
+}
+
+.btnSpan {
+    font-size: 16px !important;
+    margin: 0 5px;
+}
+
+/*---------------------------------------------------------------------------
+                              TOOLTIPS
+---------------------------------------------------------------------------*/
+.orcaTool-tooltip + .tooltip > .tooltip-inner {
+    background-color: #fff;
+    padding: 8px;
+    font-family: Lato;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2b679b;
+    -webkit-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.25);
+    -moz-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.25);
+    box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.25);
+}
+
+.orcaTool-tooltip + .tooltip > .tooltip-arrow {
+    border-top-color: #fff;
+    text-shadow: 5px 5px 10px 1px rgba(0,0,0,0.25);
+}
+
+.redT + .tooltip > .tooltip-inner {
+    color: #D03427 !important;
 }
 
 /*---------------------------------------------------------------------------
@@ -111,6 +140,7 @@ textarea.tinyMCE {
 .leftFloat {
     float: left;
 }
+
 .topFloat {
     
 }
