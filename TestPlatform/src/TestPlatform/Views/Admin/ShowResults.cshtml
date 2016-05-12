@@ -35,7 +35,7 @@
             <tr ng-repeat="student in viewModel.students | orderBy:dynamicOrder:order.reverse | filter:studentFilter | filter:search">
                 <td>{{student.name}}</td>
                 <td>{{student.email}}</td>
-                <td>{{student.testscore}}</td>
+                <td>{{student.testscore}} <span class="orcaBlue">({{((student.testscore * 100) / viewModel.resultData.maxScore) | number:0}}%)</span></td>
             </tr>
         </table>
     </div>
