@@ -15,16 +15,19 @@
     @foreach (var question in Model.Questions)
             {
         <div class="whiteSquare BottomMargin20" onclick="PartialPreview(@question.Id)">
+
             <div class="buttons rightFloat">
                 <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <button class="orcaBtn rightMargin10 btnWidth40"><span class="fa fa-pencil" title="Edit"></span></button>
+                    <span class="fa fa-pencil green btnSpan orcaTool-tooltip" data-toggle="tooltip" title="Edit Question"></span>
                 </a>
                 <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <button class="orcaBtn bgRed rightMargin10 btnWidth40"><span class="fa fa-trash" title="Remove"></span></button>
+                    <span class="fa fa-trash red btnSpan orcaTool-tooltip redT" data-toggle="tooltip" title="Delete Question"></span>
                 </a>
-                <button class="orcaBtn btnWidth40"><span id="@("btnPreview"+question.Id)" class="fa fa-eye"></span></button>
+                <span id="@("btnPreview"+question.Id)" class="fa fa-chevron-down orcaBlue btnSpan orcaTool-tooltip" data-toggle="tooltip" title="Show"></span>
             </div>
-            
+
+                @*<button id="@("toolTipID"+question.Id)" class="orcaTool-tooltip orcaBtn bgWhite orcaBlue btnWidth40" data-toggle="tooltip" title="Show">*@
+
             @(Html.Raw("<i>" + (question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
@@ -32,7 +35,7 @@
             <br />
             <br />
 
-            <div id="@("detailsDiv"+question.Id)" hidden></div>        
+            <div id="@("detailsDiv"+question.Id)" hidden></div>
         </div>
     }
 </div>
@@ -50,13 +53,21 @@
                 $(divId).html("</br>" + data);
                 $(divId).toggle();
 
-                if($(divId).is(":hidden")){
-                    $(buttonPrevId).removeClass("fa-eye-slash");
-                    $(buttonPrevId).addClass("fa-eye");
+                if ($(divId).is(":hidden")) {
+                    $(buttonPrevId).removeClass("fa-chevron-up");
+                    $(buttonPrevId).addClass("fa-chevron-down");
+
+                    $(buttonPrevId).attr("title", "Show")
+                        .tooltip("fixTitle")
+                        .tooltip("hide");
                 }
-                else{
-                    $(buttonPrevId).removeClass("fa-eye");
-                    $(buttonPrevId).addClass("fa-eye-slash");
+                else {
+                    $(buttonPrevId).removeClass("fa-chevron-down");
+                    $(buttonPrevId).addClass("fa-chevron-up");
+
+                    $(buttonPrevId).attr("title", "Hide")
+                        .tooltip("fixTitle")
+                        .tooltip("hide");
                 }
             });
     }

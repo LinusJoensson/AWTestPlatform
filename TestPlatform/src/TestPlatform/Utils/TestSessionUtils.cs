@@ -18,57 +18,71 @@ namespace TestPlatform.Utils
             // Initierar variabler
             var correctSelectedAnswerList = new List<int>();
             var maxTestScore = new List<int>();
-            var testScore = new List<int>();
-            int correctQuestionAnswerCount = 0;
-            int correctSelectedAnswerCount = 0;
+            int userTestScore = 0;
 
             // Facit-del
             #region Facit
-
-            // Tar ut alla frågor relaterade till testsessionen
+            // Tar ut alla frågor relaterade till testet
             var testQuestions = _questions.Where(o => o.TestId == ts.TestId).ToList();
 
-            // Kollar varje fråga i testsessionen och se antalet rätta svar
             foreach (var question in testQuestions)
             {
-                //Beräknar antalet rätta svar per fråga
-                correctQuestionAnswerCount = question.Answers.Count(o => o.IsCorrect == true);
-                maxTestScore.Add(correctQuestionAnswerCount);
-            }
-            #endregion
-            #region User Answers
-            // Loopar igenom frågorna för nuvarande test
-            foreach (var questionResult in ts.QuestionResults)
-            {
-                // Splitta användarsvar till en array
-                var selectedAnswers = questionResult.SelectedAnswers.Split(',');
-
-                //Kolla antal korrekta svar per fråga
-                foreach (var answer in selectedAnswers)
+                if (question.QuestionType == Models.Enums.QuestionType.MultipleChoice)
                 {
-                    var answerId = Convert.ToInt32(answer);
-                    correctSelectedAnswerCount += _answers.Where(o => o.Id == answerId)
-                        .Count(o => o.IsCorrect == true);
+                    userTestScore += MultipleChoiceCorrectQuestions(question, ts);
                 }
-                correctSelectedAnswerList.Add(correctSelectedAnswerCount);
-                correctSelectedAnswerCount = 0;
-            }
-            #endregion
-
-            #region Rättning
-            for (int i = 0; i < maxTestScore.Count; i++)
-            {
-                if (maxTestScore[i] == correctSelectedAnswerList[i])
+                else if (question.QuestionType == Models.Enums.QuestionType.SingleChoice)
                 {
-                    System.Diagnostics.Debug.WriteLine(correctSelectedAnswerList[i]);
-                    System.Diagnostics.Debug.WriteLine(maxTestScore[i]);
-                    testScore.Add(correctSelectedAnswerList[i]);
+                    userTestScore += SingleChoiceCorrectQuestions(question, ts);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("You have to correct the answers manually, fool!");
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine(testScore.Count());
+
+
+            //    //Beräknar antalet rätta svar per fråga
+            //    correctQuestionAnswerCount = question.Answers.Count(o => o.IsCorrect == true);
+            //    maxTestScore.Add(correctQuestionAnswerCount);
+            //}
+            //#endregion
+            //#region User Answers
+            //// Loopar igenom frågorna för nuvarande testsession
+            //foreach (var questionResult in ts.QuestionResults)
+            //{
+            //    // Splitta användarens svar till en array
+            //    var selectedAnswers = questionResult.SelectedAnswers.Split(',');
+
+            //    // Kolla varje svar och se om det är korrekt, lägg till 1 på correctSelectedAnswerCount
+            //    foreach (var answer in selectedAnswers)
+            //    {
+            //        var selectedAnswerId = Convert.ToInt32(answer);
+            //        if (_answers.Single(o => o.Id == selectedAnswerId).IsCorrect)
+            //            correctSelectedAnswerCount = 1;
+            //        else
+            //            correctSelectedAnswerCount = 0;
+            //    }
+            //    correctSelectedAnswerList.Add(correctSelectedAnswerCount);
+            //    correctSelectedAnswerCount = 0;
+            //}
+            //#endregion
+
+            //#region Rättning
+            //for (int i = 0; i < maxTestScore.Count; i++)
+            //{
+            //    if (maxTestScore[i] == correctSelectedAnswerList[i])
+            //    {
+            //        System.Diagnostics.Debug.WriteLine(correctSelectedAnswerList[i]);
+            //        System.Diagnostics.Debug.WriteLine(maxTestScore[i]);
+            //        testScore.Add(correctSelectedAnswerList[i]);
+            //    }
+            //}
+
+            System.Diagnostics.Debug.WriteLine(userTestScore);
             #endregion
-            return testScore.Count();
+            return userTestScore;
 
             // Svarslistan skapas i TestPlatformRepository UpdateSessionAnswers, Kommaseparerad lista
 
@@ -78,6 +92,77 @@ namespace TestPlatform.Utils
 
             // Vi tar in tesstsessionen, kollar de valda svaren per fråga.
             // Kollar 
+        }
+
+        private static int MultipleChoiceCorrectQuestions(Question question, TestSession ts)
+        {
+            int questionScore = 0;
+            // Kollar varje fråga i testet och se om användaren svarat rätt
+            foreach (var questionResult in ts.QuestionResults)
+            {
+                if (questionResult.QuestionId == question.Id)
+                {
+                    var selectedAnswers = questionResult.SelectedAnswers.Split(',');
+                    int correctAnswerCount = 0;
+                    int correctSelectedAnswerCount = 0;
+
+                    foreach (var answer in question.Answers)
+                    {
+                        if (answer.IsCorrect)
+                        {
+                            correctAnswerCount++;
+
+                            foreach (var selectedAnswer in selectedAnswers)
+                            {
+                                var selectedAnswerId = Convert.ToInt32(selectedAnswer);
+
+                                if (selectedAnswerId == answer.Id)
+                                    correctSelectedAnswerCount++;
+                            }
+                        }
+                    }
+                    System.Diagnostics.Debug.WriteLine(correctAnswerCount);
+                    System.Diagnostics.Debug.WriteLine(correctSelectedAnswerCount);
+
+                    if (correctAnswerCount == correctSelectedAnswerCount)
+                        questionScore++;
+                }
+            }
+            return questionScore;
+        }
+
+        private static int SingleChoiceCorrectQuestions(Question question, TestSession ts)
+        {
+            int questionScore = 0;
+            // Kollar varje fråga i testet och se om användaren svarat rätt
+            foreach (var questionResult in ts.QuestionResults)
+            {
+                if (questionResult.QuestionId == question.Id)
+                {
+                    var selectedAnswers = questionResult.SelectedAnswers.Split(',');
+
+                    System.Diagnostics.Debug.WriteLine(selectedAnswers[0]);
+
+                    foreach (var answer in question.Answers)
+                    {
+                        if (answer.IsCorrect)
+                        {
+                            foreach (var selectedAnswer in selectedAnswers)
+                            {
+                                var selectedAnswerId = Convert.ToInt32(selectedAnswer);
+                                System.Diagnostics.Debug.WriteLine(selectedAnswerId);
+                                System.Diagnostics.Debug.WriteLine(answer.Id);
+
+                                if (selectedAnswerId == answer.Id)
+                                {
+                                    questionScore++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return questionScore;
         }
     }
 }
