@@ -22,7 +22,8 @@
 }
 
 .leftRightMargin20 {
-    margin: 0 20px;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 /*---------------------------------------------------------------------------
                                 TOP MARGIN
@@ -35,12 +36,13 @@
 .topMargin-8 {
     margin-top: -8px;
 }
+
 .topMargin-35 {
     margin-top: -35px;
 }
 
 .topMargin3 {
-    margin-top:3px;
+    margin-top: 3px;
 }
 
 .TopMargin20 {
@@ -50,12 +52,13 @@
                                RIGHT MARGIN
 ---------------------------------------------------------------------------*/
 .rightMargin5 {
-    margin-right:5px;
+    margin-right: 5px;
 }
 
 .rightMargin10 {
     margin-right: 10px;
 }
+
 .rightMargin15 {
     margin-right: 15px;
 }

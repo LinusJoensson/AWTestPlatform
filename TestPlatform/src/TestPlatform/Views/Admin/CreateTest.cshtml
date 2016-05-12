@@ -6,96 +6,96 @@
     <br />
     <div class="whiteSquare BottomMargin20">
         <form asp-controller="Admin" asp-action="CreateTest">
-            @*<div class="col-sm-6">*@
             <h2 class="grayText topMargin-8">Create Test</h2>
 
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group leftRightMargin20 maxWidth560">
                     <label asp-for="TestName"></label>
                     <input asp-for="TestName" class="form-control" />
                     <span asp-validation-for="TestName"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group leftRightMargin20 maxWidth560">
                     <label asp-for="Description"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group leftRightMargin20 maxWidth560">
                     <label asp-for="Tags"></label>
                     <input asp-for="Tags" class="form-control" />
                     <span asp-validation-for="Tags"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group leftRightMargin20 maxWidth560">
                     <label asp-for="TimeLimitInMinutes"></label>
                     <input asp-for="TimeLimitInMinutes" class="form-control" />
                     <span asp-validation-for="TimeLimitInMinutes"></span>
                 </div>
             </div>
-            <div class="offwhiteSquare">
-            <h2 class="grayText topMargin-8">On Completion</h2>
-            <hr />
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="ShowPassOrFail"></label>
-                <input asp-for="ShowPassOrFail" class="form-control" />
-            <span asp-validation-for="ShowPassOrFail"></span>
+            <br />
+            <div class="offwhiteSquare maxWidth600">
+                <h2 class="grayText topMargin-8">On Completion</h2>
+                <hr />
+                <div class="row">
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="ShowPassOrFail"></label>
+                        <input asp-for="ShowPassOrFail" class="form-control" />
+                        <span asp-validation-for="ShowPassOrFail"></span>
 
-                @*lite försök för att lösa snyggare med checkboxar, offwhitespace ska styras*@
+                        @*lite försök för att lösa snyggare med checkboxar, offwhitespace ska styras*@
 
-                @*<label>Show pass or fail<input asp-for"ShowPassOrFail" type="checkbox" value=""></label>*@
+                        @*<label>Show pass or fail<input asp-for"ShowPassOrFail" type="checkbox" value=""></label>*@
 
 
-            </div>
-            </div>
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="ShowTestScore"></label>
-            <input asp-for="ShowTestScore" class="form-control" />
-            <span asp-validation-for="ShowTestScore"></span>
-            </div>
-            </div>
-            <hr />
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="PassPercentage"></label>
-            <input asp-for="PassPercentage" class="form-control" />
-            <span asp-validation-for="PassPercentage"></span>
-            </div>
-            </div>
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="CustomCompletionMessage"></label>
-            <textarea asp-for="CustomCompletionMessage" class="form-control" rows="5"></textarea>
-            <span asp-validation-for="CustomCompletionMessage"></span>
-            </div>
-            </div>
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="CertTemplatePath"></label>
-            <input asp-for="CertTemplatePath" class="form-control" />
-            <span asp-validation-for="CertTemplatePath"></span>
-            </div>
-            </div>
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="EnableCertDownloadOnCompletion"></label>
-            <input asp-for="EnableCertDownloadOnCompletion" class="form-control" />
-            <span asp-validation-for="EnableCertDownloadOnCompletion"></span>
-            </div>
-            </div>
-            <div class="row">
-            <div class="form-group col-md-6">
-            <label asp-for="EnableEmailCertOnCompletion"></label>
-            <input asp-for="EnableEmailCertOnCompletion" class="form-control" />
-            <span asp-validation-for="EnableEmailCertOnCompletion"></span>
-            </div>
-            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="ShowTestScore"></label>
+                        <input asp-for="ShowTestScore" class="form-control" />
+                        <span asp-validation-for="ShowTestScore"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="PassPercentage"></label>
+                        <input asp-for="PassPercentage" class="form-control" />
+                        <span asp-validation-for="PassPercentage"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    @*<div class="form-group col-md-6">*@
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="CustomCompletionMessage"></label>
+                        <textarea asp-for="CustomCompletionMessage" class="form-control" rows="5"></textarea>
+                        <span asp-validation-for="CustomCompletionMessage"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="CertTemplatePath"></label>
+                        <input asp-for="CertTemplatePath" class="form-control" />
+                        <span asp-validation-for="CertTemplatePath"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="EnableCertDownloadOnCompletion"></label>
+                        <input asp-for="EnableCertDownloadOnCompletion" class="form-control" />
+                        <span asp-validation-for="EnableCertDownloadOnCompletion"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group leftRightMargin20">
+                        <label asp-for="EnableEmailCertOnCompletion"></label>
+                        <input asp-for="EnableEmailCertOnCompletion" class="form-control" />
+                        <span asp-validation-for="EnableEmailCertOnCompletion"></span>
+                    </div>
+                </div>
             </div>
             <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 btnWidth120"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Back</button>
             <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-check rightMargin5"></span>Create</button>

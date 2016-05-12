@@ -117,3 +117,9 @@ input[type="checkbox"]{
   -webkit-appearance: none;
   appearance: none;
 }
+.maxWidth600 {
+    max-width:600px;
+}
+.maxWidth560 {
+    max-width:560px;
+}
