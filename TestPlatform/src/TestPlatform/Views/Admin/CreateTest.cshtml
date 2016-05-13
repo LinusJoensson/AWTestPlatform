@@ -29,14 +29,19 @@
             <div class="bgWhite" style="padding: 20px">
                 <h2 class="grayText topMargin-8">On Completion</h2>
 
-                <label asp-for="ShowPassOrFail"></label>
-                <input asp-for="ShowPassOrFail" class="form-control" />
+                <br />
+                <div class="row LeftMargin5">
+                    <div class="leftFloat rightMargin10"><input asp-for="ShowPassOrFail" class="form-control" /></div>
+                    <div class="leftFloat"><label asp-for="ShowPassOrFail"></label></div>
+                </div>
                 <span asp-validation-for="ShowPassOrFail"></span>
-
-                <label asp-for="ShowTestScore"></label>
-                <input asp-for="ShowTestScore" class="form-control BottomMargin20" />
+                <br />
+                <div class="row LeftMargin5">
+                    <div class="leftFloat rightMargin10"><input asp-for="ShowTestScore" class="form-control BottomMargin20" /></div>
+                    <div class="leftFloat"><label asp-for="ShowTestScore"></label></div>
+                </div>
                 <span asp-validation-for="ShowTestScore"></span>
-
+                <br />
                 <label asp-for="PassPercentage"></label>
                 <input asp-for="PassPercentage" class="form-control BottomMargin20" />
                 <span asp-validation-for="PassPercentage"></span>
@@ -49,18 +54,21 @@
                 <input asp-for="CertTemplatePath" class="form-control BottomMargin20" />
                 <span asp-validation-for="CertTemplatePath"></span>
 
-                <label asp-for="EnableCertDownloadOnCompletion"></label>
-                <input asp-for="EnableCertDownloadOnCompletion" class="form-control BottomMargin20" />
+                <div class="row LeftMargin5">
+                    <div class="leftFloat rightMargin10"><input asp-for="EnableCertDownloadOnCompletion" class="form-control BottomMargin20" /></div>
+                    <div class="leftFloat"><label asp-for="EnableCertDownloadOnCompletion"></label></div>
+                </div>
                 <span asp-validation-for="EnableCertDownloadOnCompletion"></span>
+                <br />
+                <div class="row LeftMargin5">
+                    <div class="leftFloat rightMargin10"><input asp-for="EnableEmailCertOnCompletion" class="form-control BottomMargin20" /></div>
+                    <div class="leftFloat"><label asp-for="EnableEmailCertOnCompletion"></label></div>
+                    <span asp-validation-for="EnableEmailCertOnCompletion"></span>
+                </div>
 
-                <label asp-for="EnableEmailCertOnCompletion"></label>
-                <input asp-for="EnableEmailCertOnCompletion" class="form-control BottomMargin20" />
-                <span asp-validation-for="EnableEmailCertOnCompletion"></span>
-            </div>
-
-
-            <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 btnWidth120"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Back</button>
-            <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120 bgGreen"><span class="fa fa-check rightMargin5"></span>Create</button>
+                </div>
+                <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 btnWidth120"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Back</button>
+                <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120 bgGreen"><span class="fa fa-check rightMargin5"></span>Create</button>
         </form>
     </div>
 </div>
