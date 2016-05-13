@@ -22,12 +22,12 @@
 <div>
     @foreach (var question in Model.Questions)
             {
-        <div class="whiteSquare BottomMargin20" onclick="PartialPreview(@question.Id)">
+        <div class="whiteSquare BottomMargin20" onclick="PartialPreview(@question.Id)" >
 
-            <div class="buttons rightFloat topMargin-8">
-                <a class="orcaBtn btnWidth40 rightMargin5 orcaTool-tooltip" asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Edit Question">
-                    <span class="fa fa-pencil white LeftMargin5"></span>
-                </a>
+            <div class="buttons rightFloat topMargin-8" onclick="">
+                    <a class="orcaBtn btnWidth40 rightMargin5 orcaTool-tooltip editQuestion" asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Edit Question">
+                        <span class="fa fa-pencil white LeftMargin5"></span>
+                    </a>
                 <a class="orcaBtn orcaTool-tooltip bgRed redT" asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Delete Question">
                     <span class="fa fa-trash white btnSpan"></span>
                 </a>
@@ -42,16 +42,16 @@
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
 
-            <br />
-
             <div id="@("detailsDiv"+question.Id)" hidden></div>
         </div>
     }
 </div>
 <!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
-<a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth120 leftFloat">
-    <span class="fa fa-chevron-left rightMargin5"></span>Back
-</button></a>
+<a href="~/Admin/Dashboard">
+    <button class="orcaBtn btnWidth120 leftFloat">
+        <span class="fa fa-chevron-left rightMargin5"></span>Back
+    </button>
+</a>
 
 <script>
     function PartialPreview(id) {

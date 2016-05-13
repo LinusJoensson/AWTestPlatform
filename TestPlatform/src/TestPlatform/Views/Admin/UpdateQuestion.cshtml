@@ -20,7 +20,6 @@
 
             <input asp-for="SortOrder" placeholder="Sort order" />
             <span asp-validation-for="SortOrder" class="text-danger"></span>
-
             <br />
 
             <label asp-for="HasComment"></label>
@@ -28,27 +27,31 @@
             <span asp-validation-for="HasComment" class="text-danger"></span>
             <br />
 
-            <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-check rightMargin5"></span>Save Changes</button>
         </form>
 
         <div id="editQuestionTextDiv" hidden="hidden">
             @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
 
-            <button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
-                    id="@("btnSaveQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120 TopMargin20">
-                <span class="fa fa-save rightMargin5"></span>
-                Save
-            </button>
+            @*<button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
+                        id="@("btnSaveQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120 TopMargin20">
+                    <span class="fa fa-save rightMargin5"></span>
+                    Save
+                </button>*@
         </div>
 
-        <div id="previewQuestionTextDiv" onclick="ShowEditQuestionText(@Model.QuestionId)">
+        <div id="previewQuestionTextDiv" onclick="ShowEditQuestionText(@Model.QuestionId)" data-toggle="tooltip" title="Edit" class="orcaTool-tooltip">
             @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
         </div>
-        <button onclick="ShowEditQuestionText(@Model.QuestionId)"
-                id="@("btnEditQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120">
-            <span class="fa fa-pencil rightMargin5"></span>
-            Edit
-        </button>
+
+        <div onclick="HidePreviewQUestionTextDiv(@Model.QuestionId)">
+            <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-save rightMargin5"></span>Save</button>
+        </div>
+
+        @*<button onclick="ShowEditQuestionText(@Model.QuestionId)"
+                    id="@("btnEditQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120">
+                <span class="fa fa-pencil rightMargin5"></span>
+                Edit
+            </button>*@
     </div>
 </div>
 <br />
@@ -62,40 +65,39 @@
         @foreach (var answer in Model.AnswerDetailVMs)
         {
             <div id="@("answerDiv"+answer.AnswerId)">
+                <div class="panel">
+                    @*panel-primary*@
+                    <div class="panel-body" onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)">
+                        @*När man bara ser svaret*@
+                        <div id=@("previewAnswerDiv"+ answer.AnswerId) class="leftFloat">
+                            @Html.Partial("_AnswerFormPartial", answer)
 
-                @*När man bara ser svaret*@
-                <div id=@("previewAnswerDiv"+ answer.AnswerId) onclick="ShowEditAnswer(@answer.AnswerId)">
-                    @Html.Partial("_AnswerFormPartial", answer)
+                        </div>
+                        <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
+                                id="@("btnRemoveAnswer" + answer.AnswerId)" class="orcaBtn bgRed btnWidth40 rightFloat topMargin-8 orcaTool-tooltip redT"
+                                data-toggle="tooltip" title="Delete">
+                            <span class="fa fa-trash fa-align-center"></span>
+                        </button>
+
+                        <button id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth40 rightFloat topMargin-8 orcaTool-tooltip rightMargin5"
+                                data-toggle="tooltip" title="Edit">
+                            <span class="fa fa-pencil fa-align-center"></span>
+                        </button>
+
+                        @*När man editerar sidan*@
+                        <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
+                            @Html.Partial("_EditAnswerPartial", answer)
+                            <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
+                                   @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
+                        </div>
+                        <!-- #region Buttons -->
+                        <button hidden="hidden"
+                                id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth120 TopMargin20">
+                            <span class="fa fa-save rightMargin5"></span>Save
+                        </button>
+                        <!-- #endregion -->
+                    </div>
                 </div>
-
-                @*När man editerar sidan*@
-                <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
-                    @Html.Partial("_EditAnswerPartial", answer)
-                    <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
-                           @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
-                </div>
-
-
-                <!-- #region Buttons -->
-                <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
-                        id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth120 TopMargin20">
-                    <span class="fa fa-save rightMargin5"></span>Save
-                </button>
-
-                <button onclick="ShowEditAnswer(@answer.AnswerId)"
-                        id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth40 topMargin-8 orcaTool-tooltip rightMargin5"
-                        data-toggle="tooltip" title="Edit Answer">
-                    <span class="fa fa-pencil fa-align-center"></span>
-                </button>
-
-                <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
-                        id="@("btnRemoveAnswer" + answer.AnswerId)" class="orcaBtn bgRed btnWidth40 topMargin-8 orcaTool-tooltip redT"
-                        data-toggle="tooltip" title="Delete Answer">
-                    <span class="fa fa-trash fa-align-center"></span>
-                </button>
-                <!-- #endregion -->
-                <br />
-                <br />
             </div>
         }
         <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
@@ -120,23 +122,23 @@
             });
         }
 
-        function ShowEditAnswer(answerId) {
+        //function ShowEditAnswer(answerId) {
 
-            tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
+        //    tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
 
-            $("#editAnswerDiv" + answerId).show();
-            $("#btnRemoveAnswer" + answerId).hide();
-            $("#previewAnswerDiv" + answerId).hide();
-            $("#btnUpdateAnswer" + answerId).show();
-            $("#btnShowEditAnswer" + answerId).hide();
-
-        }
+        //    $("#editAnswerDiv" + answerId).toggle();
+        //    $("#btnRemoveAnswer" + answerId).toggle();
+        //    $("#previewAnswerDiv" + answerId).toggle();
+        //    $("#btnUpdateAnswer" + answerId).toggle();
+        //    $("#btnShowEditAnswer" + answerId).toggle();
+        //}
 
         function UpdateAnswer(answerId, questionId) {
 
+            tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
+
             var answerText = tinymce.get('mceAnswerBox' + answerId).getContent();
             var actionUrl = "/Admin/UpdateAnswer";
-
             var isCorrect = (document.getElementById('answerIsCorrect' + answerId).checked);
 
             $.post(actionUrl, { questionId: questionId, answerId: answerId, answerText: answerText, isCorrect: isCorrect })
@@ -144,12 +146,12 @@
                         $("#previewAnswerDiv" + answerId).html(response);
                     });
 
-            $("#btnUpdateAnswer" + answerId).hide();
-            $("#btnShowEditAnswer" + answerId).show();
-            $("#editAnswerDiv" + answerId).hide();
-            $("#btnRemoveAnswer" + answerId).show();
-            $("#previewAnswerDiv" + answerId).show();
 
+            $("#btnUpdateAnswer" + answerId).toggle();
+            $("#btnShowEditAnswer" + answerId).toggle();
+            $("#editAnswerDiv" + answerId).toggle();
+            $("#btnRemoveAnswer" + answerId).toggle();
+            $("#previewAnswerDiv" + answerId).toggle();
         }
 
         function UpdateQuestionText(id) {
@@ -162,20 +164,27 @@
                 $("#previewQuestionTextDiv").html(response);
             });
 
-            $("#previewQuestionTextDiv").show()
-            $("#btnEditQuestionTxt" + id).show()
-            $("#btnSaveQuestionTxt" + id).hide()
+            $("#previewQuestionTextDiv").toggle()
+            $("#btnEditQuestionTxt" + id).toggle()
+            $("#btnSaveQuestionTxt" + id).toggle()
+            $("#editQuestionTextDiv").toggle()
+        }
+
+        function HidePreviewQUestionTextDiv(id) {
             $("#editQuestionTextDiv").hide()
+            $("#btnSaveQuestionTxt" + id).show()
+            $("#btnEditQuestionTxt" + id).show()
+            $("#previewQuestionTextDiv").show()
         }
 
         function ShowEditQuestionText(id) {
 
             $.post("/Admin/EditQuestionText", { questionId: id });
 
-            $("#editQuestionTextDiv").show()
-            $("#btnSaveQuestionTxt" + id).show()
-            $("#btnEditQuestionTxt" + id).hide()
-            $("#previewQuestionTextDiv").hide()
+            $("#editQuestionTextDiv").toggle()
+            $("#btnSaveQuestionTxt" + id).toggle()
+            $("#btnEditQuestionTxt" + id).toggle()
+            $("#previewQuestionTextDiv").toggle()
         }
 
         //----------------------------------------------------------------//
@@ -203,3 +212,8 @@
             forced_root_block: ""
         });
     </script>
+    <style>
+        .panel {
+            background-color: #fff; /*#EEEEEE*/
+        }
+    </style>
