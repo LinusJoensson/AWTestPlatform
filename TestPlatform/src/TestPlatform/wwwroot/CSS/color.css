@@ -40,11 +40,11 @@
 }
 
 .bgOrcaBlue {
-    color: #337AB7;
+    background-color: #337AB7;
 }
 
     .bgOrcaBlue:hover {
-        color: #2b679b;
+        background-color: #2b679b;
     }
 
 /* LIGHT BLUE */

@@ -9,30 +9,31 @@
 <h3>@Model.TestName</h3>
 <p>@Model.Description</p>
 
-<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-plus rightMargin5"></span>Create New Question</button></a>
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-plus rightMargin5"></span>New Question</button></a>
 <a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
 <div>
     @foreach (var question in Model.Questions)
             {
         <div class="whiteSquare BottomMargin20" onclick="PartialPreview(@question.Id)">
 
-            <div class="buttons rightFloat">
-                <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <span class="fa fa-pencil green btnSpan orcaTool-tooltip" data-toggle="tooltip" title="Edit Question"></span>
+            <div class="buttons rightFloat topMargin-8">
+                <a class="orcaBtn btnWidth40 rightMargin5 orcaTool-tooltip" asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Edit Question">
+                    <span class="fa fa-pencil white LeftMargin5"></span>
                 </a>
-                <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <span class="fa fa-trash red btnSpan orcaTool-tooltip redT" data-toggle="tooltip" title="Delete Question"></span>
+                <a class="orcaBtn orcaTool-tooltip bgRed redT" asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Delete Question">
+                    <span class="fa fa-trash white btnSpan"></span>
                 </a>
-                <span id="@("btnPreview"+question.Id)" class="fa fa-chevron-down orcaBlue btnSpan orcaTool-tooltip" data-toggle="tooltip" title="Show"></span>
+                <a id="@("btnPreview"+question.Id)" class="orcaBtn orcaTool-tooltip LeftMargin5" data-toggle="tooltip" title="Show/Hide">
+                    <span id="@("spanPreview"+question.Id)" class="fa fa-chevron-down white"></span>
+                </a>
             </div>
 
-                @*<button id="@("toolTipID"+question.Id)" class="orcaTool-tooltip orcaBtn bgWhite orcaBlue btnWidth40" data-toggle="tooltip" title="Show">*@
+            @*<button id="@("toolTipID"+question.Id)" class="orcaTool-tooltip orcaBtn bgWhite orcaBlue btnWidth40" data-toggle="tooltip" title="Show">*@
 
             @(Html.Raw("<i>" + (question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
 
-            <br />
             <br />
 
             <div id="@("detailsDiv"+question.Id)" hidden></div>
@@ -47,25 +48,26 @@
         $.get("/Admin/PreviewQuestionPartial",
             { id: id },
             function (data) {
-                var buttonPrevId = "#btnPreview" + id;
-                var divId = "#detailsDiv" + id;
+                var showHidePreview = "#btnPreview" + id;
+                var showHideSpanPreview = "#spanPreview" + id;
+                var previewContent = "#detailsDiv" + id;
 
-                $(divId).html("</br>" + data);
-                $(divId).toggle();
+                $(previewContent).html("</br>" + data);
+                $(previewContent).toggle();
 
                 if ($(divId).is(":hidden")) {
-                    $(buttonPrevId).removeClass("fa-chevron-up");
-                    $(buttonPrevId).addClass("fa-chevron-down");
+                    $(showHideSpanPreview).removeClass("fa-chevron-up");
+                    $(showHideSpanPreview).addClass("fa-chevron-down");
 
-                    $(buttonPrevId).attr("title", "Show")
+                    $(showHidePreview).attr("title", "Show")
                         .tooltip("fixTitle")
                         .tooltip("hide");
                 }
                 else {
-                    $(buttonPrevId).removeClass("fa-chevron-down");
-                    $(buttonPrevId).addClass("fa-chevron-up");
+                    $(showHideSpanPreview).removeClass("fa-chevron-down");
+                    $(showHideSpanPreview).addClass("fa-chevron-up");
 
-                    $(buttonPrevId).attr("title", "Hide")
+                    $(showHidePreview).attr("title", "Hide")
                         .tooltip("fixTitle")
                         .tooltip("hide");
                 }

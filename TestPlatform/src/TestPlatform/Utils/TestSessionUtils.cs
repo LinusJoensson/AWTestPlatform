@@ -42,7 +42,6 @@ namespace TestPlatform.Utils
             }
 
 
-
             //    //Beräknar antalet rätta svar per fråga
             //    correctQuestionAnswerCount = question.Answers.Count(o => o.IsCorrect == true);
             //    maxTestScore.Add(correctQuestionAnswerCount);

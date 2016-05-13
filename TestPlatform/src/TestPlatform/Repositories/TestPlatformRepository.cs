@@ -814,14 +814,14 @@ namespace TestPlatform.Repositories
             var test = _tests.Single(o => o.Id == testId);
             
             int maxScore = test.Questions.Count();
-            double passPercentage = (double)test.PassPercentage/100;
+            double testPassPercentage = (double)test.PassPercentage/100;
             var result = new
             {
                 resultData = new
                 {
                     maxScore = maxScore,
                     passPercentage = test.PassPercentage,
-                    passResult = Math.Round(passPercentage * maxScore)
+                    passResult = maxScore * testPassPercentage
                 },
                 students = test.TestSessions
                 .Select(ts => new
