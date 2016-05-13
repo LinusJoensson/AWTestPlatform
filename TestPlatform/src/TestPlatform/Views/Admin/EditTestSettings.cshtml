@@ -5,55 +5,64 @@
 <form asp-controller="Admin" asp-action="EditTestSettings">
     <h2>Settings</h2>
     <label asp-for="TestName"></label>
-    <input asp-for="TestName" class="form-control" />
+    <input asp-for="TestName" class="form-control BottomMargin20" />
     <span asp-validation-for="TestName"></span>
-    <br />
+
+
     <label asp-for="Description"></label>
-    <input asp-for="Description" class="form-control" />
+    <input asp-for="Description" class="form-control BottomMargin20" />
     <span asp-validation-for="Description"></span>
-    <br />
+
+
     <label asp-for="Tags"></label>
-    <input asp-for="Tags" class="form-control" />
+    <input asp-for="Tags" class="form-control BottomMargin20" />
     <span asp-validation-for="Tags"></span>
-    <br />
+
     <label asp-for="TimeLimitInMinutes"></label>
-    <input asp-for="TimeLimitInMinutes" class="form-control" />
+    <input asp-for="TimeLimitInMinutes" class="form-control BottomMargin20" />
     <span asp-validation-for="TimeLimitInMinutes"></span>
-    <br />
-    <label asp-for="ShowPassOrFail"></label>
-    <input asp-for="ShowPassOrFail" class="form-control" />
-    <span asp-validation-for="ShowPassOrFail"></span>
-    <br />
-    <label asp-for="ShowTestScore"></label>
-    <input asp-for="ShowTestScore" class="form-control" />
-    <span asp-validation-for="ShowTestScore"></span>
-    <br />
-    <label asp-for="PassPercentage"></label>
-    <input asp-for="PassPercentage" class="form-control" />
-    <span asp-validation-for="PassPercentage"></span>
-    <br />
-    <label asp-for="CustomCompletionMessage"></label>
-    <input asp-for="CustomCompletionMessage" class="form-control" />
-    <span asp-validation-for="CustomCompletionMessage"></span>
-    <br />
-    <label asp-for="CertTemplatePath"></label>
-    <input asp-for="CertTemplatePath" class="form-control" />
-    <span asp-validation-for="CertTemplatePath"></span>
-    <br />
-    <label asp-for="EnableCertDownloadOnCompletion"></label>
-    <input asp-for="EnableCertDownloadOnCompletion" class="form-control" />
-    <span asp-validation-for="EnableCertDownloadOnCompletion"></span>
-    <br />
-    <label asp-for="EnableEmailCertOnCompletion"></label>
-    <input asp-for="EnableEmailCertOnCompletion" class="form-control" />
-    <span asp-validation-for="EnableEmailCertOnCompletion"></span>
-    <br />
+
+    <div class="bgWhite" style="padding: 20px">
+        <h2 class="grayText topMargin-8">On Completion</h2>
+
+        <br />
+        <div class="row LeftMargin5">
+            <div class="leftFloat rightMargin10"><input asp-for="ShowPassOrFail" class="form-control" /></div>
+            <div class="leftFloat"><label asp-for="ShowPassOrFail"></label></div>
+        </div>
+        <span asp-validation-for="ShowPassOrFail"></span>
+        <br />
+        <div class="row LeftMargin5">
+            <div class="leftFloat rightMargin10"><input asp-for="ShowTestScore" class="form-control BottomMargin20" /></div>
+            <div class="leftFloat"><label asp-for="ShowTestScore"></label></div>
+        </div>
+        <span asp-validation-for="ShowTestScore"></span>
+        <br />
+        <label asp-for="PassPercentage"></label>
+        <input asp-for="PassPercentage" class="form-control BottomMargin20" />
+        <span asp-validation-for="PassPercentage"></span>
+
+        <label asp-for="CustomCompletionMessage"></label>
+        <textarea asp-for="CustomCompletionMessage" class="form-control BottomMargin20" rows="5"></textarea>
+        <span asp-validation-for="CustomCompletionMessage"></span>
+
+        <label asp-for="CertTemplatePath"></label>
+        <input asp-for="CertTemplatePath" class="form-control BottomMargin20" />
+        <span asp-validation-for="CertTemplatePath"></span>
+
+        <div class="row LeftMargin5">
+            <div class="leftFloat rightMargin10"><input asp-for="EnableCertDownloadOnCompletion" class="form-control BottomMargin20" /></div>
+            <div class="leftFloat"><label asp-for="EnableCertDownloadOnCompletion"></label></div>
+        </div>
+        <span asp-validation-for="EnableCertDownloadOnCompletion"></span>
+        <br />
+        <div class="row LeftMargin5">
+            <div class="leftFloat rightMargin10"><input asp-for="EnableEmailCertOnCompletion" class="form-control BottomMargin20" /></div>
+            <div class="leftFloat"><label asp-for="EnableEmailCertOnCompletion"></label></div>
+            <span asp-validation-for="EnableEmailCertOnCompletion"></span>
+        </div>
+
+    </div>
     <a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth210 TopMargin20"><span class="fa fa-chevron-left rightMargin5"></span>Return to Dashboard</button></a>
     <a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth120 TopMargin20"><span class="fa fa-save rightMargin5"></span>Save</button></a>
 </form>
-<script>
-    $(document).ready(function showModal() {
-        $("#SettingModal").modal();
-    });
-</script>
-
