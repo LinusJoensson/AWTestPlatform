@@ -23,7 +23,7 @@
                 <a class="orcaBtn orcaTool-tooltip bgRed redT" asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Delete Question">
                     <span class="fa fa-trash white btnSpan"></span>
                 </a>
-                <a id="@("btnPreview"+question.Id)" class="orcaBtn orcaTool-tooltip LeftMargin5" data-toggle="tooltip" title="Show/Hide">
+                <a id="@("btnPreview"+question.Id)" class="orcaBtn orcaTool-tooltip LeftMargin5" data-toggle="tooltip" title="Show">
                     <span id="@("spanPreview"+question.Id)" class="fa fa-chevron-down white"></span>
                 </a>
             </div>
@@ -55,7 +55,7 @@
                 $(previewContent).html("</br>" + data);
                 $(previewContent).toggle();
 
-                if ($(divId).is(":hidden")) {
+                if ($("#detailsDiv" + id).is(":hidden")) {
                     $(showHideSpanPreview).removeClass("fa-chevron-up");
                     $(showHideSpanPreview).addClass("fa-chevron-down");
 
