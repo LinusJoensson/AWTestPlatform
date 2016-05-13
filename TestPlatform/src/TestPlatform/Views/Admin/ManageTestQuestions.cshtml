@@ -16,17 +16,19 @@
             {
         <div class="whiteSquare BottomMargin20" onclick="PartialPreview(@question.Id)">
 
-            <div class="buttons rightFloat">
-                <a asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <span class="fa fa-pencil green btnSpan orcaTool-tooltip" data-toggle="tooltip" title="Edit Question"></span>
+            <div class="buttons rightFloat topMargin-8">
+                <a class="orcaBtn btnWidth40 rightMargin5 orcaTool-tooltip" asp-controller="Admin" asp-action="UpdateQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Edit Question">
+                    <span class="fa fa-pencil white LeftMargin5"></span>
                 </a>
-                <a asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId">
-                    <span class="fa fa-trash red btnSpan orcaTool-tooltip redT" data-toggle="tooltip" title="Delete Question"></span>
+                <a class="orcaBtn orcaTool-tooltip bgRed redT" asp-controller="Admin" asp-action="RemoveQuestion" asp-route-questionId="@question.Id" asp-route-testId="@Model.TestId" data-toggle="tooltip" title="Delete Question">
+                    <span class="fa fa-trash white btnSpan"></span>
                 </a>
-                <span id="@("btnPreview"+question.Id)" class="fa fa-chevron-down orcaBlue btnSpan orcaTool-tooltip" data-toggle="tooltip" title="Show"></span>
+                <a id="@("btnPreview"+question.Id)" class="orcaBtn orcaTool-tooltip LeftMargin5" data-toggle="tooltip" title="Show/Hide">
+                    <span id="@("spanPreview"+question.Id)" class="fa fa-chevron-down white"></span>
+                </a>
             </div>
 
-                @*<button id="@("toolTipID"+question.Id)" class="orcaTool-tooltip orcaBtn bgWhite orcaBlue btnWidth40" data-toggle="tooltip" title="Show">*@
+            @*<button id="@("toolTipID"+question.Id)" class="orcaTool-tooltip orcaBtn bgWhite orcaBlue btnWidth40" data-toggle="tooltip" title="Show">*@
 
             @(Html.Raw("<i>" + (question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
@@ -47,22 +49,23 @@
             { id: id },
             function (data) {
                 var showHidePreview = "#btnPreview" + id;
+                var showHideSpanPreview = "#spanPreview" + id;
                 var previewContent = "#detailsDiv" + id;
 
                 $(previewContent).html("</br>" + data);
                 $(previewContent).toggle();
 
                 if ($(divId).is(":hidden")) {
-                    $(showHidePreview).removeClass("fa-chevron-up");
-                    $(showHidePreview).addClass("fa-chevron-down");
+                    $(showHideSpanPreview).removeClass("fa-chevron-up");
+                    $(showHideSpanPreview).addClass("fa-chevron-down");
 
                     $(showHidePreview).attr("title", "Show")
                         .tooltip("fixTitle")
                         .tooltip("hide");
                 }
                 else {
-                    $(showHidePreview).removeClass("fa-chevron-down");
-                    $(showHidePreview).addClass("fa-chevron-up");
+                    $(showHideSpanPreview).removeClass("fa-chevron-down");
+                    $(showHideSpanPreview).addClass("fa-chevron-up");
 
                     $(showHidePreview).attr("title", "Hide")
                         .tooltip("fixTitle")

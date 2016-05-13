@@ -2,16 +2,16 @@
 <div ng-controller="myCtrl">
     <div class="container">
         <h1>Test Results</h1>
-        <p class="pBold onTheLine leftFloat aquaBlue">Pass threshold: </p><p class="orcaBlue onTheLine leftFloat LeftMargin5">{{viewModel.resultData.passPercentage}}%</p>
+        <p class="pBold onTheLine leftFloat orcaBlue">Pass threshold: </p><p class="orcaBlue onTheLine leftFloat LeftMargin5">{{viewModel.resultData.passPercentage}}%</p>
         <br /><br />
-        <button class="orcaBtn bgAquaBlue" onclick="showAll();">Show All</button>
+        <button class="orcaBtn" onclick="showAll();">Show All</button>
     </div>
     <div class="container row" ng-mousemove="filterSwitch();">
         <div class="col-xs-6">
             <canvas id="testScoreTotalAmountPassed" width="600" height="350"></canvas>
             <br />
             <br />
-            <p style="color:gray; text-align:center;">Pass ({{percentageOfStudentsWhoPassed}}%)<span class="passColor" onclick="document.getElementById('showFilter').innerHTML = 'pass';"></span>Fail ({{percentageOfStudentsWhoFailed}}%)<span class="failColor" onclick="document.getElementById('showFilter').innerHTML = 'fail';"></span></p>
+            <p style="color:gray; text-align:center;">Pass ({{percentageOfStudentsWhoPassed}}%)<span class="passColor" onclick="document.getElementById('showFilter').innerHTML = 'pass';"></span><span class="LeftMargin20">Fail ({{percentageOfStudentsWhoFailed}}%)<span class="failColor" onclick="document.getElementById('showFilter').innerHTML = 'fail';"></span></span></p>
         </div>
         <div class="col-xs-6">
             <canvas id="testScoreSegments" height="200"></canvas>
@@ -35,7 +35,11 @@
             <tr ng-repeat="student in viewModel.students | orderBy:dynamicOrder:order.reverse | filter:studentFilter | filter:search">
                 <td>{{student.name}}</td>
                 <td>{{student.email}}</td>
-                <td>{{student.testscore}} <span class="orcaBlue">({{((student.testscore * 100) / viewModel.resultData.maxScore) | number:0}}%)</span></td>
+                <td>
+                    <span class="rightMargin5">{{student.testscore}}<span class="pBold"> / </span>{{viewModel.resultData.maxScore}}</span>
+                    <span ng-if="studentPassed(student);" class="orcaBlue pBold">({{((student.testscore * 100) / viewModel.resultData.maxScore) | number:0}}%)</span>
+                    <span ng-if="studentFailed(student);" class="aquaBlue pBold">({{((student.testscore * 100) / viewModel.resultData.maxScore) | number:0}}%)</span>
+                </td>
             </tr>
         </table>
     </div>
@@ -134,6 +138,7 @@
         var amountOfStudentsWhoPassed = 0;
         var amountOfStudentsWhoFailed = 0;
 
+        
         var showAll = function() {
             document.getElementById('showFilter').innerHTML = 'showAll';
         };
@@ -166,8 +171,25 @@
                 $scope.percentageOfStudentsWhoPassed = ($scope.amountOfStudentsWhoPassed / $scope.totalAmountOfStudentsTakingTest) * 100;
                 $scope.percentageOfStudentsWhoFailed = ($scope.amountOfStudentsWhoFailed / $scope.totalAmountOfStudentsTakingTest) * 100;
             };
-
             $scope.studentCounter();
+
+            $scope.studentPassed = function(student) {
+                if ($scope.viewModel.resultData.passResult <= student.testscore) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+
+            $scope.studentFailed = function(student) {
+                if ($scope.viewModel.resultData.passResult > student.testscore) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
 
             $scope.data = [];
             // Now, whenever the button is clicked, this method is run.
