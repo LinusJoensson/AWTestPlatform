@@ -24,3 +24,43 @@
 body {
     background-color: #EEEEEE; /*#f4f4f4;*/
 }
+
+.bluePic {
+    background-color: rgba(51, 122, 183, 0.80);
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 600px;
+}
+
+/*---------------------------------------------------------------------------
+                                 IMAGES
+---------------------------------------------------------------------------*/
+/* Responsive div-images */
+.divImage {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Images with 9:16 ratio */
+.ratio916 {
+    padding-top: 56.25%;
+}
+
+/* Images with 3:4 ratio */
+.ratio34 {
+    padding-top: 75%;
+}
+
+/* Images with 1:2 ratio */
+.ratio12 {
+    padding-top: 50%;
+}
+
+.centerImgae {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
