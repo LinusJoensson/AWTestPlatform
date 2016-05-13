@@ -3,20 +3,21 @@
 @*/// ----------------------- SETTINGS ---------------------------////*@
 <div id="questionSettingsDiv">
     <br />
-    <div class="whiteSquare BottomMargin20">
+    <div class="BottomMargin20">
 
         <h2 class="grayText topMargin-8">Question Settings</h2>
 
         <form asp-controller="Admin" asp-action="UpdateQuestionSettings" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-sm-4">
                     <label asp-for="Type"></label>
                     <select asp-for="Type" class="form-control" id="dropQuestionType" asp-items="Model.ItemType" onchange="TypeChanged()"></select>
                     <span asp-validation-for="Type" class="text-danger"></span>
                 </div>
             </div>
 
-            <label asp-for="SortOrder"></label>
+            <label asp-for="SortOrder"></label><br />
+
             <input asp-for="SortOrder" placeholder="Sort order" />
             <span asp-validation-for="SortOrder" class="text-danger"></span>
 
@@ -48,68 +49,62 @@
             <span class="fa fa-pencil rightMargin5"></span>
             Edit
         </button>
-
-
     </div>
 </div>
-
-
-
+<br />
 
 @*/// ----------------------- ANSWERS ----------------------------////*@
-@*<div id="answersDiv">*@
 
 @if (Model.AnswerDetailVMs != null)
 {
-    <div class="whiteSquare BottomMargin20">
-        <h2 class="topMargin-8">Answer Settings</h2>
+    <div>
+        <h2 class="TopMargin20">Answer Settings</h2>
         <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-            <button class="orcaBtn rightMargin10 btnWidth200 BottomMargin20"><span class="fa fa-plus rightMargin5" title="New"></span>Add New Answer</button>
+            <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
         </a>
-        <hr />
+
         @foreach (var answer in Model.AnswerDetailVMs)
         {
             <div id="@("answerDiv"+answer.AnswerId)">
 
+                @*När man bara ser svaret*@
+                <div id=@("previewAnswerDiv"+ answer.AnswerId)>
+                    @Html.Partial("_AnswerFormPartial", answer)
+                </div>
+
+                @*När man editerar sidan*@
                 <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
                     @Html.Partial("_EditAnswerPartial", answer)
                     <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
                            @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
                 </div>
 
-                <div id=@("previewAnswerDiv"+ answer.AnswerId)>
-                    @Html.Partial("_AnswerFormPartial", answer)
-                </div>
-
 
                 <!-- #region Buttons -->
                 <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)" hidden="hidden"
-                        id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth175 topMargin-8">
-                    <span class="fa fa-save rightMargin5"></span>
-                    Save Answer
+                        id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth120 TopMargin20">
+                    <span class="fa fa-save rightMargin5"></span>Save
                 </button>
 
                 <button onclick="ShowEditAnswer(@answer.AnswerId)"
-                        id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth175 topMargin-8">
-                    <span class="fa fa-pencil rightMargin5"></span>
-                    Edit Answer
+                        id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth40 topMargin-8 orcaTool-tooltip"
+                        data-toggle="tooltip" title="Edit Answer">
+                    <span class="fa fa-pencil fa-align-center"></span>
                 </button>
 
                 <button onclick="RemoveAnswer(@Model.TestId, @Model.QuestionId, @answer.AnswerId)"
-                        id="@("btnRemoveAnswer" + answer.AnswerId)" class="orcaBtn bgRed btnWidth175 topMargin-8">
-                    <span class="fa fa-trash rightMargin5"></span>
-                    Delete Answer
+                        id="@("btnRemoveAnswer" + answer.AnswerId)" class="orcaBtn bgRed btnWidth40 topMargin-8 orcaTool-tooltip redT"
+                        data-toggle="tooltip" title="Delete Answer">
+                    <span class="fa fa-trash fa-align-center"></span>
                 </button>
                 <!-- #endregion -->
                 <br />
-                <hr />
+                <br />
             </div>
-
         }
     </div>
 }
 
-    @*</div>*@
     @*/// ------------------------------------------------------------////*@
 
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
@@ -208,31 +203,4 @@
             menubar: false,
             forced_root_block: ""
         });
-
-        //----------------------------------------------------------------//
-        //----------------------------------------------------------------//
-
-
-        //--------------------------ANSWERS-------------------------------//
-        //tinymce.init({
-        //    selector: '.mceAnswerBox',
-        //    height: 60,
-        //    width: auto,
-        //    plugins: [
-        //        'advlist autolink lists link image charmap print preview anchor',
-        //        'searchreplace visualblocks code fullscreen',
-        //        'insertdatetime media table contextmenu paste code',
-        //        'textcolor colorpicker'
-        //    ],
-        //    toolbar: 'forecolor backcolor | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | media ',
-        //    content_css: [
-        //        '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
-        //        '//www.tinymce.com/css/codepen.min.css'
-        //    ],
-        //    menubar: false,
-        //    forced_root_block: ""
-        //});
-
-        //----------------------------------------------------------------//
-        //----------------------------------------------------------------//
     </script>

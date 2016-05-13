@@ -1,36 +1,39 @@
 ﻿@model AnswerDetailVM
 
-    <style>
-        .panel {
-            background-color: #EEEEEE;
-        }
-    </style>
+<style>
+    .panel {
+        background-color: #fff; /*#EEEEEE*/
+    }
+</style>
 
-    <div class="panel panel-primary">
-        <div class="panel-body">
+<div class="panel">
+    @*panel-primary*@
+    <div class="panel-body">
 
-            @switch (Model.QuestionType)
+        @switch (Model.QuestionType)
             {
                 case TestPlatform.Models.Enums.QuestionType.SingleChoice:
                     {
-                        <label for="@($"answer{Model.AnswerId}")">
-                            <input type="radio" @(Model.IsChecked ? "checked=\"checked\"" : "") />
-                                @(Html.Raw(Model.AnswerText))
-                         </label>
-                    }
+                    <p class="onTheLine" for="@($"answer{Model.AnswerId}")">
+                        <input type="radio" @(Model.IsChecked ? "checked=\"checked\"" : "") />
+                        @(Html.Raw(Model.AnswerText))
+                    </p>
+                    @if (Model.IsChecked)
+                        {<p class="onTheLine pBold green">(Correct Answer)</p> }
+                }
 
-                    break;
+                break;
 
-                case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
-                    {
-
-                        <label for="@($"answer{Model.AnswerId}")">
-                            <input type="checkbox" @(Model.IsChecked ? "checked=\"checked\"" : "") disabled="disabled" />
-                            @(Html.Raw(Model.AnswerText))
-                        </label>
-
-                    }
-                    break;
-            }
-        </div>
+            case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
+                {
+                    <p class="onTheLine" for="@($"answer{Model.AnswerId}")">
+                        <input type="checkbox" @(Model.IsChecked ? "checked=\"checked\"" : "") disabled="disabled" />
+                        @(Html.Raw(Model.AnswerText))
+                    </p>
+                    @if (Model.IsChecked)
+                        {<p class="onTheLine pBold green">(Correct Answer)</p> }
+                }
+                break;
+        }
     </div>
+</div>
