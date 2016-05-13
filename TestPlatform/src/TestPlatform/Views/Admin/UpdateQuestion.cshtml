@@ -41,7 +41,7 @@
             </button>
         </div>
 
-        <div id="previewQuestionTextDiv">
+        <div id="previewQuestionTextDiv" onclick="ShowEditQuestionText(@Model.QuestionId)">
             @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
         </div>
         <button onclick="ShowEditQuestionText(@Model.QuestionId)"
@@ -59,10 +59,6 @@
 {
     <div>
         <h2 class="TopMargin20">Answer Settings</h2>
-        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-            <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
-        </a>
-
         @foreach (var answer in Model.AnswerDetailVMs)
         {
             <div id="@("answerDiv"+answer.AnswerId)">
@@ -102,6 +98,9 @@
                 <br />
             </div>
         }
+        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+            <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
+        </a>
     </div>
 }
 
