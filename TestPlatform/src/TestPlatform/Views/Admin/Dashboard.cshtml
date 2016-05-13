@@ -1,7 +1,9 @@
 ﻿@model DashboardVM
 
 <h1>Dashboard</h1>
-<a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn topBottomMargin20"><span class="fa fa-plus rightMargin5"></span>Create Test</button></a>
+<a asp-controller="Admin" asp-action="CreateTest"><button class="orcaBtn topBottomMargin20 bgGreen">
+    <span class="fa fa-plus rightMargin5"></span>Create Test
+</button></a>
 <div style="display:inline">
     @foreach (var test in Model.Tests)
     {

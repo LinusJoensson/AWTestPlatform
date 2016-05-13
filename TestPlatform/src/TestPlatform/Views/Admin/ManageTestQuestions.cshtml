@@ -9,8 +9,16 @@
 <h3>@Model.TestName</h3>
 <p>@Model.Description</p>
 
-<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-plus rightMargin5"></span>New Question</button></a>
-<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId"><button class="orcaBtn BottomMargin20 btnWidth210"><span class="fa fa-download rightMargin5"></span>Import Questions</button></a>
+<a asp-controller="Admin" asp-action="CreateQuestion" asp-route-TestId="@Model.TestId">
+    <button class="orcaBtn BottomMargin20 btnWidth210 bgGreen">
+        <span class="fa fa-plus rightMargin5"></span>New Question
+    </button>
+</a>
+<a asp-controller="Admin" asp-action="Import" asp-route-TestId="@Model.TestId">
+    <button class="orcaBtn BottomMargin20 btnWidth210 bgGreen">
+        <span class="fa fa-download rightMargin5"></span>Import Questions
+    </button>
+</a>
 <div>
     @foreach (var question in Model.Questions)
             {
@@ -41,7 +49,9 @@
     }
 </div>
 <!-- floatat knapparna till höger, bra? in i css isf. ändrat Go Back/save till endast Dashboard-->
-<a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth210 leftFloat"><span class="fa fa-chevron-left rightMargin5"></span>Return to Dashboard</button></a>
+<a href="~/Admin/Dashboard"><button class="orcaBtn btnWidth120 leftFloat">
+    <span class="fa fa-chevron-left rightMargin5"></span>Back
+</button></a>
 
 <script>
     function PartialPreview(id) {

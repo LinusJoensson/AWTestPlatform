@@ -35,13 +35,13 @@
             @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
 
             <button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
-                    id="@("btnSaveQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth175 TopMargin20">
+                    id="@("btnSaveQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120 TopMargin20">
                 <span class="fa fa-save rightMargin5"></span>
-                Save Changes
+                Save
             </button>
         </div>
 
-        <div id="previewQuestionTextDiv">
+        <div id="previewQuestionTextDiv" onclick="ShowEditQuestionText(@Model.QuestionId)">
             @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
         </div>
         <button onclick="ShowEditQuestionText(@Model.QuestionId)"
@@ -59,16 +59,12 @@
 {
     <div>
         <h2 class="TopMargin20">Answer Settings</h2>
-        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
-            <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
-        </a>
-
         @foreach (var answer in Model.AnswerDetailVMs)
         {
             <div id="@("answerDiv"+answer.AnswerId)">
 
                 @*När man bara ser svaret*@
-                <div id=@("previewAnswerDiv"+ answer.AnswerId)>
+                <div id=@("previewAnswerDiv"+ answer.AnswerId) onclick="ShowEditAnswer(@answer.AnswerId)">
                     @Html.Partial("_AnswerFormPartial", answer)
                 </div>
 
@@ -87,7 +83,7 @@
                 </button>
 
                 <button onclick="ShowEditAnswer(@answer.AnswerId)"
-                        id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth40 topMargin-8 orcaTool-tooltip"
+                        id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth40 topMargin-8 orcaTool-tooltip rightMargin5"
                         data-toggle="tooltip" title="Edit Answer">
                     <span class="fa fa-pencil fa-align-center"></span>
                 </button>
@@ -102,6 +98,9 @@
                 <br />
             </div>
         }
+        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+            <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
+        </a>
     </div>
 }
 
