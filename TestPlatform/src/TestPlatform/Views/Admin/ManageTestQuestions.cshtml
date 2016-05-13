@@ -36,14 +36,10 @@
                 </a>
             </div>
 
-            @*<button id="@("toolTipID"+question.Id)" class="orcaTool-tooltip orcaBtn bgWhite orcaBlue btnWidth40" data-toggle="tooltip" title="Show">*@
-
             @(Html.Raw("<i>" + (question.QuestionText)?
                         .ToString().Replace("<video", "[INSERTED VIDEO]").Replace("<img", "[INSERTED IMAGE]").Replace("<iframe", "[FRAME]")
                         .Substring(0, Math.Min(Html.Raw(question.QuestionText).ToString().Length, 50)) + "...</i>"))
-
             <br />
-
             <div id="@("detailsDiv"+question.Id)" hidden></div>
         </div>
     }
