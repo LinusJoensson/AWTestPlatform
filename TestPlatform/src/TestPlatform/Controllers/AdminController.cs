@@ -27,7 +27,7 @@ namespace TestPlatform.Controllers
 
         public IActionResult Dashboard()
         {
-            PdfUtils.GenerateCerfificate(env, "OrcaQuizTemplate.pdf", "cerBOficat2.pdf", new PdfSymbols { CertificatName = "C#.NET", Author = "Pontus Wittemark", Company = "WarmKitten", Details = "Bacon ipsum dolor amet filet mignon brisket Bacon ipsum dolor amet filet mignon brisket Bacon ipsum dolor amet filet mignon brisket", StudentName = "Mikael Brunnberg" });
+            //PdfUtils.GenerateCerfificate(env, "OrcaQuizTemplate.pdf", "cerBOficat2.pdf", new PdfSymbols { CertificatName = "C#.NET", Author = "Pontus Wittemark", Company = "WarmKitten", Details = "Bacon ipsum dolor amet filet mignon brisket Bacon ipsum dolor amet filet mignon brisket Bacon ipsum dolor amet filet mignon brisket", StudentName = "Mikael Brunnberg" });
 
             var model = repository.GetAllTests();
             var viewModel = new DashboardVM()
