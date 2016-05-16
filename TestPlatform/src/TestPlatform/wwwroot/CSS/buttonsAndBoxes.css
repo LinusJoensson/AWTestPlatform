@@ -139,10 +139,10 @@
 }
 
 input[type="checkbox"]{
-  width: 20px; /*Desired width*/
-  height: 20px; /*Desired height*/
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  -webkit-appearance: none;
+  /*-webkit-appearance: none;*/
   appearance: none;
 }
 .maxWidth600 {

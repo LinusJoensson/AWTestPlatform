@@ -21,11 +21,17 @@
             <input asp-for="SortOrder" placeholder="Sort order" />
             <span asp-validation-for="SortOrder" class="text-danger"></span>
             <br />
+            <!-- styrt upp samma design med checkbox. att ha den innan, kan bytas -->
+            <div class="row LeftMargin5 TopMargin20">
+                <div class="leftFloat rightMargin10"><input asp-for="HasComment" placeholder="Question" /></div>
+                <div class="leftFloat"><label asp-for="HasComment"></label></div>
+                <span asp-validation-for="HasComment" class="text-danger"></span>
+            </div>
 
-            <label asp-for="HasComment"></label>
-            <input asp-for="HasComment" placeholder="Question" />
+            @*<input asp-for="HasComment" placeholder="Question" />
             <span asp-validation-for="HasComment" class="text-danger"></span>
-            <br />
+            <br />*@
+
 
         </form>
 
