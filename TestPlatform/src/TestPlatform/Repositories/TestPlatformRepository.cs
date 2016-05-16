@@ -761,6 +761,7 @@ namespace TestPlatform.Repositories
                     new SelectListItem { Value = ((int)QuestionType.TextMultiLine).ToString(), Text="Multi Line Text"}
                 },
                 TestId = testId,
+                QuestionText = thisQuestion.QuestionText,
                 QuestionId = questionId,
                 Type = thisQuestion.QuestionType,
                 SortOrder = thisQuestion.SortOrder,

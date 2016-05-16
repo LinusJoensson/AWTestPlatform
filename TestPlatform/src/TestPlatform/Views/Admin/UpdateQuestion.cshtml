@@ -224,6 +224,13 @@
             menubar: false,
             forced_root_block: ""
         });
+
+        @if (string.IsNullOrWhiteSpace(Model.QuestionText))
+        {
+            <text>
+        ShowEditQuestionText(@Model.QuestionId);
+            </text>
+        }
     </script>
     <style>
         .panel {
