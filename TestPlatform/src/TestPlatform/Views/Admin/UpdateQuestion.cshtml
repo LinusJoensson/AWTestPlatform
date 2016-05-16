@@ -107,7 +107,9 @@
                 </div>
             </div>
         }
-        <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
+        <form asp-controller="Admin" asp-action="CreateEmptyAnswer" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+            <input type="submit" class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen fa fa-plus" value="Answer" />
+        </form>
     </div>
 }
 
@@ -138,8 +140,7 @@
         //    $("#btnShowEditAnswer" + answerId).toggle();
         //}
 
-        function toggleAnswerDiv(answerId)
-        {
+        function toggleAnswerDiv(answerId) {
             $("#editAnswerDiv" + answerId).toggle();
             tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
         }

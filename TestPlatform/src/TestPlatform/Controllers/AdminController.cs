@@ -116,7 +116,7 @@ namespace TestPlatform.Controllers
             return PartialView("_EditQuestionPartial");
         }
         
-        public IActionResult CreateAnswer(int testId, int questionId)
+        public IActionResult CreateEmptyAnswer(int testId, int questionId)
         {
             int answerId = repository.CreateAnswer(questionId);
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });

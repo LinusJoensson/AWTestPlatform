@@ -715,6 +715,7 @@ namespace TestPlatform.Repositories
         {
             var answer = new Answer()
             {
+                AnswerText = "New answer...",
                 Id = GetAllAnswers().Count() + 1
             };
 
