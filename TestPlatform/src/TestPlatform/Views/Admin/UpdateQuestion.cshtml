@@ -159,21 +159,21 @@
             $("#previewAnswerDiv" + answerId).toggle();
         }
 
-        function UpdateQuestionText(id) {
+        //function UpdateQuestionText(id) {
 
-            var text = tinymce.get('mceQuestionBox').getContent();
-            var actionUrl = "/Admin/UpdateQuestionText";
+        //    var text = tinymce.get('mceQuestionBox').getContent();
+        //    var actionUrl = "/Admin/UpdateQuestionText";
 
-            $.post(actionUrl, { questionId: id, questionText: text })
-            .done(function (response) {
-                $("#previewQuestionTextDiv").html(response);
-            });
+        //    $.post(actionUrl, { questionId: id, questionText: text })
+        //    .done(function (response) {
+        //        $("#previewQuestionTextDiv").html(response);
+        //    });
 
-            $("#previewQuestionTextDiv").toggle()
-            $("#btnEditQuestionTxt" + id).toggle()
-            $("#btnSaveQuestionTxt" + id).toggle()
-            $("#editQuestionTextDiv").toggle()
-        }
+        //    $("#previewQuestionTextDiv").toggle()
+        //    $("#btnEditQuestionTxt" + id).toggle()
+        //    $("#btnSaveQuestionTxt" + id).toggle()
+        //    $("#editQuestionTextDiv").toggle()
+        //}
 
         function HidePreviewQUestionTextDiv(id) {
             $("#editQuestionTextDiv").hide()

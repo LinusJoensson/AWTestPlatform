@@ -64,21 +64,21 @@ namespace TestPlatform.Controllers
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }
 
-        [HttpPost]
-        public PartialViewResult UpdateQuestionText(int questionId, string questionText)
-        {
-            var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
-            thisQuestion.QuestionText = questionText;
+        //[HttpPost]
+        //public PartialViewResult UpdateQuestionText(int questionId, string questionText)
+        //{
+        //    var thisQuestion = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+        //    thisQuestion.QuestionText = questionText;
 
-            var model = new QuestionFormVM()
-            {
-                QuestionText = questionText,
-                IsInEditQuestion = true,
-                QuestionType = thisQuestion.QuestionType
-            };
+        //    var model = new QuestionFormVM()
+        //    {
+        //        QuestionText = questionText,
+        //        IsInEditQuestion = true,
+        //        QuestionType = thisQuestion.QuestionType
+        //    };
 
-            return PartialView("_QuestionFormPartial", model);
-        }
+        //    return PartialView("_QuestionFormPartial", model);
+        //}
 
         public PartialViewResult UpdateAnswer(int questionId, int answerId, string answerText, bool isCorrect)
         {
