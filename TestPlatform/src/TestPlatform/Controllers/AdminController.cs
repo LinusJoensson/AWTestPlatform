@@ -234,7 +234,7 @@ namespace TestPlatform.Controllers
         {
             //TODO: multiple questions in one query
             foreach (var qId in questionIds)
-                repository.AddQuestionToTest(qId, testId);
+                repository.CopyQuestionToTest(qId, testId);
 
             return Json(GetCurrentTestImportData(testId));
         }

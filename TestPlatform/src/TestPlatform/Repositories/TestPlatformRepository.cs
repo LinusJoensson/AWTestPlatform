@@ -480,13 +480,10 @@ namespace TestPlatform.Repositories
             return _tests.Last().Id;
         }
 
-        public void AddQuestionToTest(int questionId, int testId)
+        public void CopyQuestionToTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);
             var thisQuestion = GetAllQuestions().Single(o => o.Id == questionId);
-
-            var defaultSortOrder = thisTest.Questions.Count > 0 ?
-                thisTest.Questions.Max(o => o.SortOrder) + 100 : 100;
 
             thisTest.Questions.Add(new Question()
             {
@@ -502,7 +499,7 @@ namespace TestPlatform.Repositories
                 Id = GetAllQuestions().Count() + 1,
 
                 //Add specific properties
-                SortOrder = defaultSortOrder,
+                SortOrder = thisQuestion.SortOrder,
                 CreatedDate = DateTime.UtcNow,
                 Author = _users.ElementAt(0).FirstName,
 
@@ -717,7 +714,7 @@ namespace TestPlatform.Repositories
             {
                 AnswerText = "New answer...",
                 Id = GetAllAnswers().Count() + 1,
-                SortOrder = _answers.Count() > 0 ? _answers.OrderBy(o => o.SortOrder).Last().SortOrder + 10 : 10
+                SortOrder = _answers.Count() > 0 ? _answers.Max(o => o.SortOrder) + 10 : 10
             };
 
             _answers.Add(answer);
@@ -750,6 +747,7 @@ namespace TestPlatform.Repositories
         public EditQuestionVM GetEditQuestionVM(int testId, int questionId)
         {
             var thisQuestion = GetAllQuestions().SingleOrDefault(o => o.Id == questionId);
+            var testQuestions = GetAllQuestions().Where(o => o.TestId == testId);
 
             var viewModel = new EditQuestionVM()
             {
@@ -764,7 +762,7 @@ namespace TestPlatform.Repositories
                 QuestionText = thisQuestion.QuestionText,
                 QuestionId = questionId,
                 Type = thisQuestion.QuestionType,
-                SortOrder = thisQuestion.SortOrder,
+                SortOrder = testQuestions.Count() > 0 ? testQuestions.Max(o => o.SortOrder) + 10 : 10,
                 QuestionFormVM = new QuestionFormVM()
                 {
                     QuestionText = thisQuestion.QuestionText,
