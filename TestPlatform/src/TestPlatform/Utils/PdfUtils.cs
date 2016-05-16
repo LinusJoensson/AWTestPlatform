@@ -13,32 +13,33 @@ namespace TestPlatform.Utils
         // Example: 
         // PdfUtils.GenerateCerfificate(env, "test.pdf", "cerBOficat2.pdf", new PdfSymbols { FirstName = "BO" });
 
-        public static void GenerateCerfificate(IHostingEnvironment env, string templateName, string outputName, PdfSymbols pdfSymbols)
+        public static byte[] GenerateCerfificate(IHostingEnvironment env, string templateName, PdfSymbols pdfSymbols)
         {
             var root = new Uri(env.WebRootPath);
             var rootParent = root.AbsoluteUri.Remove(root.AbsoluteUri.Length - root.Segments.Last().Length);
             var templatePath = rootParent + $@"PDF/Templates/{templateName}";
-            var outputPath = rootParent + $@"PDF/OutPut/{outputName}";
+            //var outputPath = rootParent + $@"wwwRoot/PDF/OutPut/{outputName}";
 
             var fileLength = "file:///".Length;
+            //outputPath = outputPath.Substring(fileLength, outputPath.Count() - fileLength);
 
-            PdfUtils.GeneratePDF(templatePath.Substring(fileLength, templatePath.Count() - fileLength)
-                , outputPath.Substring(fileLength, outputPath.Count() - fileLength)
+            return PdfUtils.GeneratePDF(templatePath.Substring(fileLength, templatePath.Count() - fileLength)
                 , pdfSymbols);
         }
 
-        private static void GeneratePDF(string pathToPDFTemplate, string pathToNewPDF, PdfSymbols pdf)
+        private static byte[] GeneratePDF(string pathToPDFTemplate, PdfSymbols pdf)
         {
+            MemoryStream newFileStream;
             using (var existingFileStream = new FileStream(pathToPDFTemplate, FileMode.Open))
-            using (var newFileStream = new FileStream(pathToNewPDF, FileMode.Create))
+            using (newFileStream = new MemoryStream())
             using (var pdfReader = new PdfReader(existingFileStream))
             using (var stamper = new PdfStamper(pdfReader, newFileStream))
             {
                 var form = stamper.AcroFields;
                 form.GenerateAppearances = true;
 
-                if (form.Fields.Keys.Contains(nameof(pdf.CertificatName)) && pdf.CertificatName != null)
-                    form.SetField(nameof(pdf.CertificatName), pdf.CertificatName);
+                if (form.Fields.Keys.Contains(nameof(pdf.CertificateName)) && pdf.CertificateName != null)
+                    form.SetField(nameof(pdf.CertificateName), pdf.CertificateName);
 
                 if (form.Fields.Keys.Contains(nameof(pdf.Date)) && pdf.Date != null)
                     form.SetField(nameof(pdf.Date), pdf.Date);
@@ -57,16 +58,13 @@ namespace TestPlatform.Utils
 
                 stamper.FormFlattening = true;
             }
+                return newFileStream.ToArray();
         }
     }
 
     public class PdfSymbols
     {
-        public PdfSymbols()
-        {
-            Date = DateTime.Now.Date.ToString("dd/MM/yyyy");
-        }
-        public string CertificatName { get; set; }
+        public string CertificateName { get; set; }
         public string Date { get; set; }
         public string Details { get; set; }
         public string StudentName { get; set; }

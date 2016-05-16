@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TestPlatform.Controllers;
 using TestPlatform.Models;
 using TestPlatform.Models.Enums;
+using TestPlatform.Utils;
 using TestPlatform.ViewModels;
 
 namespace TestPlatform.Repositories
@@ -21,6 +22,7 @@ namespace TestPlatform.Repositories
         int StartNewSession(int userId, int testId);
         void SubmitTestSession(int testSessionId);
         TestSession GetTestSessionById(int testSessionId);
+        PdfSymbols GetCertificateSymbols(int testSessionId);
         ManageTestQuestionsVM GetManageTestQuestionVM(int testId);
         void RemoveQuestionFromTest(int questionId, int testId);
         ShowResultsVM GetShowResultsVM(int testId);

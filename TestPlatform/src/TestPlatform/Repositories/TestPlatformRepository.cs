@@ -738,7 +738,7 @@ namespace TestPlatform.Repositories
             return new SessionCompletedVM()
             {
                 Date = DateTime.Now.Date.ToString("dd/MM/yyyy"),
-                IsSuccessfull = true,
+                IsSuccessful = true,
                 UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
             };
@@ -779,14 +779,14 @@ namespace TestPlatform.Repositories
                 viewModel.AnswerDetailVMs = thisQuestion.Answers
                     .OrderBy(o => o.SortOrder)
                     .Select(o => new AnswerDetailVM()
-                {
-                    AnswerId = o.Id,
-                    AnswerText = o.AnswerText,
-                    IsChecked = o.IsCorrect,
-                    ShowAsCorrect = o.IsCorrect,
-                    QuestionType = thisQuestion.QuestionType,
-                    SortOrder = o.SortOrder
-                }).ToArray();
+                    {
+                        AnswerId = o.Id,
+                        AnswerText = o.AnswerText,
+                        IsChecked = o.IsCorrect,
+                        ShowAsCorrect = o.IsCorrect,
+                        QuestionType = thisQuestion.QuestionType,
+                        SortOrder = o.SortOrder
+                    }).ToArray();
             }
             return (viewModel);
         }
@@ -816,9 +816,9 @@ namespace TestPlatform.Repositories
         public ShowResultsVM GetShowResultsVM(int testId)
         {
             var test = _tests.Single(o => o.Id == testId);
-            
+
             int maxScore = test.Questions.Count();
-            double testPassPercentage = (double)test.PassPercentage/100;
+            double testPassPercentage = (double)test.PassPercentage / 100;
             var result = new
             {
                 resultData = new
@@ -838,6 +838,22 @@ namespace TestPlatform.Repositories
             return new ShowResultsVM
             {
                 ResultDataJSON = JsonConvert.SerializeObject(result)
+            };
+        }
+
+        public PdfSymbols GetCertificateSymbols(int testSessionId)
+        {
+            var session = _testSessions.Single(o => o.Id == testSessionId);
+            var test = _tests.Single(o => o.Id == session.TestId);
+            var user = _users.Single(o => o.Id == session.UserId);
+            return new PdfSymbols
+            {
+                Author = test.Author,
+                Company = "WarmKitten",
+                CertificateName = test.Name,
+                Date = session.StartTime.ToString("yyyy-MM-dd"),
+                Details = test.Description,
+                StudentName = user.FirstName + " " + user.Lastname
             };
         }
     }
