@@ -80,6 +80,7 @@
 </style>
 <div style="max-width: 65%; margin: 0 auto;">
     @*Model.HasCertificate && Model.IsSuccessful == true*@
+
     <div>
         @if (Model.SessionCompletedReason == TestPlatform.Models.Enums.SessionCompletedReason.TimedOut)
         {
@@ -96,7 +97,8 @@
                     Congratulations @Model.UserName
                 </h2>
                 <p>You passed the test</p>
-                <embed height="800px;" width="70%;" src="~/pdf/output/cerboficat2.pdf" />
+                <button class="orcaBtn btnWidth120 TopMargin20" onclick="document.location.href = '/pdf/GetCertificate/@Model.TestSessionId'">Download Certificate</button>
+                @*<embed height="800px;" width="70%;" src= />*@
             }
             else
             {

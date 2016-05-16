@@ -462,12 +462,16 @@ namespace TestPlatform.Repositories
                 Questions = new List<Question>(),
                 Name = test.Name,
                 Tags = test.Tags,
+                TimeLimitInMinutes = test.TimeLimitInMinutes,
                 ShowPassOrFail = test.ShowPassOrFail,
                 ShowTestScore = test.ShowTestScore,
+                PassPercentage = test.PassPercentage,
+                NumberOfFeaturedQuestions = test.NumberOfFeaturedQuestions,
+                CertificateAuthor = test.CertificateAuthor,
+                CertificateCompany = test.CertificateCompany,
+                CertificateCustomText = test.CertificateCustomText,
                 CertTemplatePath = test.CertTemplatePath,
                 CustomCompletionMessage = test.CustomCompletionMessage,
-                TimeLimitInMinutes = test.TimeLimitInMinutes,
-                PassPercentage = test.PassPercentage,
                 EnableCertDownloadOnCompletion = test.EnableCertDownloadOnCompletion,
                 EnableEmailCertOnCompletion = test.EnableEmailCertOnCompletion,
 
@@ -510,7 +514,10 @@ namespace TestPlatform.Repositories
 
         }
 
-        public Test[] GetAllTests() { return _tests.ToArray(); }
+        public Test[] GetAllTests()
+        {
+            return _tests.ToArray();
+        }
 
         public ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession)
         {
@@ -735,10 +742,14 @@ namespace TestPlatform.Repositories
         public SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason)
         {
             var user = _users.Single(u => _testSessions.Single(o => o.Id == testSessionId).UserId == u.Id);
+            var testSession = _testSessions.Single(o => o.Id == testSessionId);
+            var test = _tests.Single(o => o.Id == testSession.TestId);
+
             return new SessionCompletedVM()
             {
+                TestSessionId = testSessionId,
                 Date = DateTime.Now.Date.ToString("dd/MM/yyyy"),
-                IsSuccessful = true,
+                IsSuccessful = GradeUtils.CheckHasPassed(testSession, test.PassPercentage),
                 UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
             };
@@ -848,11 +859,11 @@ namespace TestPlatform.Repositories
             var user = _users.Single(o => o.Id == session.UserId);
             return new PdfSymbols
             {
-                Author = test.Author,
-                Company = "WarmKitten",
+                Author = test.CertificateAuthor,
+                Company = test.CertificateCompany,
                 CertificateName = test.Name,
                 Date = session.StartTime.ToString("yyyy-MM-dd"),
-                Details = test.Description,
+                Details = test.CertificateCustomText,
                 StudentName = user.FirstName + " " + user.Lastname
             };
         }

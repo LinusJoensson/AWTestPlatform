@@ -1,16 +1,15 @@
 ﻿@model TestSettingsFormVM
 @{
-    Layout = "_ContainerLayout";
+    Layout = "_SmallInputLayout";
 }
 <div>
-    <div class="BottomMargin20 col-md-6 col-sm-12">
+    <div class="BottomMargin20 col-md-12 col-sm-12">
         <form asp-controller="Admin" asp-action="CreateTest">
             <h1 class="topMargin-8">Create Test</h1>
 
             <label asp-for="TestName"></label>
             <input asp-for="TestName" class="form-control BottomMargin20" />
             <span asp-validation-for="TestName"></span>
-
 
             <label asp-for="Description"></label>
             <input asp-for="Description" class="form-control BottomMargin20" />
@@ -45,9 +44,26 @@
                 <input asp-for="PassPercentage" class="form-control BottomMargin20" />
                 <span asp-validation-for="PassPercentage"></span>
 
+                <label asp-for="NumberOfFeaturedQuestions"></label>
+                <input asp-for="NumberOfFeaturedQuestions" class="form-control BottomMargin20"/>
+                <span asp-validation-for="NumberOfFeaturedQuestions"></span>
+
                 <label asp-for="CustomCompletionMessage"></label>
                 <textarea asp-for="CustomCompletionMessage" class="form-control BottomMargin20" rows="5"></textarea>
                 <span asp-validation-for="CustomCompletionMessage"></span>
+                
+                <h3>Certificate Settings</h3>
+                <label asp-for="CertificateAuthor"></label>
+                <input asp-for="CertificateAuthor" class="form-control BottomMargin20" />
+                <span asp-validation-for="CertificateAuthor"></span>
+
+                <label asp-for="CertificateCompany"></label>
+                <input asp-for="CertificateCompany" class="form-control BottomMargin20" />
+                <span asp-validation-for="CertificateCompany"></span>
+                
+                <label asp-for="CertificateCustomText"></label>
+                <textarea asp-for="CertificateCustomText" class="form-control BottomMargin20" rows="5"></textarea>
+                <span asp-validation-for="CertificateCustomText"></span>
 
                 <label asp-for="CertTemplatePath"></label>
                 <input asp-for="CertTemplatePath" class="form-control BottomMargin20" />

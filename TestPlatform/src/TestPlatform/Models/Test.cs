@@ -24,6 +24,10 @@ namespace TestPlatform.Models
         public bool EnableCertDownloadOnCompletion { get; set; }
         public bool EnableEmailCertOnCompletion { get; set; }
         public virtual ICollection<TestSession> TestSessions { get; set; }
+        public string CertificateCompany { get; set; }
+        public string CertificateAuthor { get; set; }
+        public string CertificateCustomText { get; set; }
+        public int? NumberOfFeaturedQuestions { get; set; }
 
         public Test()
         {

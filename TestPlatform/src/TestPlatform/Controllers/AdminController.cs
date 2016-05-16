@@ -139,26 +139,29 @@ namespace TestPlatform.Controllers
         [Route("Admin/Test/{testId}/Settings")]
         public IActionResult EditTestSettings(int testId)
         {
-            var model = repository.GetAllTests()
+            var output = repository.GetAllTests()
                 .Where(o => o.Id == testId)
-                .Select(o => new TestSettingsFormVM
+                .Select(model => new TestSettingsFormVM
                 {
-                    TestName = o.Name,
-                    Description = o.Description,
-                    Tags = o.Tags,
-                    ShowPassOrFail = o.ShowPassOrFail,
-                    ShowTestScore = o.ShowTestScore,
-                    CertTemplatePath = o.CertTemplatePath,
-                    CustomCompletionMessage = o.CustomCompletionMessage,
-                    TimeLimitInMinutes = o.TimeLimitInMinutes,
-                    PassPercentage = o.PassPercentage,
-                    EnableCertDownloadOnCompletion = o.EnableCertDownloadOnCompletion,
-                    EnableEmailCertOnCompletion = o.EnableEmailCertOnCompletion
-
+                    TestName = model.Name,
+                    Description = model.Description,
+                    Tags = model.Tags,
+                    ShowPassOrFail = model.ShowPassOrFail,
+                    ShowTestScore = model.ShowTestScore,
+                    CustomCompletionMessage = model.CustomCompletionMessage,
+                    TimeLimitInMinutes = model.TimeLimitInMinutes,
+                    PassPercentage = model.PassPercentage,
+                    NumberOfFeaturedQuestions = model.NumberOfFeaturedQuestions,
+                    CertificateAuthor = model.CertificateAuthor,
+                    CertificateCompany = model.CertificateCompany,
+                    CertificateCustomText = model.CertificateCustomText,
+                    CertTemplatePath = model.CertTemplatePath,
+                    EnableCertDownloadOnCompletion = model.EnableCertDownloadOnCompletion,
+                    EnableEmailCertOnCompletion = model.EnableEmailCertOnCompletion
                 })
                 .SingleOrDefault();
 
-            return View(model);
+            return View(output);
         }
 
         [Route("Admin/Test/{testId}/Settings")]
@@ -193,10 +196,14 @@ namespace TestPlatform.Controllers
                 Tags = model.Tags,
                 ShowPassOrFail = model.ShowPassOrFail,
                 ShowTestScore = model.ShowTestScore,
-                CertTemplatePath = model.CertTemplatePath,
                 CustomCompletionMessage = model.CustomCompletionMessage,
                 TimeLimitInMinutes = model.TimeLimitInMinutes,
                 PassPercentage = model.PassPercentage,
+                NumberOfFeaturedQuestions = model.NumberOfFeaturedQuestions,
+                CertificateAuthor = model.CertificateAuthor,
+                CertificateCompany = model.CertificateCompany,
+                CertificateCustomText = model.CertificateCustomText,
+                CertTemplatePath = model.CertTemplatePath,
                 EnableCertDownloadOnCompletion = model.EnableCertDownloadOnCompletion,
                 EnableEmailCertOnCompletion = model.EnableEmailCertOnCompletion
             });

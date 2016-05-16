@@ -18,8 +18,8 @@ namespace TestPlatform.ViewModels
         [Required(ErrorMessage = "The test must have a description")]
         public string Description { get; set; }
 
-        [Display(Name = "Time Limit")]
-        [Range(1, 1440, ErrorMessage = "Number must be between 1 and 1440")]
+        [Display(Name = "Time limit in minutes)")]
+        [Range(1, 1440, ErrorMessage = "Number must be between 1 and 1440 (24h)")]
         public int? TimeLimitInMinutes { get; set; }
 
         [Display(Name = "Tags")]
@@ -45,5 +45,18 @@ namespace TestPlatform.ViewModels
 
         [Display(Name = "Enable certificate by email")]
         public bool EnableEmailCertOnCompletion { get; set; }
+
+        [Display(Name = "Company Name")]
+        public string CertificateCompany { get; set; }
+
+        [Display(Name = "Author")]
+        public string CertificateAuthor { get; set; }
+
+        [Display(Name = "Custom Text")]
+        public string CertificateCustomText { get; set; }
+
+        [Display(Name = "Number of active questions per test")]
+        [Range(1, 1000, ErrorMessage = "Number must be between 1 and 1000")]
+        public int? NumberOfFeaturedQuestions { get; set; }
     }
 }

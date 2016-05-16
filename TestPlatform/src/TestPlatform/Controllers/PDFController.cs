@@ -24,8 +24,8 @@ namespace TestPlatform.Controllers
         {
             var symbols = repository.GetCertificateSymbols(testSessionId);
             var bytes = PdfUtils.GenerateCerfificate(env, "OrcaQuizTemplate.pdf", symbols);
-
-            return File(bytes, "application/pdf", "Cert.pdf");
+            
+            return File(bytes, "application/pdf");
         }
     }
 }
