@@ -7,7 +7,7 @@
     background-color: #337AB7; /* Blue */
     color: white;
     border: none;
-    border-radius: 3px;
+    /*border-radius: 3px;*/
     font-family: Lato !important;
     font-size: 16px !important;
     letter-spacing: 1px !important;
@@ -19,6 +19,27 @@
     /* Button hover effects */
     .orcaBtn:hover {
         background-color: #2b679b; /* Blue */
+    }
+
+    /* General button adjustments */
+.orcaWhiteBigBtn {
+    background-color: #fff; /* Blue */
+    color: #337AB7;
+    border: none;
+    /*border-radius: 3px;*/
+    font-family: Lato !important;
+    font-size: 20px !important;
+    letter-spacing: 1px !important;
+    font-weight: 700 !important;
+    text-decoration: none;
+    padding: 8px;
+    align-items: center;
+}
+
+    /* Button hover effects */
+    .orcaWhiteBigBtn:hover {
+        color: #2b679b; /* Blue */
+        background-color: #dbeafe;
     }
 
 .orcaBtn:active {
@@ -37,6 +58,10 @@
 
 .btnMedium {
     padding: 12px 8px !important;
+}
+
+.btnLarge {
+    padding: 16px 12px !important;
 }
 
 .btnWidth210 {
@@ -112,6 +137,7 @@
 .topFloat {
     
 }
+
 input[type="checkbox"]{
   width: 20px; /*Desired width*/
   height: 20px; /*Desired height*/
