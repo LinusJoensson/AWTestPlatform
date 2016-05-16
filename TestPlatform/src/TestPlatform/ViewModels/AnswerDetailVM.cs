@@ -14,6 +14,7 @@ namespace TestPlatform.ViewModels
         public bool ShowAsCorrect { get; set; }
         public bool IsChecked { get; set; }
         public bool IsInPreview { get; set; }
+        public int SortOrder { get; set; }
         public QuestionType QuestionType { get; set; }
     }
 }

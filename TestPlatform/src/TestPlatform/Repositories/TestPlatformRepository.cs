@@ -775,13 +775,16 @@ namespace TestPlatform.Repositories
 
             if ((viewModel.Type == QuestionType.MultipleChoice) || (viewModel.Type == QuestionType.SingleChoice))
             {
-                viewModel.AnswerDetailVMs = thisQuestion.Answers.Select(o => new AnswerDetailVM()
+                viewModel.AnswerDetailVMs = thisQuestion.Answers
+                    .OrderBy(o => o.SortOrder)
+                    .Select(o => new AnswerDetailVM()
                 {
                     AnswerId = o.Id,
                     AnswerText = o.AnswerText,
                     IsChecked = o.IsCorrect,
                     ShowAsCorrect = o.IsCorrect,
                     QuestionType = thisQuestion.QuestionType,
+                    SortOrder = o.SortOrder
                 }).ToArray();
             }
             return (viewModel);

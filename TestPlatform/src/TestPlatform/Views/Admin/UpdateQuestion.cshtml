@@ -47,7 +47,7 @@
             </div>
 
             @*<div onclick="HidePreviewQUestionTextDiv(@Model.QuestionId)">
-            </div>*@
+                </div>*@
             <input type="submit" value="Save" class="fa fa-save rightMargin5 orcaBtn TopMargin20 onTheLine btnWidth120" />
         </form>
 
@@ -72,7 +72,7 @@
             <div id="@("answerDiv"+answer.AnswerId)">
                 <div class="panel">
                     @*panel-primary*@
-                    <div class="panel-body" onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)">
+                    <div class="panel-body">
                         @*När man bara ser svaret*@
                         <div id=@("previewAnswerDiv"+ answer.AnswerId) class="leftFloat">
                             @Html.Partial("_AnswerFormPartial", answer)
@@ -84,30 +84,30 @@
                             <span class="fa fa-trash fa-align-center"></span>
                         </button>
 
-                        <button id="@("btnShowEditAnswer" + answer.AnswerId)" class="orcaBtn btnWidth40 rightFloat topMargin-8 orcaTool-tooltip rightMargin5"
+                        <button id="@("btnShowEditAnswer" + answer.AnswerId)" onclick="toggleAnswerDiv(@answer.AnswerId)" class="orcaBtn btnWidth40 rightFloat topMargin-8 orcaTool-tooltip rightMargin5"
                                 data-toggle="tooltip" title="Edit">
                             <span class="fa fa-pencil fa-align-center"></span>
                         </button>
 
                         @*När man editerar sidan*@
-                        <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden">
+                        <div id=@("editAnswerDiv"+ answer.AnswerId) hidden="hidden" style="margin-top:40px;">
                             @Html.Partial("_EditAnswerPartial", answer)
                             <input type="checkbox" id="@("answerIsCorrect"+answer.AnswerId)" value="Hej"
                                    @(answer.IsChecked ? "checked=\"checked\"" : "") /> This Answer Is Correct
+                            <br />
+                            Sort Order:
+                            <input type="text" id="@("sortOrder"+answer.AnswerId)" value="@answer.SortOrder" name="sortOrder" />
+                            <br />
+                            <button onclick="UpdateAnswer(@answer.AnswerId, @Model.QuestionId)"
+                                    id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth120 TopMargin20">
+                                <span class="fa fa-save rightMargin5">Save</span>
+                            </button>
                         </div>
-                        <!-- #region Buttons -->
-                        <button hidden="hidden"
-                                id="@("btnUpdateAnswer" + answer.AnswerId)" class="orcaBtn btnWidth120 TopMargin20">
-                            <span class="fa fa-save rightMargin5"></span>Save
-                        </button>
-                        <!-- #endregion -->
                     </div>
                 </div>
             </div>
         }
-        <a>
-            <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
-        </a>
+        <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
     </div>
 }
 
@@ -138,25 +138,32 @@
         //    $("#btnShowEditAnswer" + answerId).toggle();
         //}
 
-        function UpdateAnswer(answerId, questionId) {
+        function toggleAnswerDiv(answerId)
+        {
+            $("#editAnswerDiv" + answerId).toggle();
+            tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
+        }
 
+        function UpdateAnswer(answerId, questionId) {
             tinymce.execCommand('mceAddEditor', false, 'mceAnswerBox' + answerId);
 
             var answerText = tinymce.get('mceAnswerBox' + answerId).getContent();
             var actionUrl = "/Admin/UpdateAnswer";
             var isCorrect = (document.getElementById('answerIsCorrect' + answerId).checked);
+            var sortOrder = $("#sortOrder" + answerId).val();
 
-            $.post(actionUrl, { questionId: questionId, answerId: answerId, answerText: answerText, isCorrect: isCorrect })
+            $.post(actionUrl, { questionId: questionId, answerId: answerId, answerText: answerText, sortOrder: sortOrder, isCorrect: isCorrect })
                     .done(function (response) {
                         $("#previewAnswerDiv" + answerId).html(response);
                     });
 
-
-            $("#btnUpdateAnswer" + answerId).toggle();
-            $("#btnShowEditAnswer" + answerId).toggle();
             $("#editAnswerDiv" + answerId).toggle();
-            $("#btnRemoveAnswer" + answerId).toggle();
-            $("#previewAnswerDiv" + answerId).toggle();
+
+            //$("#btnUpdateAnswer" + answerId).toggle();
+            //$("#btnShowEditAnswer" + answerId).toggle();
+            //$("#editAnswerDiv" + answerId).toggle();
+            //$("#btnRemoveAnswer" + answerId).toggle();
+            //$("#previewAnswerDiv" + answerId).toggle();
         }
 
         //function UpdateQuestionText(id) {

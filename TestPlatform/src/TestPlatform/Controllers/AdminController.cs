@@ -80,20 +80,22 @@ namespace TestPlatform.Controllers
         //    return PartialView("_QuestionFormPartial", model);
         //}
 
-        public PartialViewResult UpdateAnswer(int questionId, int answerId, string answerText, bool isCorrect)
+        public PartialViewResult UpdateAnswer(int questionId, int answerId, string answerText, int sortOrder, bool isCorrect)
         {
             var thisAnswer = repository.GetAllAnswers().SingleOrDefault(o => o.Id == answerId);
             var thisQuestionType = repository.GetAllQuestions().SingleOrDefault(o => o.Id == questionId).QuestionType;
 
             thisAnswer.AnswerText = answerText;
             thisAnswer.IsCorrect = isCorrect;
+            thisAnswer.SortOrder = sortOrder;
 
             var model = new AnswerDetailVM()
             {
                 AnswerId = answerId,
                 AnswerText = answerText,
                 IsChecked = isCorrect,
-                QuestionType = thisQuestionType
+                QuestionType = thisQuestionType,
+                SortOrder = thisAnswer.SortOrder
             };
 
             return PartialView("_AnswerFormPartial", model);
