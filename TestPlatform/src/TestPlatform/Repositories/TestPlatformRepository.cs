@@ -716,7 +716,8 @@ namespace TestPlatform.Repositories
             var answer = new Answer()
             {
                 AnswerText = "New answer...",
-                Id = GetAllAnswers().Count() + 1
+                Id = GetAllAnswers().Count() + 1,
+                SortOrder = _answers.Count() > 0 ? _answers.OrderBy(o => o.SortOrder).Last().SortOrder + 10 : 10
             };
 
             _answers.Add(answer);
