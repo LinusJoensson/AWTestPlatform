@@ -59,6 +59,7 @@ namespace TestPlatform.Controllers
             thisQuestion.SortOrder = viewModel.SortOrder;
             thisQuestion.QuestionType = viewModel.Type;
             thisQuestion.HasComment = viewModel.HasComment;
+            thisQuestion.QuestionText = viewModel.QuestionText;
 
             return RedirectToAction(nameof(UpdateQuestion), new { testId = testId, questionId = questionId });
         }

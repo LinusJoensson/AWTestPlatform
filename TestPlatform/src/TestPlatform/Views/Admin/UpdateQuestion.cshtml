@@ -29,29 +29,28 @@
             </div>
 
             @*<input asp-for="HasComment" placeholder="Question" />
-            <span asp-validation-for="HasComment" class="text-danger"></span>
-            <br />*@
+                <span asp-validation-for="HasComment" class="text-danger"></span>
+                <br />*@
 
+            <div id="editQuestionTextDiv" hidden="hidden">
+                @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
 
+                @*<button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
+                            id="@("btnSaveQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120 TopMargin20">
+                        <span class="fa fa-save rightMargin5"></span>
+                        Save
+                    </button>*@
+            </div>
+
+            <div id="previewQuestionTextDiv" onclick="ShowEditQuestionText(@Model.QuestionId)" data-toggle="tooltip" title="Edit" class="orcaTool-tooltip">
+                @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
+            </div>
+
+            @*<div onclick="HidePreviewQUestionTextDiv(@Model.QuestionId)">
+            </div>*@
+            <input type="submit" value="Save" class="fa fa-save rightMargin5 orcaBtn TopMargin20 onTheLine btnWidth120" />
         </form>
 
-        <div id="editQuestionTextDiv" hidden="hidden">
-            @Html.Partial("_EditQuestionPartial", Model.QuestionFormVM)
-
-            @*<button onclick="UpdateQuestionText(@Model.QuestionId)" hidden="hidden"
-                        id="@("btnSaveQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120 TopMargin20">
-                    <span class="fa fa-save rightMargin5"></span>
-                    Save
-                </button>*@
-        </div>
-
-        <div id="previewQuestionTextDiv" onclick="ShowEditQuestionText(@Model.QuestionId)" data-toggle="tooltip" title="Edit" class="orcaTool-tooltip">
-            @Html.Partial("_QuestionFormPartial", Model.QuestionFormVM)
-        </div>
-
-        <div onclick="HidePreviewQUestionTextDiv(@Model.QuestionId)">
-            <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120"><span class="fa fa-save rightMargin5"></span>Save</button>
-        </div>
 
         @*<button onclick="ShowEditQuestionText(@Model.QuestionId)"
                     id="@("btnEditQuestionTxt" + Model.QuestionId)" class="orcaBtn btnWidth120">
@@ -106,7 +105,7 @@
                 </div>
             </div>
         }
-        <a asp-action="CreateAnswer" asp-controller="Admin" asp-route-testId="@Model.TestId" asp-route-questionId="@Model.QuestionId">
+        <a>
             <button class="orcaBtn rightMargin10 btnWidth120 BottomMargin20 bgGreen"><span class="fa fa-plus rightMargin5" title="New"></span>Answer</button>
         </a>
     </div>
