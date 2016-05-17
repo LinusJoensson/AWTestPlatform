@@ -224,6 +224,7 @@ namespace TestPlatform.Repositories
                                 SelectedAnswers = "8"
                             }
                         },
+                        SecondsLeft = 0,
                         StartTime = DateTime.Now,
                         SubmitTime = DateTime.Now.AddMinutes(10),
                         User = _users.Single(o => o.Id == 1)
@@ -537,7 +538,7 @@ namespace TestPlatform.Repositories
                 TestTitle = thisTest.Name,
                 NumOfQuestion = thisTest.Questions.Count(),
                 QuestionIndex = questionIndex,
-                SecondsLeft = thisTest.TimeLimitInMinutes.HasValue ? thisTest.TimeLimitInMinutes * 60 : null,
+                SecondsLeft = thisTestSession.SecondsLeft,
 
                 QuestionFormVM = new QuestionFormVM()
                 {
@@ -588,6 +589,7 @@ namespace TestPlatform.Repositories
                 Id = _testSessions.Count() + 1,
                 QuestionResults = new List<QuestionResult>(),
                 StartTime = DateTime.UtcNow,
+                SecondsLeft = thisTest.TimeLimitInMinutes * 60,
                 TestId = testId,
                 UserId = userId,
             });

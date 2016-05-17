@@ -1,6 +1,6 @@
 ﻿@model ViewQuestionVM
 
-<div ng-controller="questionController" ng-init="countdown();">
+<div ng-controller="questionController" ng-init="countdown();" ng-cloak>
     <h1>@Model.TestTitle</h1>
     <hr />
     @{
@@ -22,15 +22,15 @@
 
             @if (Model.QuestionIndex > 1)
             {
-                <button type="submit" value="Previous" name="submit" class="orcaBtn btnWidth120 TopMargin20"><span class="rightMargin5 fa fa-chevron-left"></span>Previous</button>
+                <button type="submit" value="Previous {{counter}}" name="submit" class="orcaBtn btnWidth120 TopMargin20"><span class="rightMargin5 fa fa-chevron-left"></span>Previous</button>
             }
             @if (Model.QuestionIndex < Model.NumOfQuestion)
             {
-                <button type="submit" value="Next" name="submit" class="orcaBtn btnWidth120 TopMargin20">Next<span class="LeftMargin5 fa fa-chevron-right"></span></button>
+                <button type="submit" value="Next {{counter}}" name="submit" class="orcaBtn btnWidth120 TopMargin20">Next<span class="LeftMargin5 fa fa-chevron-right"></span></button>
             }
             else
             {
-                <button type="submit" value="Submit" name="submit" class="orcaBtn btnWidth120 TopMargin20 bgGreen rightFloat"><span class="fa fa-check rightMargin5"></span>Submit</button>
+                <button type="submit" value="Submit {{counter}}" name="submit" class="orcaBtn btnWidth120 TopMargin20 bgGreen rightFloat"><span class="fa fa-check rightMargin5"></span>Submit</button>
             }
         </form>
     </div>
@@ -43,7 +43,15 @@
     {
         <script>
             app.controller('questionController', ['$scope', '$timeout', '$interval', function ($scope, $timeout, $interval) {
-                $scope.counter = @Model.SecondsLeft;
+                if ($scope.counter === undefined) 
+                {
+                    $scope.counter = @Model.SecondsLeft;
+                }
+                else 
+                {
+                    alert($scope.counter);
+                }
+
                 var counting;
                 $scope.timeOutMessage = "Your time is up!";
                 $scope.isTimeUp = false;

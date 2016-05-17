@@ -58,12 +58,16 @@ namespace TestPlatform.Controllers
         public IActionResult ViewQuestion(int testSessionId, int questionIndex, QuestionFormVM viewModel, string submit)
         {
             var hasTimeLeft = repository.UpdateSessionAnswers(testSessionId, questionIndex, viewModel.SelectedAnswers, viewModel.Comment);
+            var actionAndSecondsFromButton = submit.Split(' ');
+            double secondsLeft;
+            string submitAction = actionAndSecondsFromButton[0];  
+            if (double.TryParse(actionAndSecondsFromButton[1], out secondsLeft))
 
-            if (string.Equals("previous", submit, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals("previous", submitAction, StringComparison.OrdinalIgnoreCase))
                 questionIndex--;
-            else if (string.Equals("next", submit, StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals("next", submitAction, StringComparison.OrdinalIgnoreCase))
                 questionIndex++;
-            else if (string.Equals("submit", submit, StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals("submit", submitAction, StringComparison.OrdinalIgnoreCase))
             {
                 repository.SubmitTestSession(testSessionId);
                 return RedirectToAction(nameof(SessionCompleted),
@@ -74,6 +78,9 @@ namespace TestPlatform.Controllers
 
             if (hasTimeLeft)
             {
+                var session = repository.GetTestSessionById(testSessionId);
+                session.SecondsLeft = secondsLeft;
+
                 return RedirectToAction(nameof(ViewQuestion),
                     new { TestSessionId = testSessionId, QuestionIndex = questionIndex });
             }

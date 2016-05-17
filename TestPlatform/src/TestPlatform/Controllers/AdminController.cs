@@ -115,7 +115,7 @@ namespace TestPlatform.Controllers
 
             return PartialView("_EditQuestionPartial");
         }
-        
+
         public IActionResult CreateEmptyAnswer(int testId, int questionId)
         {
             int answerId = repository.CreateAnswer(questionId);
@@ -166,14 +166,28 @@ namespace TestPlatform.Controllers
 
         [Route("Admin/Test/{testId}/Settings")]
         [HttpPost]
-        public IActionResult EditTestSettings(TestSettingsFormVM viewModel)
+        public IActionResult EditTestSettings(TestSettingsFormVM viewModel, int? testId)
         {
-            int testId = (int)viewModel.Id;
-            var thisTest = repository.GetAllTests().SingleOrDefault(o => o.Id == testId);
-            thisTest.Description = viewModel.Description;
-            thisTest.Name = viewModel.TestName;
-
-            return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
+            if (testId != null)
+            {
+                var thisTest = repository.GetAllTests().SingleOrDefault(o => o.Id == testId);
+                thisTest.Description = viewModel.Description;
+                thisTest.Name = viewModel.TestName;
+                thisTest.Tags = viewModel.Tags;
+                thisTest.ShowPassOrFail = viewModel.ShowPassOrFail;
+                thisTest.ShowTestScore = viewModel.ShowTestScore;
+                thisTest.CustomCompletionMessage = viewModel.CustomCompletionMessage;
+                thisTest.TimeLimitInMinutes = viewModel.TimeLimitInMinutes;
+                thisTest.PassPercentage = viewModel.PassPercentage;
+                thisTest.NumberOfFeaturedQuestions = viewModel.NumberOfFeaturedQuestions;
+                thisTest.CertificateAuthor = viewModel.CertificateAuthor;
+                thisTest.CertificateCompany = viewModel.CertificateCompany;
+                thisTest.CertificateCustomText = viewModel.CertificateCustomText;
+                thisTest.CertTemplatePath = viewModel.CertTemplatePath;
+                thisTest.EnableCertDownloadOnCompletion = viewModel.EnableCertDownloadOnCompletion;
+                thisTest.EnableEmailCertOnCompletion = viewModel.EnableEmailCertOnCompletion;
+            }
+                return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
         }
 
         [Route("Admin/Test/Create")]

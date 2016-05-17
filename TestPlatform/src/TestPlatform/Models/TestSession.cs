@@ -15,6 +15,7 @@ namespace TestPlatform.Models
         public DateTime StartTime { get; set; }
         public DateTime? SubmitTime { get; set; }
         public List<QuestionResult> QuestionResults { get; set; }
+        public double? SecondsLeft { get; set; }
 
         public TestSession()
         {
