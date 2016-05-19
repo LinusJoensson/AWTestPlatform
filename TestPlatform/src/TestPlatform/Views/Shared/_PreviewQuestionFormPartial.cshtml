@@ -36,6 +36,9 @@
                                                    @(answer.IsChecked ? "checked=\"checked\"" : "") />
                                             @(Html.Raw(answer.AnswerText))
                                         </p>
+                                        @if (answer.IsChecked)
+                                        { <p class="onTheLine pBold green">(Correct Answer)</p> }
+
                                     }
                                     break;
                                 case TestPlatform.Models.Enums.QuestionType.MultipleChoice:
@@ -58,6 +61,8 @@
                                             }
                                             @(Html.Raw(answer.AnswerText))
                                         </p>
+                                        @if (answer.IsChecked)
+                                        { <p class="onTheLine pBold green">(Correct Answer)</p> }
                                     }
                                     break;
                             }

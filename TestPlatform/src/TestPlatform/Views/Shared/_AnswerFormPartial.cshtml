@@ -5,7 +5,7 @@
                 case TestPlatform.Models.Enums.QuestionType.SingleChoice:
                     {
             <p class="onTheLine" for="@($"answer{Model.AnswerId}")">
-                <input type="radio" @(Model.IsChecked ? "checked=\"checked\"" : "") />
+                <input type="radio" @(Model.IsChecked ? "checked=\"checked\"" : "") disabled="disabled" />
                 @(Html.Raw(Model.AnswerText))
             </p>
             @if (Model.IsChecked)

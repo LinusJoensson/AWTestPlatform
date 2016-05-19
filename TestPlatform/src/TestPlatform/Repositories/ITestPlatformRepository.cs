@@ -12,6 +12,8 @@ namespace TestPlatform.Repositories
 {
     public interface ITestPlatformRepository
     {
+        List<Module> GetAllModules();
+        Module GetModuleById(int Id);
         int CreateTest(Test test);
         Test[] GetAllTests();
         Question[] GetAllQuestions();
