@@ -14,12 +14,23 @@ namespace TestPlatform.Repositories
 {
     public class TestPlatformRepository : ITestPlatformRepository
     {
+        public List<Module> _modules { get; set; }
         public List<Test> _tests { get; set; }
         public List<User> _users { get; set; }
         public List<Answer> _answers { get; set; }
         public List<TestSession> _testSessions { get; set; }
         public List<QuestionResult> _questionResults { get; set; }
 
+
+        public List<Module> GetAllModules ()
+        {
+            return _modules;
+        }
+
+        public Module GetModuleById(int Id)
+        {
+            return _modules.Single(o => o.Id == Id);
+        }
 
         public Question[] GetAllQuestions()
         {
@@ -33,6 +44,7 @@ namespace TestPlatform.Repositories
 
         public TestPlatformRepository()
         {
+            _modules = new List<Module>();
             _tests = new List<Test>();
             _users = new List<User>();
             _answers = new List<Answer>();
@@ -71,6 +83,25 @@ namespace TestPlatform.Repositories
             //_users.Last().TestSessions.Add(_testSessions.Last());
             #endregion
 
+            #region Add static modules
+            _modules.Add(new Module()
+            {
+                Id = 1,
+                Name = "Programming",
+                Description = "A collection of programmer tests.",
+                Tags = "C#, SQL, Java",
+                Tests = new List<Test>()
+            });
+            _modules.Add(new Module()
+            {
+                Id = 2,
+                Name = "Football",
+                Description = "A series of Zlatan tests",
+                Tags = "Zlatan, Ibra, Fussball",
+                Tests = new List<Test>()
+            });
+            #endregion
+
             #region Add static tests
             #region Test 1
             _tests.Add(new Test()
@@ -80,6 +111,9 @@ namespace TestPlatform.Repositories
                 Author = "Linus Joensson",
                 Name = "Basic C#",
                 Description = "An eazy test",
+                CertificateAuthor = "Patrik J",
+                CertificateCompany = "Pattzor",
+                CertificateCustomText = "GRTZ",
                 #region Questions
                 Questions = new List<Question>()
                 {
@@ -451,6 +485,8 @@ namespace TestPlatform.Repositories
                 });
             #endregion
             #endregion
+            _modules[0].Tests.Add(_tests[0]);
+            _modules[0].Tests.Add(_tests[1]);
         }
 
         public int CreateTest(Test test)
@@ -635,6 +671,7 @@ namespace TestPlatform.Repositories
                 {
                     foreach (var answer in selectedAnswers)
                         thisQuestionResult.SelectedAnswers += answer + ",";
+                    thisQuestionResult.SelectedAnswers = thisQuestionResult.SelectedAnswers.Substring(0, thisQuestionResult.SelectedAnswers.Length - 1);
                 }
                 if (!string.IsNullOrWhiteSpace(comment))
                     thisQuestionResult.Comment = comment;
@@ -746,12 +783,14 @@ namespace TestPlatform.Repositories
             var user = _users.Single(u => _testSessions.Single(o => o.Id == testSessionId).UserId == u.Id);
             var testSession = _testSessions.Single(o => o.Id == testSessionId);
             var test = _tests.Single(o => o.Id == testSession.TestId);
-
+            var questionsAndAnswers = new QuestionsAndAnswersUtils();
+            questionsAndAnswers.Questions = GetAllQuestions();
+            questionsAndAnswers.Answers = GetAllAnswers();
             return new SessionCompletedVM()
             {
                 TestSessionId = testSessionId,
                 Date = DateTime.Now.Date.ToString("dd/MM/yyyy"),
-                IsSuccessful = GradeUtils.CheckHasPassed(testSession, test.PassPercentage),
+                IsSuccessful = GradeUtils.CheckHasPassed(testSession, test.PassPercentage , questionsAndAnswers),
                 UserName = $"{user.FirstName} {user.Lastname}",
                 SessionCompletedReason = sessionCompletedReason
             };

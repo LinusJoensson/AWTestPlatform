@@ -274,7 +274,7 @@ namespace TestPlatform.Controllers
         {
             QuestionFormVM viewModelPartial = repository.GetPreviewQuestionPartial(id);
 
-            return PartialView("_QuestionFormPartial", viewModelPartial);
+            return PartialView("_PreviewQuestionFormPartial", viewModelPartial);
         }
 
         public IActionResult GetImportData(int id)
@@ -329,6 +329,56 @@ namespace TestPlatform.Controllers
                 }),
             }).Single();
             return thisTestData;
+        }
+
+        [Route("Admin/EditModule/{Id}")]
+        public IActionResult EditModule (int Id)
+        {
+            //var modules = repository.GetModules();
+            var module = repository.GetModuleById(Id);
+            var model = new ModuleVM
+            {
+                Name = module.Name,
+                Description = module.Description,
+                Tags = module.Tags,
+                Tests = module.Tests
+            };
+
+            return View(model);
+        }
+
+        [Route("Admin/EditModule")]
+        public IActionResult EditModule()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Admin/EditModule/{Id}")]
+        public IActionResult EditModule(ModuleVM model)
+        {
+            var module = repository.GetModuleById(model.Id);
+            module.Name = model.Name;
+            module.Description = model.Description;
+            module.Tags = model.Tags;
+
+            return RedirectToAction(nameof(AdminController.Modules), "Admin");
+            //return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
+        }
+
+        public IActionResult Modules()
+        {
+            var model = repository.GetAllModules()
+                .Select(o=> new ModuleVM
+                {
+                    Name = o.Name,
+                    Description = o.Description,
+                    Tags = o.Tags,
+                    Tests = o.Tests,
+                    Id = o.Id
+                })
+                .ToArray();
+            return View(model);
         }
     }
 }

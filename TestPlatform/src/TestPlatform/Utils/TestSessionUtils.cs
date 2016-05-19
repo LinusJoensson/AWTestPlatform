@@ -139,8 +139,12 @@ namespace TestPlatform.Utils
                 if (questionResult.QuestionId == question.Id)
                 {
                     var selectedAnswers = questionResult.SelectedAnswers.Split(',');
+                    //foreach (var item in selectedAnswers)
+                    //{
+                    //    System.Diagnostics.Debug.WriteLine(item);
+                    //}
 
-                    System.Diagnostics.Debug.WriteLine(selectedAnswers[0]);
+                    //System.Diagnostics.Debug.WriteLine(selectedAnswers[0]);
 
                     foreach (var answer in question.Answers)
                     {
@@ -148,9 +152,10 @@ namespace TestPlatform.Utils
                         {
                             foreach (var selectedAnswer in selectedAnswers)
                             {
+                                //System.Diagnostics.Debug.WriteLine(selectedAnswer);
                                 var selectedAnswerId = Convert.ToInt32(selectedAnswer);
-                                System.Diagnostics.Debug.WriteLine(selectedAnswerId);
-                                System.Diagnostics.Debug.WriteLine(answer.Id);
+                                //System.Diagnostics.Debug.WriteLine(selectedAnswerId);
+                                //System.Diagnostics.Debug.WriteLine(answer.Id);
 
                                 if (selectedAnswerId == answer.Id)
                                 {
