@@ -327,7 +327,6 @@ namespace TestPlatform.Controllers
                         state = new { disabled = true }
                     })
                 }),
-
             }).Single();
             return thisTestData;
         }
