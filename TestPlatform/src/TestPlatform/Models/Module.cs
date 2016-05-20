@@ -13,5 +13,10 @@ namespace TestPlatform.Models
         public string Tags { get; set; }
         public virtual List<Test> Tests { get; set; }
 
+        public Module()
+        {
+            Tests = new List<Test>();
+        }
+
     }
 }

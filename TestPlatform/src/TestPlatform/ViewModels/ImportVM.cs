@@ -7,6 +7,7 @@ namespace TestPlatform.ViewModels
 {
     public class ImportVM
     {
+        //public int ModuleId { get; set; }
         public int TestId { get; set; }
     }
 }

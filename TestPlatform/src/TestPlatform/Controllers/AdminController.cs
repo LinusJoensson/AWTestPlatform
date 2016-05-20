@@ -187,7 +187,7 @@ namespace TestPlatform.Controllers
                 thisTest.EnableCertDownloadOnCompletion = viewModel.EnableCertDownloadOnCompletion;
                 thisTest.EnableEmailCertOnCompletion = viewModel.EnableEmailCertOnCompletion;
             }
-                return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
+            return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
         }
 
         [Route("Admin/Test/Create")]
@@ -244,6 +244,7 @@ namespace TestPlatform.Controllers
         {
             var viewModel = new ImportVM()
             {
+                //ModuleId = moduleId
                 TestId = testId
             };
 
@@ -256,7 +257,6 @@ namespace TestPlatform.Controllers
             //TODO: multiple questions in one query
             foreach (var qId in questionIds)
                 repository.CopyQuestionToTest(qId, testId);
-
             return Json(GetCurrentTestImportData(testId));
         }
 
@@ -281,11 +281,64 @@ namespace TestPlatform.Controllers
         {
             var viewModel = new
             {
+                //allModulesData = GetAllModulesImportData(id),
+                //currentModuleData = GetCurrentModuleImportData(id)
                 allTestsData = GetAllTestsImportData(id),
                 currentTestData = GetCurrentTestImportData(id)
             };
 
             return Json(viewModel);
+        }
+
+        object GetAllModulesImportData(int currentModuleId)
+        {
+            var allModules = repository.GetAllModules();
+
+            var allModulesData = allModules.Where(t => t.Id != currentModuleId).Select(o => new
+            {
+                text = o.Name,
+                children = o.Tests.Select(t => new
+                {
+                    text = t.Name,
+                    children = t.Questions.Select(q => new
+                    {
+                        id = $"{AppConstants.Import_QuestionIdPrefix}{q.Id}",
+                        text = q.QuestionText.Replace("<iframe", "|FRAME|").Replace("<img", "|IMAGE|").Replace("src", "|SOURCE|"),
+                        children = q.Answers.Select(a => new
+                        {
+                            text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
+                            state = new { disabled = true }
+                        })
+                    })
+                })
+            }).ToArray();
+
+            return allModulesData;
+        }
+
+        object GetCurrentModuleImportData(int id)
+        {
+            var allModules = repository.GetAllModules();
+
+            var thisModuleData = allModules.Where(o => o.Id == id).Select(o => new
+            {
+                text = o.Name,
+                children = o.Tests.Select(t => new
+                {
+                    text = t.Name,
+                    children = t.Questions.Select(q => new
+                    {
+                        id = $"{AppConstants.Import_QuestionIdPrefix}{q.Id}",
+                        text = q.QuestionText.Replace("<iframe", "|FRAME|").Replace("<img", "|IMAGE|").Replace("src", "|SOURCE|"),
+                        children = q.Answers.Select(a => new
+                        {
+                            text = $"{a.AnswerText} {(a.IsCorrect ? " (Correct)" : string.Empty)}",
+                            state = new { disabled = true }
+                        })
+                    }),
+                })
+            }).Single();
+            return thisModuleData;
         }
 
         object GetAllTestsImportData(int currentTestId)
@@ -331,8 +384,27 @@ namespace TestPlatform.Controllers
             return thisTestData;
         }
 
+
+        public IActionResult CreateModule()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateModule(ModuleVM model)
+        {
+            repository.GetAllModules().Add(new Module
+            {
+                Id = 10,
+                Name = model.Name,
+                Description = model.Description,
+                Tags = model.Tags
+            });
+            return RedirectToAction("Modules");
+        }
+
         [Route("Admin/EditModule/{Id}")]
-        public IActionResult EditModule (int Id)
+        public IActionResult EditModule(int Id)
         {
             //var modules = repository.GetModules();
             var module = repository.GetModuleById(Id);
@@ -347,12 +419,6 @@ namespace TestPlatform.Controllers
             return View(model);
         }
 
-        [Route("Admin/EditModule")]
-        public IActionResult EditModule()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Route("Admin/EditModule/{Id}")]
         public IActionResult EditModule(ModuleVM model)
@@ -362,14 +428,14 @@ namespace TestPlatform.Controllers
             module.Description = model.Description;
             module.Tags = model.Tags;
 
-            return RedirectToAction(nameof(AdminController.Modules), "Admin");
+            return RedirectToAction("Modules");
             //return RedirectToAction(nameof(AdminController.ManageTestQuestions), new { testId = testId });
         }
 
         public IActionResult Modules()
         {
             var model = repository.GetAllModules()
-                .Select(o=> new ModuleVM
+                .Select(o => new ModuleVM
                 {
                     Name = o.Name,
                     Description = o.Description,

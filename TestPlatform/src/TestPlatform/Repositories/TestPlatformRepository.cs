@@ -32,6 +32,11 @@ namespace TestPlatform.Repositories
             return _modules.Single(o => o.Id == Id);
         }
 
+        //public Test[] GetAllTests()
+        //{
+        //    return (_modules.SelectMany(o => o.Tests)).ToArray();
+        //}
+
         public Question[] GetAllQuestions()
         {
             return (_tests.SelectMany(o => o.Questions)).ToArray();
@@ -89,16 +94,14 @@ namespace TestPlatform.Repositories
                 Id = 1,
                 Name = "Programming",
                 Description = "A collection of programmer tests.",
-                Tags = "C#, SQL, Java",
-                Tests = new List<Test>()
+                Tags = "C#, SQL, Java"
             });
             _modules.Add(new Module()
             {
                 Id = 2,
                 Name = "Football",
                 Description = "A series of Zlatan tests",
-                Tags = "Zlatan, Ibra, Fussball",
-                Tests = new List<Test>()
+                Tags = "Zlatan, Ibra, Fussball"
             });
             #endregion
 
@@ -485,8 +488,11 @@ namespace TestPlatform.Repositories
                 });
             #endregion
             #endregion
-            _modules[0].Tests.Add(_tests[0]);
-            _modules[0].Tests.Add(_tests[1]);
+
+            _modules.Single(o => o.Id == 1).Tests.Add(_tests.Single(o => o.Id == 1));
+            _modules.Single(o => o.Id == 1).Tests.Add(_tests.Single(o => o.Id == 2));
+            //_modules.Single(o => o.Id == 1).Tests.Add(_tests[0]);
+            //_modules[0].Tests.Add(_tests[1]);
         }
 
         public int CreateTest(Test test)
@@ -521,6 +527,13 @@ namespace TestPlatform.Repositories
             return _tests.Last().Id;
         }
 
+        public void CopyTestToModule(int testId, int moduleId)
+        {
+            var thisModule = _modules.Single(o => o.Id == moduleId);
+            var thisTest = GetAllTests().Single(o => o.Id == testId);
+
+            //needsediting
+        }
         public void CopyQuestionToTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);

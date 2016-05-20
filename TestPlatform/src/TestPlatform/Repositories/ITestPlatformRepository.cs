@@ -18,6 +18,7 @@ namespace TestPlatform.Repositories
         Test[] GetAllTests();
         Question[] GetAllQuestions();
         void CopyQuestionToTest(int questionId, int testId);
+        void CopyTestToModule(int testId, int moduleId);
         ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession);
         bool UpdateSessionAnswers(int testSessionId, int questionIndex, string[] selectedAnswers, string comment);
         SessionIndexVM GetSessionIndexVM(int testId);
