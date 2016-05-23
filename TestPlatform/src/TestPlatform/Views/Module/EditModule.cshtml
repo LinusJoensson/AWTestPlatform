@@ -4,7 +4,7 @@
 }
 
 <h1>Module</h1>
-<form asp-controller="Admin" asp-action="EditModule">
+<form asp-controller="Module" asp-action="EditModule">
     <label asp-for="Name"></label>
     <input asp-for="Name" class="form-control BottomMargin20" />
     <span asp-validation-for="Name"></span>
@@ -18,7 +18,7 @@
     <span asp-validation-for="Tags"></span>
 
     <button onclick="window.history.back()" class="orcaBtn btnWidth120 TopMargin20 btnWidth120"><span class="fa fa-angle-left rightMargin5" aria-hidden="true"></span>Back</button>
-    <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120 bgGreen"><span class="fa fa-check rightMargin5"></span>Save Module</button>
+    <button type="submit" class="orcaBtn TopMargin20 onTheLine btnWidth120 bgGreen"><span class="fa fa-check rightMargin5"></span>Save</button>
 </form>
 
 @if (Model.Tests.Count > 0)
