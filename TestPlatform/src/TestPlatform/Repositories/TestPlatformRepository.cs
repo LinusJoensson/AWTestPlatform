@@ -532,8 +532,26 @@ namespace TestPlatform.Repositories
             var thisModule = _modules.Single(o => o.Id == moduleId);
             var thisTest = GetAllTests().Single(o => o.Id == testId);
 
+            thisModule.Tests.Add(new Test
+            {
+                    Name = thisTest.Name,
+                    Description = thisTest.Description,
+                    Questions = thisTest.Questions,
+                    Id = GetAllTests().Count() + 1,
+                    ModuleId = moduleId
+            });
+        
+
             //needsediting
         }
+
+        public void RemoveTestFromModule(int testId, int moduleId)
+        {
+            var thisModule = _modules.Single(o => o.Id == moduleId);
+            thisModule.Tests.RemoveAll(o => o.Id == testId);
+
+        }
+
         public void CopyQuestionToTest(int questionId, int testId)
         {
             var thisTest = _tests.Single(o => o.Id == testId);

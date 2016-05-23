@@ -244,47 +244,30 @@ namespace TestPlatform.Controllers
         {
             var viewModel = new ImportVM()
             {
-                //ModuleId = moduleId
                 TestId = testId
             };
 
             return View(viewModel);
         }
 
-        [HttpPost]
-        public IActionResult CopyQuestionsToTest(int testId, int[] questionIds)
+        #region NewTestStuffWithModule
+        [Route("Admin/Module/{moduleId}/Import")]
+        public IActionResult ImportModule(int moduleId)
         {
-            //TODO: multiple questions in one query
-            foreach (var qId in questionIds)
-                repository.CopyQuestionToTest(qId, testId);
-            return Json(GetCurrentTestImportData(testId));
+            var viewModel = new ImportModuleVM()
+            {
+                ModuleId = moduleId
+            };
+
+            return View(viewModel);
         }
 
-        [HttpPost]
-        public IActionResult DeleteQuestionsFromTest(int testId, int[] questionIds)
-        {
-            //TODO: multiple questions in one query
-            foreach (var qId in questionIds)
-                repository.RemoveQuestionFromTest(qId, testId);
-
-            return Json(GetCurrentTestImportData(testId));
-        }
-
-        public ActionResult PreviewQuestionPartial(int id)
-        {
-            QuestionFormVM viewModelPartial = repository.GetPreviewQuestionPartial(id);
-
-            return PartialView("_PreviewQuestionFormPartial", viewModelPartial);
-        }
-
-        public IActionResult GetImportData(int id)
+        public IActionResult GetImportModuleData(int id)
         {
             var viewModel = new
             {
-                //allModulesData = GetAllModulesImportData(id),
-                //currentModuleData = GetCurrentModuleImportData(id)
-                allTestsData = GetAllTestsImportData(id),
-                currentTestData = GetCurrentTestImportData(id)
+                allModulesData = GetAllModulesImportData(id),
+                currentModuleData = GetCurrentModuleImportData(id)
             };
 
             return Json(viewModel);
@@ -341,6 +324,67 @@ namespace TestPlatform.Controllers
             return thisModuleData;
         }
 
+        [HttpPost]
+        public IActionResult CopyTestsToModule(int moduleId, int[] testIds)
+        {
+            //TODO: multiple questions in one query
+            foreach (var tId in testIds)
+                repository.CopyTestToModule(tId, moduleId);
+
+            return Json(GetCurrentTestImportData(moduleId));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteTestsFromModule(int moduleId, int[] testIds)
+        {
+            //TODO: multiple questions in one query
+            foreach (var tId in testIds)
+                repository.RemoveTestFromModule(tId, moduleId);
+
+            return Json(GetCurrentTestImportData(moduleId));
+        }
+        #endregion
+
+
+        [HttpPost]
+        public IActionResult CopyQuestionsToTest(int testId, int[] questionIds)
+        {
+            //TODO: multiple questions in one query
+            foreach (var qId in questionIds)
+                repository.CopyQuestionToTest(qId, testId);
+
+            return Json(GetCurrentTestImportData(testId));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteQuestionsFromTest(int testId, int[] questionIds)
+        {
+            //TODO: multiple questions in one query
+            foreach (var qId in questionIds)
+                repository.RemoveQuestionFromTest(qId, testId);
+
+            return Json(GetCurrentTestImportData(testId));
+        }
+
+        public ActionResult PreviewQuestionPartial(int id)
+        {
+            QuestionFormVM viewModelPartial = repository.GetPreviewQuestionPartial(id);
+
+            return PartialView("_PreviewQuestionFormPartial", viewModelPartial);
+        }
+
+        public IActionResult GetImportData(int id)
+        {
+            var viewModel = new
+            {
+                allTestsData = GetAllTestsImportData(id),
+                currentTestData = GetCurrentTestImportData(id)
+            };
+
+            return Json(viewModel);
+        }
+
+        
         object GetAllTestsImportData(int currentTestId)
         {
             var allTests = repository.GetAllTests();

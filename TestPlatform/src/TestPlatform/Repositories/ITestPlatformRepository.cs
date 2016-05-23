@@ -12,31 +12,49 @@ namespace TestPlatform.Repositories
 {
     public interface ITestPlatformRepository
     {
+        #region Module
         List<Module> GetAllModules();
         Module GetModuleById(int Id);
-        int CreateTest(Test test);
-        Test[] GetAllTests();
-        Question[] GetAllQuestions();
-        void CopyQuestionToTest(int questionId, int testId);
         void CopyTestToModule(int testId, int moduleId);
+        void RemoveTestFromModule(int testId, int moduleId);
+        #endregion
+
+        #region Test
+        Test[] GetAllTests();
+        int CreateTest(Test test);
+        void CopyQuestionToTest(int questionId, int testId);
+        void RemoveQuestionFromTest(int questionId, int testId);
+        #endregion
+
+        #region Question
+        Question[] GetAllQuestions();
+        int CreateTestQuestion(int testId);
+        EditQuestionVM GetEditQuestionVM(int testId, int questionId);
+        QuestionFormVM GetPreviewQuestionPartial(int questionId);
+        QuestionFormVM GetPreviewQuestion(int questionId);
+        ManageTestQuestionsVM GetManageTestQuestionVM(int testId);
         ViewQuestionVM GetViewQuestion(int testSessionId, int questionIndex, bool isInSession);
+        #endregion
+
+        #region Answer
+        Answer[] GetAllAnswers();
+        int CreateAnswer(int questionId);
+        int CreateAnswer(int questionId, AnswerDetailVM viewModel);
+        void RemoveAnswerFromQuestion(int testId, int questionId, int answerId);
+        #endregion
+
+        #region TestSession
         bool UpdateSessionAnswers(int testSessionId, int questionIndex, string[] selectedAnswers, string comment);
         SessionIndexVM GetSessionIndexVM(int testId);
         int StartNewSession(int userId, int testId);
         void SubmitTestSession(int testSessionId);
         TestSession GetTestSessionById(int testSessionId);
-        PdfSymbols GetCertificateSymbols(int testSessionId);
-        ManageTestQuestionsVM GetManageTestQuestionVM(int testId);
-        void RemoveQuestionFromTest(int questionId, int testId);
-        ShowResultsVM GetShowResultsVM(int testId);
-        int CreateAnswer(int questionId);
-        int CreateAnswer(int questionId, AnswerDetailVM viewModel);
-        QuestionFormVM GetPreviewQuestion(int questionId);
-        int CreateTestQuestion(int testId);
-        Answer[] GetAllAnswers();
         SessionCompletedVM GetSessionCompletedVM(int testSessionId, SessionCompletedReason sessionCompletedReason);
-        void RemoveAnswerFromQuestion(int testId, int questionId, int answerId);
-        EditQuestionVM GetEditQuestionVM(int testId, int questionId);
-        QuestionFormVM GetPreviewQuestionPartial(int questionId);
+        #endregion
+
+        #region Result
+        PdfSymbols GetCertificateSymbols(int testSessionId);
+        ShowResultsVM GetShowResultsVM(int testId);
+        #endregion
     }
 }
