@@ -137,5 +137,50 @@ namespace TestPlatform.Controllers
             return thisModuleData;
         }
         #endregion
+
+        #region NewTestStuffWithModule
+        [Route("Admin/Module/{moduleId}/Import")]
+        public IActionResult ImportModule(int moduleId)
+        {
+            var viewModel = new ImportModuleVM()
+            {
+                ModuleId = moduleId
+            };
+
+            return View(viewModel);
+        }
+
+        public IActionResult GetImportModuleData(int id)
+        {
+            var viewModel = new
+            {
+                allModulesData = GetAllModulesImportData(id),
+                currentModuleData = GetCurrentModuleImportData(id)
+            };
+
+            return Json(viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult CopyTestsToModule(int moduleId, int[] testIds)
+        {
+            //TODO: multiple questions in one query
+            foreach (var tId in testIds)
+                repository.CopyTestToModule(tId, moduleId);
+
+            return Json(GetCurrentModuleImportData(moduleId));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteTestsFromModule(int moduleId, int[] testIds)
+        {
+            //TODO: multiple questions in one query
+            foreach (var tId in testIds)
+                repository.RemoveTestFromModule(tId, moduleId);
+
+            return Json(GetCurrentModuleImportData(moduleId));
+        }
+        #endregion
     }
 }
