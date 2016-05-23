@@ -16,15 +16,12 @@ namespace TestPlatform
         {
             services.AddSingleton<ITestPlatformRepository, TestPlatformRepository>();
             services.AddMvc();
-            services.AddSession();
-            services.AddCaching();
         }
         
         public void Configure(IApplicationBuilder app)
         {
             app.UseStaticFiles();
             app.UseDeveloperExceptionPage();
-            app.UseSession();
             app.UseMvcWithDefaultRoute();
         }
         
