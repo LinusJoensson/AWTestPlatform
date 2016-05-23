@@ -939,5 +939,18 @@ namespace TestPlatform.Repositories
                 StudentName = user.FirstName + " " + user.Lastname
             };
         }
+
+        public ManageModuleTestsVM GetManageModuleTestVM(int moduleId)
+        {
+            var module = _modules.Single(o => o.Id == moduleId);
+
+            return new ManageModuleTestsVM
+            {
+                ModuleId = module.Id,
+                Description = module.Description,
+                ModuleName = module.Name,
+                Tests = module.Tests
+            };
+        }
     }
 }

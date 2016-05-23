@@ -14,6 +14,7 @@ namespace TestPlatform.Repositories
     {
         #region Module
         List<Module> GetAllModules();
+        ManageModuleTestsVM GetManageModuleTestVM(int moduleId);
         Module GetModuleById(int Id);
         void CopyTestToModule(int testId, int moduleId);
         void RemoveTestFromModule(int testId, int moduleId);
